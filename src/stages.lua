@@ -1,0 +1,188 @@
+stage = 0
+stage_trans = false
+stage_transfer_count = 0
+stage_transfer_total = 128 -- stage trans total 
+camera_x = 0
+camera_y = 0
+
+stages = {
+  { -- 1 DONUTS
+    enemy_spawn_count = 50,
+    enemy_speed = 0.3,
+    enemy_spawn_delay = 10
+  },
+  { -- 2 COFFEE
+    enemy_spawn_count = 50,
+    enemy_speed = 0.3,
+    enemy_spawn_delay = 9
+  },
+  { -- 3 PARKING
+    enemy_spawn_count = 50,
+    enemy_speed = 0.4,
+    enemy_spawn_delay = 8,
+    enemy_wall_spawn_range = {{ 5, 10 }} 
+  },
+  { -- 4 ICE CREAM TRUCK
+    enemy_spawn_count = 50,
+    enemy_speed = 0.4,
+    enemy_spawn_delay = 7
+  },
+  { -- 5 PARK
+    enemy_spawn_count = 50,
+    enemy_speed = 0.4,
+    enemy_spawn_delay = 6
+  },
+  { -- 6 WATER PLANT SIGN
+    enemy_spawn_count = 50,
+    enemy_speed = 0.4,
+    enemy_spawn_delay = 6
+  },
+  { -- 7 WATER PLANT FENCE
+    enemy_spawn_count = 50,
+    enemy_speed = 0.4,
+    enemy_spawn_delay = 5
+  },
+  { -- 8 WATER PLANT BUILDING
+    enemy_spawn_count = 50,
+    enemy_speed = 0.4,
+    enemy_spawn_delay = 5
+  },
+  { -- 9 INSIDE
+    enemy_spawn_count = 60,
+    enemy_speed = 0.5,
+    enemy_spawn_delay = 5
+  },
+  { -- 10 PIPES
+    enemy_spawn_count = 60,
+    enemy_speed = 0.5,
+    enemy_spawn_delay = 5
+  },
+  { -- 11 LEAKING PIPES
+    enemy_spawn_count = 60,
+    enemy_speed = 0.5,
+    enemy_spawn_delay = 4
+  },
+  { -- 12 CONTAINERS
+    enemy_spawn_count = 70,
+    enemy_speed = 0.5,
+    enemy_spawn_delay = 4
+  },
+  { -- 13 CONTAINERS WITH DOOR
+    enemy_spawn_count = 90,
+    enemy_speed = 0.5,
+    enemy_spawn_delay = 4,
+    enemy_wall_spawn_range = {{ 11, 12}} 
+  },
+  { -- 14 DOUBLE WALL OPENINGS
+    enemy_spawn_count = 150,
+    enemy_speed = 0.5,
+    enemy_spawn_delay = 4,
+    enemy_wall_spawn_range = {{ 1, 5 }, { 10, 14 }} 
+  },
+  { -- 15 FINAL STAGE
+    enemy_spawn_count = 300,
+    enemy_speed = 0.5,
+    enemy_spawn_delay = 3,
+    enemy_wall_spawn_range = {{ 0, 1 }, { 13, 14 }} 
+  },
+  { -- 16 BOSS
+    enemy_spawn_count = 2,
+    enemy_speed = 0.3
+  }
+}
+
+function load_stage(n)
+  stage = n
+  
+  if n == 0 then
+    load_start()
+  elseif n == 1 then
+    e_spawn = true
+    p_move = true
+  else
+    enemey_spawn_stage_count = 0
+    
+    -- 8 to 9 is transition inside
+    if n == 9 then
+      j.y = screen_size + init_y
+      c.y = screen_size + init_y-16
+      j.x = 16
+      c.x = 16
+      camera_y = screen_size
+      camera_x = 0
+      e_spawn = true
+      p_move = true
+    else
+      stage_trans = true
+      e_spawn = false
+      p_move = false
+      j.f = false
+      c.f = false
+    end
+  end
+end
+
+function update_stage_trans()
+  if stage_transfer_count < stage_transfer_total then
+    stage_transfer_count += 1
+    j.x += 1
+    c.x += 1
+    camera_x += 1
+  else
+    stage_trans = false
+    enemies = {} -- clear
+    if stage < 16 then
+      stage_transfer_count = 0
+      e_spawn = true
+      p_move = true
+    end
+  end
+end
+
+function load_start()
+  p_move = false
+  e_spawn = false
+  camera_x = 0
+  camera_y = 0
+  j.y = init_y
+  c.y = init_y
+  j.x = init_j_x
+  c.x = init_c_x
+end
+
+function update_start()
+  if btnp(0) or btnp(1) then
+    if p1.name == "j" then
+      p1 = c
+      p2 = j
+    else
+      p1 = j
+      p2 = c
+    end
+  end
+ 
+ if btnp(2) or btnp(3) then
+    if coop then
+      coop = false
+    else 
+      coop = true
+    end
+ end
+ 
+  if btnp(4) or btnp(5) then
+    load_stage(1)
+  end
+end
+
+function draw_start()
+  rect(p1.x - 3, p1.y - 1, p1.x + 16, p1.y + 16, 8)
+  
+  if coop then
+	  rect(p2.x - 3, p2.y - 1, p2.x + 16, p2.y + 16, 12)
+  end
+  
+  say(58,63, "⬆️    ONE PLAYER", 0, true)
+  say(58,73, "⬇️    TWO PLAYERS", 0, true)  
+  say(58,110, "⬅️   JENN CHAD    ➡️", 0, true)
+  say(58,120, "PRESS ❎/🅾️ TO START", 0, true)
+end
