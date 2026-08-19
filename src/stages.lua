@@ -98,26 +98,26 @@ function load_stage(n)
     load_start()
   elseif n == 1 then
     e_spawn = true
-    p_move = true
+    player_move = true
   else
     enemey_spawn_stage_count = 0
     
     -- 8 to 9 is transition inside
     if n == 9 then
-      j.y = screen_size + init_y
-      c.y = screen_size + init_y-16
+      j.y = screen_size + init_player_y
+      c.y = screen_size + init_player_y-16
       j.x = 16
       c.x = 16
       camera_y = screen_size
       camera_x = 0
       e_spawn = true
-      p_move = true
+      player_move = true
     else
       stage_trans = true
       e_spawn = false
-      p_move = false
-      j.f = false
-      c.f = false
+      player_move = false
+      j.flip_sprite = false
+      c.flip_sprite = false
     end
   end
 end
@@ -134,25 +134,25 @@ function update_stage_trans()
     if stage < 16 then
       stage_transfer_count = 0
       e_spawn = true
-      p_move = true
+      player_move = true
     end
   end
 end
 
 function load_start()
-  p_move = false
+  player_move = false
   e_spawn = false
   camera_x = 0
   camera_y = 0
-  j.y = init_y
-  c.y = init_y
-  j.x = init_j_x
-  c.x = init_c_x
+  j.y = init_player_y
+  c.y = init_player_y
+  j.x = init_jenn_x
+  c.x = init_chad_x
 end
 
 function update_start()
   if btnp(0) or btnp(1) then
-    if p1.name == "j" then
+    if p1.name == "jenn" then
       p1 = c
       p2 = j
     else

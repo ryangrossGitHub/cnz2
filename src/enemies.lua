@@ -94,17 +94,17 @@ end
 function enemy_coll_detect(player) 
 	local hbox = 4 -- hit box
  
-	if player.wpn == 1 then
+	if player.weapon == 1 then
 		hbox = 12
 	end
  
 	for enemy in all(enemies) do
 		if not enemy.dead 
-		and ((enemy.x - 2 < player.x and player.f) or (enemy.x + 2 > player.x and not player.f)) 
+		and ((enemy.x - 2 < player.x and player.flip_sprite) or (enemy.x + 2 > player.x and not player.flip_sprite)) 
 		and (enemy.y > player.y - hbox and enemy.y < player.y + hbox + 2) then
 			enemy_die(enemy, player)
 
-			if player.wpn == 0 then
+			if player.weapon == 0 then
 				return -- pistol hits 1 at a time
 			end
 		end
@@ -120,9 +120,9 @@ function enemy_die(enemy, player)
   		add(particles, particle(enemy.x+4, enemy.y, xs, ys, 3, 10))
  	end
 
- 	if player.wpn == 1 or player.m then
+ 	if player.weapon == 1 or player.melee then
   		enemy.sprite_number = 46
- 	elseif player.wpn == 0 then
+ 	elseif player.weapon == 0 then
   		enemy.sprite_number = 12
  	end
 end

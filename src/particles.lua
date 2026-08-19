@@ -1,12 +1,12 @@
 particles = {}
 
-function particle(x, y, x_speed, y_speed, clr, life)
+function particle(x, y, x_speed, y_speed, color, life)
 	local p = {
 		x = x,
 		y = y,
 		x_speed = x_speed,
 		y_speed = y_speed,
-		clr = clr, -- pixel color
+		color = color, 
 		life = life, -- frames until deletion
 	}
 
@@ -14,15 +14,15 @@ function particle(x, y, x_speed, y_speed, clr, life)
 end
 
 function draw_particles(particles)
-	for p in all(particles) do
-		p.y += p.y_speed
-		p.x += p.x_speed
-		p.life -= 1
+	for particle in all(particles) do
+		particle.y += particle.y_speed
+		particle.x += particle.x_speed
+		particle.life -= 1
 
-		if p.life > 0 then
-		 pset(p.x, p.y, p.clr)
+		if particle.life > 0 then
+		 pset(particle.x, particle.y, particle.color)
 		else
-	  del(particles, p)
+	  del(particles, particle)
 		end
 	end
 end

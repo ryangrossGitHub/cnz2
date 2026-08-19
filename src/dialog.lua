@@ -2,24 +2,24 @@ end_dialog_delay = 120
 end_dialog_cnt = 0
 end_dt_cnt = 1
 end_dt = {
-  {"c", "HEY! PUT'EM UP"},
+  {"chad", "HEY! PUT'EM UP"},
   {"e", "I'M SORRY, MY WIFE AND DAUGHTER WERE TAKEN"},	
   {"e", "I HAD NO WAY TO PAY THEIR RANSOM"},
   {"e", "I.. I HAVE TO DO THIS TO BUY THEIR FREEDOM"},
-  {"c", "I HAVE A WIFE AND DAUGHTER TOO"},
-  {"c", "I WOULD DO ANYTHING FOR THEM"},
-  {"j", "AND I HAVE A SON"},
-  {"j", "HE SLEEPS UNDER HIS BED BECAUSE OF THE ZOMBIES"},
+  {"chad", "I HAVE A WIFE AND DAUGHTER TOO"},
+  {"chad", "I WOULD DO ANYTHING FOR THEM"},
+  {"jenn", "AND I HAVE A SON"},
+  {"jenn", "HE SLEEPS UNDER HIS BED BECAUSE OF THE ZOMBIES"},
   {"e", "AGAIN I'M SORRY.. AND I'M NOT THE ONLY ONE.."},
   {"e", "THERE ARE OTHERS ACROSS THE COUNTRY"},
-  {"c", "WHAT IF THERE WAS ANOTHER WAY"},
-  {"c", "WHAT IF WE COULD BRING YOUR WIFE AND DAUGHTER HERE"},
-  {"c", "HERE THEY WOULD BE SAFE, WE COULD PROTECT THEM"},
-  {"j", "YOU WON'T BE FORGIVEN AND YOU WILL DO TIME"},
-  {"j", "BUT YOUR FAMILY WILL BE SAFE AND THEY CAN VISIT YOU"},
-  {"c", "IN RETURN YOU HELP US STOP THE OTHERS"},
+  {"chad", "WHAT IF THERE WAS ANOTHER WAY"},
+  {"chad", "WHAT IF WE COULD BRING YOUR WIFE AND DAUGHTER HERE"},
+  {"chad", "HERE THEY WOULD BE SAFE, WE COULD PROTECT THEM"},
+  {"jenn", "YOU WON'T BE FORGIVEN AND YOU WILL DO TIME"},
+  {"jenn", "BUT YOUR FAMILY WILL BE SAFE AND THEY CAN VISIT YOU"},
+  {"chad", "IN RETURN YOU HELP US STOP THE OTHERS"},
   {"e", "DEAL, BUT I WANT TO SEE MY WIFE AND DAUGHTER"},
-  {"j", "OKAY, COME WITH US, LET'S TAKE THESE GUYS DOWN"},
+  {"jenn", "OKAY, COME WITH US, LET'S TAKE THESE GUYS DOWN"},
   {"f", "TO BE CONTINUED"},
   {"f", "TO BE CONTINUED"},
   {"f", "TO BE CONTINUED"},
@@ -59,15 +59,15 @@ function say(x,y,msg,border,wide,bounded)
 
 	 -- 3. keep dialog in screen
   if bounded then
-	  if bx-b_w/2 < camera_x then
-	   bx=camera_x
-	  elseif bx+b_w > camera_x+screen_size then
-	   bx=camera_x+screen_size-b_w
+	  if bx - b_w/2 < camera_x then
+	   bx = camera_x
+	  elseif bx + b_w > camera_x + screen_size then
+	   bx = camera_x + screen_size - b_w
 	  end
 	 end
 
   -- 4. draw bubble body and tail
-  rectfill(bx, by, bx+b_w, by+b_h, 7)
+  rectfill(bx, by, bx + b_w, by + b_h, 7)
   
   if border==1 then
    rect(bx, by, bx+b_w, by+b_h, 0)
@@ -98,9 +98,9 @@ function ending_dialog()
 	end
 	
 	if end_dialog_cnt <  end_dialog_delay then
-    if end_dt[end_dt_cnt][1] == "j" then
+    if end_dt[end_dt_cnt][1] == "jenn" then
 	 	  say(j.x, j.y, end_dt[end_dt_cnt][2], 1, false, true)
-	  elseif end_dt[end_dt_cnt][1] == "c" then
+	  elseif end_dt[end_dt_cnt][1] == "chad" then
 	    say(c.x, c.y, end_dt[end_dt_cnt][2], 1, false, true)
 	  elseif end_dt[end_dt_cnt][1] == "e" then
 	    say(boss.x, boss.y, end_dt[end_dt_cnt][2], 1, false, true)

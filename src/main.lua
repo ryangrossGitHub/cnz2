@@ -37,20 +37,20 @@ function _update()
 		end
 	end
  
-	if p_move then
-		update_p_move(p1,0)
+	if player_move then
+		update_player_move(p1,0)
 		
 		if coop then
-			update_p_move(p2,1)
+			update_player_move(p2,1)
 		end
 	end
  
-	if sgun.cnt > 0 then
-		sgun.cnt -= 1
+	if shotgun.cnt > 0 then
+		shotgun.cnt -= 1
 	end
 
-	if pstol.cnt > 0 then
-		pstol.cnt -= 1
+	if pistol.cnt > 0 then
+		pistol.cnt -= 1
 	end
  
 		if not coop then
@@ -82,9 +82,9 @@ function _draw()
 	say(screen_size * 5 + 37, 40, "WATER TREATEMENT PLANT ∧", 0, false)
 	say(screen_size * 7 + 32, 49, "danger! DO NOT ENTER", 0, false)
    
-	spr(get_pspr(p1), p1.x, p1.y, 2, 2, p1.f, false)
+	spr(get_player_sprite(p1), p1.x, p1.y, 2, 2, p1.flip_sprite, false)
 	print("p1", p1.x - 3, p1.y - 6, 8)
-	spr(get_pspr(p2), p2.x, p2.y, 2, 2, p2.f, false)
+	spr(get_player_sprite(p2), p2.x, p2.y, 2, 2, p2.flip_sprite, false)
  
 	local p2_disp = "cp"
 	if coop then
