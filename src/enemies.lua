@@ -104,8 +104,8 @@ function enemy_coll_detect(player)
 		and (enemy.y > player.y - hbox and enemy.y < player.y + hbox + 2) then
 			enemy_die(enemy, player)
 
-			if player.weapon == 0 then
-				return -- pistol hits 1 at a time
+			if player.weapon == 0 or player.weapon == 1then
+				return -- 1 at a time
 			end
 		end
 	end

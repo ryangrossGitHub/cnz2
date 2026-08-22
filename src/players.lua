@@ -9,6 +9,7 @@ j = {
 	sprite = {34,32}, -- spr in animation
 	sprite_index = 1, -- animation frame index
 	sprite_melee = 40, -- spr melee
+	sprites_fire = {38,36},
 	melee = false, -- meleeing
 	melee_frame_count = 0, -- melee frame count
 	melee_frame_delay = 5, -- melee frame delay
@@ -18,8 +19,8 @@ j = {
 	last_animation_frame_x = init_jenn_x, -- last anima frame x
 	last_animation_frame_y = init_player_y, -- last anima frame y
 	animation_frame_delay = 5, -- anima frame delay
-	weapon = 0, -- weapon: 0 pistol, 1 shotgun
-	trigger = false -- trigger pressed
+	weapon = 1, -- weapon: 0 pistol, 1 shotgun
+	trigger = false -- trigger pressed,
 }
 
 c = {
@@ -27,6 +28,7 @@ c = {
 	sprite = {2,0}, -- spr in animation
 	sprite_index = 1, -- animation frame index
 	sprite_melee = 42, -- spr melee
+	sprites_fire = {6,4},
 	melee = false, -- meleeing
 	melee_frame_count = 0, -- melee frame count
 	melee_frame_delay = 5, -- melee frame delay
@@ -40,7 +42,7 @@ c = {
 	trigger = false -- trigger pressed
 }
 
-boss={
+boss = {
 	x = 992,
 	y = 216
 }
@@ -50,7 +52,7 @@ p2 = c
 coop = false
 
 shotgun = {
-	delay = 30,
+	delay = 15,
 	cnt = 0
 }
 
@@ -186,28 +188,32 @@ function get_player_sprite(p)
 			p.melee_frame_count = 0
 			p.melee = false
 		end
+ 	elseif p.name == "chad" and pistol.cnt > 0 then
+ 		player_sprite = p.sprites_fire[p.sprite_index]
+ 	elseif p.name == "jenn" and shotgun.cnt > 0 then
+ 		player_sprite = p.sprites_fire[p.sprite_index]
  	end
  
  	return player_sprite
 end
 
-function update_player_move(p,ctrl)
+function update_player_move(p, ctrl)
 	-- ctrl is the controller maping
-	if btn(0,ctrl) and p.x>camera_x then
+	if btn(0, ctrl) and p.x>camera_x then
 		p.x -= 1
 		p.flip_sprite = true 
-	elseif btn(1,ctrl) and p.x<camera_x + screen_size - 16 then
+	elseif btn(1, ctrl) and p.x<camera_x + screen_size - 16 then
 		p.x += 1
 		p.flip_sprite = false
 	end
  
-	if btn(2,ctrl) and p.y > flr(stage/9) * screen_size + 42 then
+	if btn(2, ctrl) and p.y > flr(stage/9) * screen_size + 42 then
 		p.y -= 1
-	elseif btn(3,ctrl) and p.y < flr(stage/9) * screen_size + 110 then
+	elseif btn(3, ctrl) and p.y < flr(stage/9) * screen_size + 110 then
 		p.y += 1
 	end
  
-	if btn(❎,ctrl) or btn(🅾️,ctrl) then
+	if btn(❎, ctrl) or btn(🅾️, ctrl) then
 		if not p.trigger then
 			if p.weapon == 0 then
 				if pistol.cnt == 0 then

@@ -53,9 +53,9 @@ function _update()
 		pistol.cnt -= 1
 	end
  
-		if not coop then
+	if not coop then
 		update_p2()
-		end
+	end
  
 	update_enemies()
 	update_player_anims(p1)
