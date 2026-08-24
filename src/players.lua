@@ -19,7 +19,8 @@ j = {
 	last_animation_frame_x = init_jenn_x, -- last anima frame x
 	last_animation_frame_y = init_player_y, -- last anima frame y
 	animation_frame_delay = 5, -- anima frame delay
-	weapon = 1, -- weapon: 0 pistol, 1 shotgun
+	weapon = 0, -- weapon: 0 pistol, 1 shotgun
+	weapon_delay = 2,
 	trigger = false -- trigger pressed,
 }
 
@@ -39,6 +40,7 @@ c = {
 	last_animation_frame_y = init_player_y, -- last anima frame y
 	animation_frame_delay = 5, -- anima frame delay
 	weapon = 0, -- weapon: 0 pistol, 1 shotgun
+	weapon_delay = 2,
 	trigger = false -- trigger pressed
 }
 
@@ -62,6 +64,13 @@ pistol = {
 }
 
 function update_p2()
+	enemy_collision(p2)
+
+	-- Bot gets better as the game goes on
+	if rnd(16) > stage + 1 then
+		return -- early exit
+	end
+	
 	local c,y = closest_enemy()
  	if c then
 		if c < 0 then
@@ -75,7 +84,8 @@ function update_p2()
 	   			p2.x += 1
 	  		end
 		end
-	 	p2_fire()
+
+		p2_fire()
 	end
 	
 	if y < 0 then
@@ -83,8 +93,6 @@ function update_p2()
 	elseif y > 0 then
 	 	p2.y += 1
 	end
-	
-	enemy_collision(p2)
 end
 
 function closest_enemy()
@@ -131,14 +139,14 @@ end
 
 function p2_fire()
 	if p2.weapon == 0 then
-		if pistol.cnt == 0 then
-			pistol.cnt = pistol.delay
+		if p2.weapon_delay == 0 then
+			p2.weapon_delay = pistol.delay
 			sfx(0)
 			enemy_coll_detect(p2)
 		end
 	elseif p2.weapon == 1 then
-		if shotgun.cnt == 0 then
-			shotgun.cnt = shotgun.delay
+		if p2.weapon_delay == 0 then
+			p2.weapon_delay = shotgun.delay
 			sfx(1)
 			enemy_coll_detect(p2)
 		end
@@ -171,7 +179,6 @@ function enemy_collision(p)
 			p.melee = true
 			e.yeeted = true
 			e.yeet_sprite_flip = p.flip_sprite
-			sfx(0)
 		end
 	end 
 end
@@ -188,9 +195,7 @@ function get_player_sprite(p)
 			p.melee_frame_count = 0
 			p.melee = false
 		end
- 	elseif p.name == "chad" and pistol.cnt > 0 then
- 		player_sprite = p.sprites_fire[p.sprite_index]
- 	elseif p.name == "jenn" and shotgun.cnt > 0 then
+ 	elseif p.weapon_delay > 0 then
  		player_sprite = p.sprites_fire[p.sprite_index]
  	end
  
@@ -214,16 +219,16 @@ function update_player_move(p, ctrl)
 	end
  
 	if btn(❎, ctrl) or btn(🅾️, ctrl) then
-		if not p.trigger then
+		if not p.trigger and not p.melee then
 			if p.weapon == 0 then
-				if pistol.cnt == 0 then
-					pistol.cnt = pistol.delay
+				if p.weapon_delay == 0 then
+					p.weapon_delay = pistol.delay
 					sfx(0)
 					enemy_coll_detect(p)
 				end
 			elseif p.weapon == 1 then
-				if shotgun.cnt == 0 then
-					shotgun.cnt = shotgun.delay
+				if p.weapon_delay == 0 then
+					p.weapon_delay = shotgun.delay
 					sfx(1)
 					enemy_coll_detect(p)
 				end

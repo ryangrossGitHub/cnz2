@@ -6,6 +6,7 @@ enemy_spawn_delay_count = 0
 
 function spawn_enemy(speed)
 	enemy = {
+		hide = false,
 		sprite_number = 8,
 		speed = speed, -- movement speed
 		sprite_flip = true,
@@ -17,9 +18,10 @@ function spawn_enemy(speed)
 		animation_frame_delay = 7, -- animation frame delay
 		animation_frame_count = 0,
 		yeeted = false,
+		yeet_sprite = 46,
 		yeet_sprite_flip = false, --flip of yeeting player
-		yeet_frame_count = 0,
-		yeet_frame_delay = 5
+		yeet_animation_frame_delay = 15,
+		yeet_animation_frame_count = 0
 	}
 	
 	-- if wall spawn support then 25% chance of wall spawn
@@ -87,7 +89,9 @@ end
 
 function draw_enemies()
 	for enemy in all(enemies) do
-		spr(enemy.sprite_number, enemy.x, enemy.y, 2, 2, enemy.sprite_flip, false)
+		if not enemy.hide then
+			spr(enemy.sprite_number, enemy.x, enemy.y, 2, 2, enemy.sprite_flip, false)
+		end
 	end
 end
 
@@ -99,10 +103,10 @@ function enemy_coll_detect(player)
 	end
  
 	for enemy in all(enemies) do
-		if not enemy.dead 
+		if not enemy.dead and not enemy.yeeted
 		and ((enemy.x - 2 < player.x and player.flip_sprite) or (enemy.x + 2 > player.x and not player.flip_sprite)) 
 		and (enemy.y > player.y - hbox and enemy.y < player.y + hbox + 2) then
-			enemy_die(enemy, player)
+			enemy_die(enemy, true)
 
 			if player.weapon == 0 or player.weapon == 1then
 				return -- 1 at a time
@@ -111,33 +115,45 @@ function enemy_coll_detect(player)
 	end
 end
 
-function enemy_die(enemy, player)
+function enemy_die(enemy, fall)
  	enemy.dead = true
+	enemy.yeet = false
+
+	if fall then
+		enemy.sprite_number = 12
+	else
+		enemy.sprite_number = 14
+	end
    
 	for i=1,20 do
- 		local xs = rnd(3 - 0) + 0
-  		local ys = rnd(1 - -1) + -1
-  		add(particles, particle(enemy.x+4, enemy.y, xs, ys, 3, 10))
- 	end
-
- 	if player.weapon == 1 or player.melee then
-  		enemy.sprite_number = 46
- 	elseif player.weapon == 0 then
-  		enemy.sprite_number = 12
- 	end
+		local xs = rnd(3 - 0) + 0
+		local ys = rnd(1 - -1) + -1
+		add(particles, particle(enemy.x+4, enemy.y, xs, ys, 3, 10))
+	end
 end
 
 function yeet(enemy)
-	if enemy.yeet_frame_count < enemy.yeet_frame_delay then
-  		enemy.yeet_frame_count += 1		
-	
-		if enemy.yeet_sprite_flip then
-			enemy.x -= 3
-		else
-			enemy.x += 3
-		end
+	if enemy.x < camera_x or enemy.x > camera_x + screen_size - 16 then
+		enemy_die(enemy, false)
+		sfx(0)
 	else
-	 	enemy.yeeted = false
-	 	enemy.yeet_frame_count = 0
+		if enemy.yeet_animation_frame_count < enemy.yeet_animation_frame_delay * 0.5 then
+			-- pickup animation
+			enemy.hide = true
+		else
+			-- throw animation
+			enemy.hide = false
+			enemy.sprite_number = enemy.yeet_sprite
+
+			if enemy.yeet_sprite_flip then
+				enemy.sprite_flip = true
+				enemy.x -= 5
+			else
+				enemy.sprite_flip = false
+				enemy.x += 5
+			end
+		end
+
+		enemy.yeet_animation_frame_count += 1
 	end
 end

@@ -45,12 +45,12 @@ function _update()
 		end
 	end
  
-	if shotgun.cnt > 0 then
-		shotgun.cnt -= 1
+	if p1.weapon_delay > 0 then
+		p1.weapon_delay -= 1
 	end
 
-	if pistol.cnt > 0 then
-		pistol.cnt -= 1
+	if p2.weapon_delay > 0 then
+		p2.weapon_delay -= 1
 	end
  
 	if not coop then

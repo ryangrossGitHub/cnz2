@@ -82,7 +82,7 @@ stages = {
   { -- 15 FINAL STAGE
     enemy_spawn_count = 300,
     enemy_speed = 0.5,
-    enemy_spawn_delay = 3,
+    enemy_spawn_delay = 4,
     enemy_wall_spawn_range = {{ 0, 1 }, { 13, 14 }} 
   },
   { -- 16 BOSS
