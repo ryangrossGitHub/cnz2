@@ -174,6 +174,10 @@ function draw_boss(armed)
 end
 
 function enemy_collision(p)
+	if p.melee then
+		return -- early exit
+	end
+	
 	for e in all(enemies) do
 		if not e.dead and not e.yeeted and e.x > p.x-8 and  e.x < p.x+8 and e.y > p.y-8 and e.y < p.y+8 then
 			p.melee = true
@@ -203,6 +207,10 @@ function get_player_sprite(p)
 end
 
 function update_player_move(p, ctrl)
+	if p.melee then
+		return -- early exit
+	end
+
 	-- ctrl is the controller maping
 	if btn(0, ctrl) and p.x>camera_x then
 		p.x -= 1
