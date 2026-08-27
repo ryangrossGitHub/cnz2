@@ -5,6 +5,7 @@ function _init()
 	palt(0, false)
 	load_stage(0)
 	music(0)
+  	reload(0x8000, 0x0000, 8192, "sprites.p8")
 end
 
 function _update()
