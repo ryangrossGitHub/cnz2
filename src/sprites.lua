@@ -1,12 +1,12 @@
-function swap_sprites(source_data_address, index)
+function swap_sprites(source_data_address, src_index, tgt_index)
   -- 1. Calculate the active RAM target address (0x0000 sprite sheet)
-  local tgt_col = index % 16
-  local tgt_row = flr(index / 16)
+  local tgt_col = tgt_index % 16
+  local tgt_row = flr(tgt_index / 16)
   local target_base = (tgt_row * 512) + (tgt_col * 4)
   
   -- 2. Calculate the offset inside the high memory storage
-  local src_col = index % 16
-  local src_row = flr(index / 16)
+  local src_col = src_index % 16
+  local src_row = flr(src_index / 16)
   local source_offset = (src_row * 512) + (src_col * 4)
   
   -- The absolute memory starting point inside your high memory storage

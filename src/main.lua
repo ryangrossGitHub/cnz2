@@ -1,11 +1,15 @@
 screen_size = 128
+user_data_memory_address = 0x8000
+user_data_size = 8192
+gfx_memory_address = 0x0000
 
 function _init()
+	-- Transparent Color Is Purple (13)
 	palt(13, true)
 	palt(0, false)
 	load_stage(0)
 	music(0)
-  	reload(0x8000, 0x0000, 8192, "sprites.p8")
+  	reload(user_data_memory_address, gfx_memory_address, user_data_size, "sprites.p8")
 end
 
 function _update()
@@ -83,9 +87,9 @@ function _draw()
 	say(screen_size * 5 + 37, 40, "WATER TREATEMENT PLANT ∧", 0, false)
 	say(screen_size * 7 + 32, 49, "danger! DO NOT ENTER", 0, false)
    
-	spr(get_player_sprite(p1), p1.x, p1.y, 2, 2, p1.flip_sprite, false)
+	spr(p1.sprite_gfx_memory_slot, p1.x, p1.y, 2, 2, p1.flip_sprite, false)
 	print("p1", p1.x - 3, p1.y - 7, 8)
-	spr(get_player_sprite(p2), p2.x, p2.y, 2, 2, p2.flip_sprite, false)
+	spr(p2.sprite_gfx_memory_slot, p2.x, p2.y, 2, 2, p2.flip_sprite, false)
  
 	local p2_disp = "cp"
 	if coop then

@@ -167,8 +167,6 @@ function update_start()
     else 
       coop = true
     end
-    swap_sprites(0x8000, 2)
-    swap_sprites(0x8000, 34)
  end
  
   if btnp(4) or btnp(5) then

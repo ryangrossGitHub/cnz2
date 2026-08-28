@@ -6,19 +6,28 @@ init_player_y = 80
 
 j = {
 	name = "jenn",
-	sprite = {34,32}, -- spr in animation
-	sprite_index = 1, -- animation frame index
-	sprite_melee = 40, -- spr melee
-	sprites_fire = {38,36},
-	melee = false, -- meleeing
-	melee_frame_count = 0, -- melee frame count
-	melee_frame_delay = 5, -- melee frame delay
-	flip_sprite = true, -- flip sprite?
-	x = init_jenn_x, -- position
-	y = init_player_y, -- position
-	last_animation_frame_x = init_jenn_x, -- last anima frame x
-	last_animation_frame_y = init_player_y, -- last anima frame y
-	animation_frame_delay = 5, -- anima frame delay
+	sprites = {
+		stand_pistol = 32,
+		move_pistol = 34,
+		stand_shoot_pistol = 36,
+		move_shoot_pistol = 38,
+		stand_shotgun = 40,
+		move_shotgun = 42,
+		stand_shoot_shotgun = 44,
+		move_shoot_shotgun = 46,
+		yeet = 64
+	},
+	sprite = 34, -- intial value
+	sprite_gfx_memory_slot = 32,
+	sprite_gfx_memory_loaded = 34, -- initial value
+	yeet_frame_count = 0, 
+	yeet_frame_delay = 5,
+	flip_sprite = true, 
+	x = init_jenn_x, 
+	y = init_player_y, 
+	last_animation_frame_x = init_jenn_x, 
+	last_animation_frame_y = init_player_y, 
+	animation_frame_delay = 5, 
 	weapon = 0, -- weapon: 0 pistol, 1 shotgun
 	weapon_delay = 2,
 	trigger = false -- trigger pressed,
@@ -26,19 +35,28 @@ j = {
 
 c = {
 	name = "chad",
-	sprite = {2,0}, -- spr in animation
-	sprite_index = 1, -- animation frame index
-	sprite_melee = 42, -- spr melee
-	sprites_fire = {6,4},
-	melee = false, -- meleeing
-	melee_frame_count = 0, -- melee frame count
-	melee_frame_delay = 5, -- melee frame delay
-	flip_sprite = false, -- flip sprite?
-	x = init_chad_x, -- position
-	y = init_player_y, -- position
-	last_animation_frame_x = init_chad_x, -- last anima frame x
-	last_animation_frame_y = init_player_y, -- last anima frame y
-	animation_frame_delay = 5, -- anima frame delay
+	sprites = {
+		stand_pistol = 0,
+		move_pistol = 2,
+		stand_shoot_pistol = 4,
+		move_shoot_pistol = 6,
+		stand_shotgun = 8,
+		move_shotgun = 10,
+		stand_shoot_shotgun = 12,
+		move_shoot_shotgun = 14,
+		yeet = 66
+	},
+	sprite = 2, -- intial value
+	sprite_gfx_memory_slot = 0,
+	sprite_gfx_memory_loaded = 2, -- intial value
+	yeet_frame_count = 0, 
+	yeet_frame_delay = 5, 
+	flip_sprite = false, 
+	x = init_chad_x,
+	y = init_player_y, 
+	last_animation_frame_x = init_chad_x, 
+	last_animation_frame_y = init_player_y, 
+	animation_frame_delay = 5, 
 	weapon = 0, -- weapon: 0 pistol, 1 shotgun
 	weapon_delay = 2,
 	trigger = false -- trigger pressed
@@ -141,12 +159,26 @@ function p2_fire()
 	if p2.weapon == 0 then
 		if p2.weapon_delay == 0 then
 			p2.weapon_delay = pistol.delay
+
+			if p2.sprite == p2.sprites.stand_pistol then
+				p2.sprite = p2.sprites.stand_shoot_pistol
+			elseif p2.sprite == p2.sprites.move_pistol then
+				p2.sprite = p2.sprites.move_shoot_pistol
+			end
+
 			sfx(0)
 			enemy_coll_detect(p2)
 		end
 	elseif p2.weapon == 1 then
 		if p2.weapon_delay == 0 then
 			p2.weapon_delay = shotgun.delay
+
+			if p2.sprite == p2.sprites.stand_shotgun then
+				p2.sprite = p2.sprites.stand_shoot_shotgun
+			elseif p2.sprite == p2.sprites.move_shotgun then
+				p2.sprite = p2.sprites.move_shoot_shotgun
+			end
+
 			sfx(1)
 			enemy_coll_detect(p2)
 		end
@@ -154,15 +186,56 @@ function p2_fire()
 end
 
 function update_player_anims(p)
+	-- leg movement
  	if abs(p.x - p.last_animation_frame_x) > p.animation_frame_delay or abs(p.y - p.last_animation_frame_y) > p.animation_frame_delay then
   		p.last_animation_frame_x = p.x
   		p.last_animation_frame_y = p.y
   
   		-- get next animation frame
-  		p.sprite_index=(p.sprite_index % #p.sprite) + 1
+  		if p.sprite == p.sprites.move_pistol then
+  			p.sprite = p.sprites.stand_pistol
+  		elseif p.sprite == p.sprites.stand_pistol then
+			p.sprite = p.sprites.move_pistol
+		elseif p.sprite == p.sprites.move_shotgun then
+  			p.sprite = p.sprites.stand_shotgun
+  		elseif p.sprite == p.sprites.stand_shotgun then
+			p.sprite = p.sprites.move_shotgun
+		end
  	end
  
  	enemy_collision(p)
+
+	-- yeet
+	if p.sprite == p.sprites.yeet then
+ 		p.yeet_frame_count += 1
+ 	
+ 		say(p.x,p.y, "YEEEEEET!")
+ 	
+		if p.yeet_frame_count >= p.yeet_frame_delay then
+			p.yeet_frame_count = 0
+			if p.weapon == 0 then
+				p.sprite = p.sprites.stand_pistol
+			elseif p.weapon == 1 then
+				p.sprite = p.sprites.stand_shotgun
+			end
+		end
+
+	-- weapon recoil
+ 	elseif p.sprite == p.sprites.stand_shoot_pistol and p.weapon_delay == 0 then
+		p.sprite = p.sprites.stand_pistol
+	elseif p.sprite == p.sprites.move_shoot_pistol and p.weapon_delay == 0 then
+		p.sprite = p.sprites.move_pistol
+	elseif p.sprite == p.sprites.stand_shoot_shotgun and p.weapon_delay == 0 then
+		p.sprite = p.sprites.stand_shotgun
+	elseif p.sprite == p.sprites.move_shoot_shotgun and p.weapon_delay == 0 then
+		p.sprite = p.sprites.move_shotgun
+ 	end
+
+	-- Hot swap from external p8 to main p8 file for this player's sprite slot
+	if p.sprite != p.sprite_gfx_memory_loaded then
+		swap_sprites(user_data_memory_address, p.sprite, p.sprite_gfx_memory_slot)
+		p.sprite_gfx_memory_loaded = p.sprite
+	end
 end
 
 function draw_boss(armed)
@@ -174,40 +247,21 @@ function draw_boss(armed)
 end
 
 function enemy_collision(p)
-	if p.melee then
+	if p.sprite == p.sprites.yeet then
 		return -- early exit
 	end
 	
 	for e in all(enemies) do
 		if not e.dead and not e.yeeted and e.x > p.x-8 and  e.x < p.x+8 and e.y > p.y-8 and e.y < p.y+8 then
-			p.melee = true
+			p.sprite = p.sprites.yeet
 			e.yeeted = true
 			e.yeet_sprite_flip = p.flip_sprite
 		end
 	end 
 end
 
-function get_player_sprite(p)
- 	local player_sprite = p.sprite[p.sprite_index]
- 	if p.melee then
- 		player_sprite = p.sprite_melee -- melee spr
- 		p.melee_frame_count += 1
- 	
- 		say(p.x,p.y, "YEEEEEET!")
- 	
-		if p.melee_frame_count >= p.melee_frame_delay then
-			p.melee_frame_count = 0
-			p.melee = false
-		end
- 	elseif p.weapon_delay > 0 then
- 		player_sprite = p.sprites_fire[p.sprite_index]
- 	end
- 
- 	return player_sprite
-end
-
 function update_player_move(p, ctrl)
-	if p.melee then
+	if p.sprite == p.sprites.yeet then
 		return -- early exit
 	end
 
@@ -227,16 +281,30 @@ function update_player_move(p, ctrl)
 	end
  
 	if btn(❎, ctrl) or btn(🅾️, ctrl) then
-		if not p.trigger and not p.melee then
+		if not p.trigger and p.sprite != p.sprites.yeet then
 			if p.weapon == 0 then
 				if p.weapon_delay == 0 then
 					p.weapon_delay = pistol.delay
+
+					if p.sprite == p.sprites.stand_pistol then
+						p.sprite = p.sprites.stand_shoot_pistol
+					elseif p.sprite == p.sprites.move_pistol then
+						p.sprite = p.sprites.move_shoot_pistol
+					end
+
 					sfx(0)
 					enemy_coll_detect(p)
 				end
 			elseif p.weapon == 1 then
 				if p.weapon_delay == 0 then
 					p.weapon_delay = shotgun.delay
+
+					if p.sprite == p.sprites.stand_shotgun then
+						p.sprite = p.sprites.stand_shoot_shotgun
+					elseif p.sprite == p.sprites.move_shotgun then
+						p.sprite = p.sprites.move_shoot_shotgun
+					end
+
 					sfx(1)
 					enemy_coll_detect(p)
 				end
