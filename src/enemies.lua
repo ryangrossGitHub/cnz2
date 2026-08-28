@@ -20,7 +20,7 @@ function spawn_enemy(speed)
 		yeeted = false,
 		yeet_sprite = 46,
 		yeet_sprite_flip = false, --flip of yeeting player
-		yeet_animation_frame_delay = 15,
+		yeet_animation_frame_delay = 10,
 		yeet_animation_frame_count = 0
 	}
 	

@@ -5,13 +5,13 @@ gfx_memory_address = 0x0000
 log_file = "log.txt"
 
 function _init()
-	printh("---GAME INIT---", log_file, true)
+	printh("GAME INIT", log_file, true)
 	palt(13, true) -- Transparent Color Is Purple (13)
 	palt(0, false)
 	load_stage(0)
 	music(0)
   	reload(user_data_memory_address, gfx_memory_address, user_data_size, "sprites.p8")
-	printh(" - external sprites loaded", log_file)
+	printh(" external sprites loaded", log_file)
 end
 
 function _update()
