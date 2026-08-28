@@ -5,6 +5,25 @@ stage_transfer_total = 128 -- stage trans total
 camera_x = 0
 camera_y = 0
 
+function load_level(level_num)
+  -- If level_num is 1, this becomes "map1.p8"
+  -- If level_num is 2, this becomes "map2.p8"
+  local map_file = "map" .. level_num .. ".p8"
+  
+  -- 3. PULL THE MAP DATA INTO THE VAULT
+  -- Pull Level Tiles (Tab 2) into 0x8800
+  reload(0x8800, 0x0800, 0x0800, map_file)
+  
+  -- Pull Full Map Layout into 0x9000
+  reload(0x9000, 0x2000, 0x1000, map_file)
+  
+  -- 4. PUSH LEVEL ASSETS LIVE IMMEDIATELY
+  -- Copy the tiles and layout from our vault into active PICO-8 memory
+  memcpy(0x0800, 0x8800, 0x0800) -- Push Tab 2 Tiles live to 0x0800
+  memcpy(0x2000, 0x9000, 0x1000) -- Push Map layout live to 0x2000
+end
+
+
 stages = {
   { -- 1 DONUTS
     enemy_spawn_count = 50,

@@ -1,4 +1,25 @@
-function swap_sprites(source_data_address, src_index, tgt_index)
+function preload_all_assets()
+  -- Preload player sprites into user data memory slots
+  reload(0x8000, 0x0000, 0x0800, "characters.p8")
+  
+  -- Preload levels into user data memory slots
+  -- reload(0x8800, 0x0800, 0x0800, "map2.p8")
+  -- reload(0x9000, 0x2000, 0x1000, "map2.p8")
+  
+  -- reload(0xa000, 0x0800, 0x0800, "map3.p8")
+  -- reload(0xa800, 0x2000, 0x1000, "map3.p8")
+  
+  -- reload(0xb800, 0x0800, 0x0800, "map4.p8")
+  -- reload(0xc000, 0x2000, 0x1000, "map4.p8")
+  
+  -- reload(0xd000, 0x0800, 0x0800, "map5.p8")
+  -- reload(0xd800, 0x2000, 0x1000, "map5.p8")
+  
+  -- reload(0xe800, 0x0800, 0x0800, "map6.p8")
+  -- reload(0xf000, 0x2000, 0x1000, "map6.p8")
+end
+
+function swap_player_sprites(source_data_address, src_index, tgt_index)
   -- 1. Calculate the active RAM target address (0x0000 sprite sheet)
   local tgt_col = tgt_index % 16
   local tgt_row = flr(tgt_index / 16)

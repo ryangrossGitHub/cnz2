@@ -7,7 +7,7 @@ enemy_spawn_delay_count = 0
 function spawn_enemy(speed)
 	enemy = {
 		hide = false,
-		sprite_number = 8,
+		sprite_number = 136,
 		speed = speed, -- movement speed
 		sprite_flip = true,
 		x = rnd({ camera_x-16, camera_x + screen_size + 16 }),
@@ -18,7 +18,7 @@ function spawn_enemy(speed)
 		animation_frame_delay = 7, -- animation frame delay
 		animation_frame_count = 0,
 		yeeted = false,
-		yeet_sprite = 46,
+		yeet_sprite = 174,
 		yeet_sprite_flip = false, --flip of yeeting player
 		yeet_animation_frame_delay = 10,
 		yeet_animation_frame_count = 0
@@ -45,10 +45,8 @@ function update_enemies()
 			if enemy.death_animation_frame_count >= enemy.death_animation_frame_delay then
 				enemy.death_animation_frame_count = 0
 			
-				if enemy.sprite_number == 12 then
-					enemy.sprite_number = 14
-				elseif enemy.sprite_number == 44 then
-					enemy.sprite_number = 46
+				if enemy.sprite_number == 140 then
+					enemy.sprite_number = 142
 				end
 			end
 		elseif enemy.yeeted then
@@ -77,10 +75,10 @@ function update_enemies()
 				enemy.animation_frame_count = 0
 				
 				-- enemy animation
-				if enemy.sprite_number == 8 then
-					enemy.sprite_number = 10
-				elseif enemy.sprite_number == 10 then
-					enemy.sprite_number = 8
+				if enemy.sprite_number == 136 then
+					enemy.sprite_number = 138
+				elseif enemy.sprite_number == 138 then
+					enemy.sprite_number = 136
 				end
 			end 
 		end
@@ -120,9 +118,9 @@ function enemy_die(enemy, fall)
 	enemy.yeet = false
 
 	if fall then
-		enemy.sprite_number = 12
+		enemy.sprite_number = 140
 	else
-		enemy.sprite_number = 14
+		enemy.sprite_number = 142
 	end
    
 	for i=1,20 do

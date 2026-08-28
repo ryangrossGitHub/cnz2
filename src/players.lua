@@ -15,7 +15,7 @@ j = {
 		move_shotgun = 42,
 		stand_shoot_shotgun = 44,
 		move_shoot_shotgun = 46,
-		yeet = 64
+		yeet = 128
 	},
 	sprite = 34, -- intial value
 	sprite_gfx_memory_slot = 32,
@@ -44,7 +44,7 @@ c = {
 		move_shotgun = 10,
 		stand_shoot_shotgun = 12,
 		move_shoot_shotgun = 14,
-		yeet = 66
+		yeet = 130
 	},
 	sprite = 2, -- intial value
 	sprite_gfx_memory_slot = 0,
@@ -230,12 +230,6 @@ function update_player_anims(p)
 	elseif p.sprite == p.sprites.move_shoot_shotgun and p.weapon_delay == 0 then
 		p.sprite = p.sprites.move_shotgun
  	end
-
-	-- Hot swap from external p8 to main p8 file for this player's sprite slot
-	if p.sprite != p.sprite_gfx_memory_loaded then
-		swap_sprites(user_data_memory_address, p.sprite, p.sprite_gfx_memory_slot)
-		p.sprite_gfx_memory_loaded = p.sprite
-	end
 end
 
 function draw_boss(armed)

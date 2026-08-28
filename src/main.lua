@@ -1,17 +1,34 @@
 screen_size = 128
 user_data_memory_address = 0x8000
-user_data_size = 8192
-gfx_memory_address = 0x0000
 log_file = "log.txt"
 
 function _init()
 	printh("GAME INIT", log_file, true)
+	
+	-- Preload external assets into user data memory slots
+	-- reload(0x8000, 0x0000, 0x0800, "characters.p8")
+
+	-- reload(0x8800, 0x0800, 0x0800, "map2.p8")
+	-- reload(0x9000, 0x2000, 0x1000, "map2.p8")
+	
+	-- reload(0xa000, 0x0800, 0x0800, "map3.p8")
+	-- reload(0xa800, 0x2000, 0x1000, "map3.p8")
+	
+	-- reload(0xb800, 0x0800, 0x0800, "map4.p8")
+	-- reload(0xc000, 0x2000, 0x1000, "map4.p8")
+	
+	-- reload(0xd000, 0x0800, 0x0800, "map5.p8")
+	-- reload(0xd800, 0x2000, 0x1000, "map5.p8")
+	
+	-- reload(0xe800, 0x0800, 0x0800, "map6.p8")
+	-- reload(0xf000, 0x2000, 0x1000, "map6.p8")
+
+	printh(" external assets loaded successfully", log_file)
+
 	palt(13, true) -- Transparent Color Is Purple (13)
 	palt(0, false)
 	load_stage(0)
 	music(0)
-  	reload(user_data_memory_address, gfx_memory_address, user_data_size, "sprites.p8")
-	printh(" external sprites loaded", log_file)
 end
 
 function _update()
@@ -89,9 +106,9 @@ function _draw()
 	say(screen_size * 5 + 37, 40, "WATER TREATEMENT PLANT ∧", 0, false)
 	say(screen_size * 7 + 32, 49, "danger! DO NOT ENTER", 0, false)
    
-	spr(p1.sprite_gfx_memory_slot, p1.x, p1.y, 2, 2, p1.flip_sprite, false)
+	spr(p1.sprite, p1.x, p1.y, 2, 2, p1.flip_sprite, false)
 	print("p1", p1.x - 3, p1.y - 7, 8)
-	spr(p2.sprite_gfx_memory_slot, p2.x, p2.y, 2, 2, p2.flip_sprite, false)
+	spr(p2.sprite, p2.x, p2.y, 2, 2, p2.flip_sprite, false)
  
 	local p2_disp = "cp"
 	if coop then
