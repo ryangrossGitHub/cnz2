@@ -171,6 +171,7 @@ function update_start()
  
   if btnp(4) or btnp(5) then
     load_stage(1)
+    printh("---GAME START---", log_file)
   end
 end
 
