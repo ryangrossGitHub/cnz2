@@ -1,2 +1,0 @@
----GAME INIT---
- - external sprites loaded
