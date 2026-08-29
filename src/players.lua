@@ -15,11 +15,9 @@ j = {
 		move_shotgun = 42,
 		stand_shoot_shotgun = 44,
 		move_shoot_shotgun = 46,
-		yeet = 128
+		yeet = 96
 	},
-	sprite = 34, -- intial value
-	sprite_gfx_memory_slot = 32,
-	sprite_gfx_memory_loaded = 34, -- initial value
+	sprite = 42, -- intial value
 	yeet_frame_count = 0, 
 	yeet_frame_delay = 5,
 	flip_sprite = true, 
@@ -28,7 +26,7 @@ j = {
 	last_animation_frame_x = init_jenn_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 0, -- weapon: 0 pistol, 1 shotgun
+	weapon = 1, -- weapon: 0 pistol, 1 shotgun
 	weapon_delay = 2,
 	trigger = false -- trigger pressed,
 }
@@ -44,11 +42,9 @@ c = {
 		move_shotgun = 10,
 		stand_shoot_shotgun = 12,
 		move_shoot_shotgun = 14,
-		yeet = 130
+		yeet = 64
 	},
-	sprite = 2, -- intial value
-	sprite_gfx_memory_slot = 0,
-	sprite_gfx_memory_loaded = 2, -- intial value
+	sprite = 10, -- intial value
 	yeet_frame_count = 0, 
 	yeet_frame_delay = 5, 
 	flip_sprite = false, 
@@ -57,7 +53,7 @@ c = {
 	last_animation_frame_x = init_chad_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 0, -- weapon: 0 pistol, 1 shotgun
+	weapon = 1, -- weapon: 0 pistol, 1 shotgun
 	weapon_delay = 2,
 	trigger = false -- trigger pressed
 }
@@ -72,13 +68,11 @@ p2 = c
 coop = false
 
 shotgun = {
-	delay = 15,
-	cnt = 0
+	delay = 20
 }
 
 pistol = {
-	delay = 2,
-	cnt = 0
+	delay = 2
 }
 
 function update_p2()

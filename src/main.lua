@@ -4,27 +4,7 @@ log_file = "log.txt"
 
 function _init()
 	printh("GAME INIT", log_file, true)
-	
-	-- Preload external assets into user data memory slots
-	-- reload(0x8000, 0x0000, 0x0800, "characters.p8")
-
-	-- reload(0x8800, 0x0800, 0x0800, "map2.p8")
-	-- reload(0x9000, 0x2000, 0x1000, "map2.p8")
-	
-	-- reload(0xa000, 0x0800, 0x0800, "map3.p8")
-	-- reload(0xa800, 0x2000, 0x1000, "map3.p8")
-	
-	-- reload(0xb800, 0x0800, 0x0800, "map4.p8")
-	-- reload(0xc000, 0x2000, 0x1000, "map4.p8")
-	
-	-- reload(0xd000, 0x0800, 0x0800, "map5.p8")
-	-- reload(0xd800, 0x2000, 0x1000, "map5.p8")
-	
-	-- reload(0xe800, 0x0800, 0x0800, "map6.p8")
-	-- reload(0xf000, 0x2000, 0x1000, "map6.p8")
-
-	printh(" external assets loaded successfully", log_file)
-
+	-- load_external_data()
 	palt(13, true) -- Transparent Color Is Purple (13)
 	palt(0, false)
 	load_stage(0)

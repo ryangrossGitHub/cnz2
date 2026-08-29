@@ -47,6 +47,8 @@ function update_enemies()
 			
 				if enemy.sprite_number == 140 then
 					enemy.sprite_number = 142
+				elseif enemy.sprite_number == 170 then
+					enemy.sprite_number = 172
 				end
 			end
 		elseif enemy.yeeted then
@@ -104,21 +106,24 @@ function enemy_coll_detect(player)
 		if not enemy.dead and not enemy.yeeted
 		and ((enemy.x - 2 < player.x and player.flip_sprite) or (enemy.x + 2 > player.x and not player.flip_sprite)) 
 		and (enemy.y > player.y - hbox and enemy.y < player.y + hbox + 2) then
-			enemy_die(enemy, true)
-
-			if player.weapon == 0 or player.weapon == 1then
+			enemy_die(enemy, true, player.weapon)
+			if player.weapon == 0 then
 				return -- 1 at a time
 			end
 		end
 	end
 end
 
-function enemy_die(enemy, fall)
+function enemy_die(enemy, fall, weapon)
  	enemy.dead = true
 	enemy.yeet = false
 
 	if fall then
-		enemy.sprite_number = 140
+		if weapon == 0 then
+			enemy.sprite_number = 140
+		elseif weapon == 1 then
+			enemy.sprite_number = 170
+		end
 	else
 		enemy.sprite_number = 142
 	end
@@ -132,7 +137,7 @@ end
 
 function yeet(enemy)
 	if enemy.x < camera_x or enemy.x > camera_x + screen_size - 16 then
-		enemy_die(enemy, false)
+		enemy_die(enemy, false, 0)
 		sfx(0)
 	else
 		if enemy.yeet_animation_frame_count < enemy.yeet_animation_frame_delay * 0.5 then

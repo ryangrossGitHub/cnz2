@@ -5,22 +5,27 @@ stage_transfer_total = 128 -- stage trans total
 camera_x = 0
 camera_y = 0
 
-function load_level(level_num)
-  -- If level_num is 1, this becomes "map1.p8"
-  -- If level_num is 2, this becomes "map2.p8"
-  local map_file = "map" .. level_num .. ".p8"
-  
-  -- 3. PULL THE MAP DATA INTO THE VAULT
-  -- Pull Level Tiles (Tab 2) into 0x8800
-  reload(0x8800, 0x0800, 0x0800, map_file)
-  
-  -- Pull Full Map Layout into 0x9000
-  reload(0x9000, 0x2000, 0x1000, map_file)
-  
-  -- 4. PUSH LEVEL ASSETS LIVE IMMEDIATELY
-  -- Copy the tiles and layout from our vault into active PICO-8 memory
-  memcpy(0x0800, 0x8800, 0x0800) -- Push Tab 2 Tiles live to 0x0800
-  memcpy(0x2000, 0x9000, 0x1000) -- Push Map layout live to 0x2000
+function load_level(n)
+  if n == 2 then
+    memcpy(0x1800, 0x8800, 0x0800) -- Push Level 1 Tiles live to Tab 4
+    memcpy(0x2000, 0x9000, 0x1000) -- Push Level 1 Map live to active map
+    
+  elseif n == 3 then
+    memcpy(0x1800, 0xa000, 0x0800) -- Push Level 2 Tiles live to Tab 4
+    memcpy(0x2000, 0xa800, 0x1000) -- Push Level 2 Map live to active map
+    
+  elseif n == 4 then
+    memcpy(0x1800, 0xb800, 0x0800) -- Push Level 3 Tiles live to Tab 4
+    memcpy(0x2000, 0xc000, 0x1000) -- Push Level 3 Map live to active map
+    
+  elseif n == 5 then
+    memcpy(0x1800, 0xd000, 0x0800) -- Push Level 4 Tiles live to Tab 4
+    memcpy(0x2000, 0xd800, 0x1000) -- Push Level 4 Map live to active map
+    
+  elseif n == 6 then
+    memcpy(0x1800, 0xe800, 0x0800) -- Push Level 5 Tiles live to Tab 4
+    memcpy(0x2000, 0xf000, 0x1000) -- Push Level 5 Map live to active map
+  end
 end
 
 
