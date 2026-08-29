@@ -76,6 +76,14 @@ function _draw()
 	end
  
 	camera(camera_x,camera_y)
+	if camera_shake_offset < 0 then
+		camera_shake_offset += 1
+		camera_x += 1
+	elseif camera_shake_offset > 0 then
+		camera_shake_offset -= 1
+		camera_x -= 1
+	end
+
 	draw_enemies()
 	draw_particles(particles)
 

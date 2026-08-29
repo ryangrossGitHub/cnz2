@@ -4,6 +4,9 @@ init_jenn_x = 45
 init_chad_x = 67
 init_player_y = 80
 
+camera_shake_offset = 0
+camera_shake_offset_amount = 3
+
 j = {
 	name = "jenn",
 	sprites = {
@@ -174,6 +177,15 @@ function p2_fire()
 			end
 
 			sfx(1)
+
+			if p2.flip_sprite then
+				camera_x -= camera_shake_offset_amount
+				camera_shake_offset -= camera_shake_offset_amount
+			else
+				camera_x += camera_shake_offset_amount
+				camera_shake_offset += camera_shake_offset_amount
+			end
+
 			enemy_coll_detect(p2)
 		end
 	end
@@ -295,6 +307,14 @@ function update_player_move(p, ctrl)
 
 					sfx(1)
 					enemy_coll_detect(p)
+
+					if p.flip_sprite then
+						camera_x -= camera_shake_offset_amount
+						camera_shake_offset -= camera_shake_offset_amount
+					else
+						camera_x += camera_shake_offset_amount
+						camera_shake_offset += camera_shake_offset_amount
+					end
 				end
 			end
 		end
