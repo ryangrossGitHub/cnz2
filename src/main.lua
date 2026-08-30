@@ -87,13 +87,9 @@ function _draw()
 	draw_enemies()
 	draw_particles(particles)
 
-	say(58,12,"DONUTS ♥", 0, false)
-	say(screen_size + 58, 12, "COFFEE ●", 0, false)
-	say(screen_size * 2 + 58, 12, "PARKING ★", 0, false)
-	say(screen_size * 3 + 29, 17, "ICE CREAM", 0, false)
-	say(screen_size * 5 + 37, 40, "WATER TREATEMENT PLANT ∧", 0, false)
-	say(screen_size * 7 + 32, 49, "danger! DO NOT ENTER", 0, false)
-   
+	say(58,22,"cOPS yEET zOMBIES ii ", 0, true)
+--	say(screen_size * 2 + 58, 12, "PARKING ★", 0, false)
+  
 	spr(p1.sprite, p1.x, p1.y, 2, 2, p1.flip_sprite, false)
 	print("p1", p1.x - 3, p1.y - 7, 8)
 	spr(p2.sprite, p2.x, p2.y, 2, 2, p2.flip_sprite, false)

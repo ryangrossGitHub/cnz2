@@ -30,7 +30,7 @@ end_dt = {
 function say(x,y,msg,border,wide,bounded)    
   local max_w = 42 
   if wide then
-   max_w = 81
+   max_w = 86
   end
 
 	 -- 1. split text into words using pico-8's native split  

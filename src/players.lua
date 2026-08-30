@@ -20,7 +20,7 @@ j = {
 		move_shoot_shotgun = 46,
 		yeet = 96
 	},
-	sprite = 42, -- intial value
+	sprite = 34, -- intial value
 	yeet_frame_count = 0, 
 	yeet_frame_delay = 5,
 	flip_sprite = true, 
@@ -29,7 +29,7 @@ j = {
 	last_animation_frame_x = init_jenn_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 1, -- weapon: 0 pistol, 1 shotgun
+	weapon = 0, -- weapon: 0 pistol, 1 shotgun
 	weapon_delay = 2,
 	trigger = false -- trigger pressed,
 }
@@ -47,7 +47,7 @@ c = {
 		move_shoot_shotgun = 14,
 		yeet = 64
 	},
-	sprite = 10, -- intial value
+	sprite = 2, -- intial value
 	yeet_frame_count = 0, 
 	yeet_frame_delay = 5, 
 	flip_sprite = false, 
@@ -56,7 +56,7 @@ c = {
 	last_animation_frame_x = init_chad_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 1, -- weapon: 0 pistol, 1 shotgun
+	weapon = 0, -- weapon: 0 pistol, 1 shotgun
 	weapon_delay = 2,
 	trigger = false -- trigger pressed
 }
@@ -163,7 +163,7 @@ function p2_fire()
 				p2.sprite = p2.sprites.move_shoot_pistol
 			end
 
-			sfx(11)
+			sfx(0)
 			enemy_coll_detect(p2)
 		end
 	elseif p2.weapon == 1 then
@@ -176,7 +176,7 @@ function p2_fire()
 				p2.sprite = p2.sprites.move_shoot_shotgun
 			end
 
-			sfx(12)
+			sfx(1)
 
 			if p2.flip_sprite then
 				camera_x -= camera_shake_offset_amount
@@ -292,7 +292,7 @@ function update_player_move(p, ctrl)
 						p.sprite = p.sprites.move_shoot_pistol
 					end
 
-					sfx(11)
+					sfx(0)
 					enemy_coll_detect(p)
 				end
 			elseif p.weapon == 1 then
@@ -305,7 +305,7 @@ function update_player_move(p, ctrl)
 						p.sprite = p.sprites.move_shoot_shotgun
 					end
 
-					sfx(12)
+					sfx(1)
 					enemy_coll_detect(p)
 
 					if p.flip_sprite then

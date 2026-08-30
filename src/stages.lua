@@ -5,28 +5,30 @@ stage_transfer_total = 128 -- stage trans total
 camera_x = 0
 camera_y = 0
 
-function load_level(n)
-  if n == 2 then
-    memcpy(0x1800, 0x8800, 0x0800) -- Push Level 1 Tiles live to Tab 4
-    memcpy(0x2000, 0x9000, 0x1000) -- Push Level 1 Map live to active map
-    
-  elseif n == 3 then
-    memcpy(0x1800, 0xa000, 0x0800) -- Push Level 2 Tiles live to Tab 4
-    memcpy(0x2000, 0xa800, 0x1000) -- Push Level 2 Map live to active map
-    
-  elseif n == 4 then
-    memcpy(0x1800, 0xb800, 0x0800) -- Push Level 3 Tiles live to Tab 4
-    memcpy(0x2000, 0xc000, 0x1000) -- Push Level 3 Map live to active map
-    
-  elseif n == 5 then
-    memcpy(0x1800, 0xd000, 0x0800) -- Push Level 4 Tiles live to Tab 4
-    memcpy(0x2000, 0xd800, 0x1000) -- Push Level 4 Map live to active map
-    
-  elseif n == 6 then
-    memcpy(0x1800, 0xe800, 0x0800) -- Push Level 5 Tiles live to Tab 4
-    memcpy(0x2000, 0xf000, 0x1000) -- Push Level 5 Map live to active map
+function load_level(lvl)
+  if lvl == 2 then
+    memcpy(0x1800, 0x8800, 0x0800) -- Sprites
+    memcpy(0x2000, 0x9000, 0x1000) -- Map
+    memcpy(0x3448, 0xA000, 0x02A0) -- SFX
+    memcpy(0x3100, 0xA2A0, 0x0084) -- Music
+  elseif lvl == 3 then
+    memcpy(0x1800, 0xA324, 0x0800) -- Sprites
+    memcpy(0x2000, 0xAB24, 0x1000) -- Map
+    memcpy(0x3448, 0xBB24, 0x02A0) -- SFX
+    memcpy(0x3100, 0xBDC4, 0x0084) -- Music
+  elseif lvl == 4 then
+    memcpy(0x1800, 0xBE48, 0x0800) -- Sprites
+    memcpy(0x2000, 0xC648, 0x1000) -- Map
+    memcpy(0x3448, 0xD648, 0x02A0) -- SFX
+    memcpy(0x3100, 0xD8E8, 0x0084) -- Music
+  elseif lvl == 5 then
+    memcpy(0x1800, 0xD96C, 0x0800) -- Sprites
+    memcpy(0x2000, 0xE16C, 0x1000) -- Map
+    memcpy(0x3448, 0xF16C, 0x02A0) -- SFX
+    memcpy(0x3100, 0xF40C, 0x0084) -- Music
   end
 end
+
 
 
 stages = {
