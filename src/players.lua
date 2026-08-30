@@ -5,7 +5,7 @@ init_chad_x = 67
 init_player_y = 80
 
 camera_shake_offset = 0
-camera_shake_offset_amount = 3
+camera_shake_offset_amount = 2
 
 j = {
 	name = "jenn",
@@ -163,7 +163,7 @@ function p2_fire()
 				p2.sprite = p2.sprites.move_shoot_pistol
 			end
 
-			sfx(0)
+			sfx(11)
 			enemy_coll_detect(p2)
 		end
 	elseif p2.weapon == 1 then
@@ -176,7 +176,7 @@ function p2_fire()
 				p2.sprite = p2.sprites.move_shoot_shotgun
 			end
 
-			sfx(1)
+			sfx(12)
 
 			if p2.flip_sprite then
 				camera_x -= camera_shake_offset_amount
@@ -292,7 +292,7 @@ function update_player_move(p, ctrl)
 						p.sprite = p.sprites.move_shoot_pistol
 					end
 
-					sfx(0)
+					sfx(11)
 					enemy_coll_detect(p)
 				end
 			elseif p.weapon == 1 then
@@ -305,7 +305,7 @@ function update_player_move(p, ctrl)
 						p.sprite = p.sprites.move_shoot_shotgun
 					end
 
-					sfx(1)
+					sfx(12)
 					enemy_coll_detect(p)
 
 					if p.flip_sprite then

@@ -138,7 +138,7 @@ end
 function yeet(enemy)
 	if enemy.x < camera_x or enemy.x > camera_x + screen_size - 16 then
 		enemy_die(enemy, false, 0)
-		sfx(0)
+		sfx(11)
 	else
 		if enemy.yeet_animation_frame_count < enemy.yeet_animation_frame_delay * 0.5 then
 			-- pickup animation
