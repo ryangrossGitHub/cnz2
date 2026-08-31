@@ -4,7 +4,6 @@ log_file = "log.txt"
 
 function _init()
 	printh("GAME INIT", log_file, true)
-	-- load_external_data()
 	palt(13, true) -- Transparent Color Is Purple (13)
 	palt(0, false)
 	load_stage(0)

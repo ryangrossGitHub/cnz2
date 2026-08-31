@@ -5,7 +5,7 @@ stage_transfer_total = 128 -- stage trans total
 camera_x = 0
 camera_y = 0
 
-function load_level(lvl)
+function switch_to_level(lvl)
   if lvl == 2 then
     memcpy(0x1800, 0x8800, 0x0800) -- Sprites
     memcpy(0x2000, 0x9000, 0x1000) -- Map
@@ -123,6 +123,7 @@ function load_stage(n)
   if n == 0 then
     load_start()
   elseif n == 1 then
+    load("cnz2s3.p8")
     e_spawn = true
     player_move = true
   else
