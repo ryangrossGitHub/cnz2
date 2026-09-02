@@ -123,7 +123,7 @@ function load_stage(n)
   if n == 0 then
     load_start()
   elseif n == 1 then
-    load("cnz2s3.p8")
+    -- load("cnz2s3.p8")
     e_spawn = true
     player_move = true
   else
