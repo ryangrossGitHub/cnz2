@@ -56,7 +56,7 @@ c = {
 	last_animation_frame_x = init_chad_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 1, -- weapon: 0 pistol, 1 shotgun
+	weapon = 0, -- weapon: 0 pistol, 1 shotgun
 	weapon_delay = 2,
 	trigger = false -- trigger pressed
 }
