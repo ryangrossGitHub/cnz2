@@ -27,7 +27,15 @@ end_dt = {
   {"f", "TO BE CONTINUED"},
 }
 
-function say(x,y,msg,border,wide,bounded)    
+function say(x, y, msg, border, wide, bounded, color, background)    
+  if not color then
+    color = 0
+  end
+
+  if not background then
+    background = 7
+  end
+
   local max_w = 42 
   if wide then
    max_w = 86
@@ -67,21 +75,25 @@ function say(x,y,msg,border,wide,bounded)
 	 end
 
   -- 4. draw bubble body and tail
-  rectfill(bx, by, bx + b_w, by + b_h, 7)
+  rectfill(bx, by, bx + b_w, by + b_h, background)
   
   if border==1 then
-   rect(bx, by, bx+b_w, by+b_h, 0)
+   rect(bx, by, bx+b_w, by+b_h, color)
   
 	  -- simple triangle tail
-	  line(x+6, by+b_h, x+7, by+b_h+2, 0)
-	  line(x+8, by+b_h, x+7, by+b_h+2, 0)
+	  line(x+6, by+b_h, x+7, by+b_h+2, color)
+	  line(x+8, by+b_h, x+7, by+b_h+2, color)
 	  pset(x+7, by+b_h, 7)
   end
 
   -- 5. print each line with \v (puny font)
   for i=1,#lines do
-    print(lines[i], bx+2, by+2 + (i-1)*line_h, 0)
+    print(lines[i], bx+2, by+2 + (i-1)*line_h, color)
   end
+end
+
+function say2(name, message)
+  rectfill(camera_x, 0, camera_x + screen_size, 20, 0)
 end
 
 function ending_dialog()

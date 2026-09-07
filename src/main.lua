@@ -86,8 +86,8 @@ function _draw()
 	draw_enemies()
 	draw_particles(particles)
 
-	say(58,22,"cOPS yEET zOMBIES ii ", 0, true)
---	say(screen_size * 2 + 58, 12, "PARKING ★", 0, false)
+	
+	say(screen_size * 1 + 58, 22, "@ da club", 0, false, false, 14, 0)
   
 	spr(p1.sprite, p1.x, p1.y, 2, 2, p1.flip_sprite, false)
 	print("p1", p1.x - 3, p1.y - 7, 8)
@@ -101,8 +101,10 @@ function _draw()
  
 	if stage == 0 then
 		draw_start()
-	elseif stage == 16 then
-		if stage_trans == false then
+		say(58,22,"cOPS yEET zOMBIES ii ", 0, true)
+	else
+		say(58, 16, "cOFFEEN OPEN 24X7", 0, false, false, 4)
+		if stage == 16 and stage_trans == false then
 			ending_dialog()
 		end
 	end

@@ -32,8 +32,8 @@ end
 
 
 stages = {
-  { -- 1 DONUTS
-    enemy_spawn_count = 50,
+  { -- 1 COFFEE
+    enemy_spawn_count = 5,
     enemy_speed = 0.3,
     enemy_spawn_delay = 10
   },

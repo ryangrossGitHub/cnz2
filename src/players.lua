@@ -47,7 +47,7 @@ c = {
 		move_shoot_shotgun = 14,
 		yeet = 64
 	},
-	sprite = 10, -- intial value
+	sprite = 2, -- intial value
 	yeet_frame_count = 0, 
 	yeet_frame_delay = 5, 
 	flip_sprite = false, 
