@@ -7,11 +7,11 @@ enemy_spawn_delay_count = 0
 function spawn_enemy(speed)
 	enemy = {
 		hide = false,
-		sprite_number = 136,
+		sprite_number = 128,
 		speed = speed, -- movement speed
 		sprite_flip = true,
 		x = rnd({ camera_x-16, camera_x + screen_size + 16 }),
-		y = rnd(56) + flr(stage/9) * screen_size + 56,
+		y = rnd(48) + flr(stage/9) * screen_size + 48,
 		death_animation_frame_delay = 20,
 		death_animation_frame_count = 0, -- death animation frame count
 		dead = false,
@@ -45,10 +45,8 @@ function update_enemies()
 			if enemy.death_animation_frame_count >= enemy.death_animation_frame_delay then
 				enemy.death_animation_frame_count = 0
 			
-				if enemy.sprite_number == 140 then
-					enemy.sprite_number = 142
-				elseif enemy.sprite_number == 170 then
-					enemy.sprite_number = 172
+				if enemy.sprite_number == 134 then
+					enemy.sprite_number = 136
 				end
 			end
 		elseif enemy.yeeted then
@@ -77,10 +75,10 @@ function update_enemies()
 				enemy.animation_frame_count = 0
 				
 				-- enemy animation
-				if enemy.sprite_number == 136 then
-					enemy.sprite_number = 138
-				elseif enemy.sprite_number == 138 then
-					enemy.sprite_number = 136
+				if enemy.sprite_number == 128 then
+					enemy.sprite_number = 130
+				elseif enemy.sprite_number == 130 then
+					enemy.sprite_number = 128
 				end
 			end 
 		end
@@ -90,26 +88,24 @@ end
 function draw_enemies()
 	for enemy in all(enemies) do
 		if not enemy.hide then
-			spr(enemy.sprite_number, enemy.x, enemy.y, 2, 2, enemy.sprite_flip, false)
+			spr(enemy.sprite_number, enemy.x, enemy.y, 2, 4, enemy.sprite_flip, false)
 		end
 	end
 end
 
 function enemy_coll_detect(player) 
-	local hbox = 4 -- hit box
+	local hbox = 8 -- hit box
  
 	if player.weapon == 1 then
-		hbox = 12
+		hbox = 16
 	end
  
 	for enemy in all(enemies) do
 		if not enemy.dead and not enemy.yeeted
 		and ((enemy.x - 2 < player.x and player.flip_sprite) or (enemy.x + 2 > player.x and not player.flip_sprite)) 
-		and (enemy.y > player.y - hbox and enemy.y < player.y + hbox + 2) then
+		and (enemy.y > player.y - hbox + 12 and enemy.y < player.y + hbox + 8) then
 			enemy_die(enemy, true, player.weapon)
-			if player.weapon == 0 then
-				return -- 1 at a time
-			end
+			return -- 1 at a time
 		end
 	end
 end
@@ -120,18 +116,19 @@ function enemy_die(enemy, fall, weapon)
 
 	if fall then
 		if weapon == 0 then
-			enemy.sprite_number = 140
+			enemy.sprite_number = 134
 		elseif weapon == 1 then
-			enemy.sprite_number = 170
+			enemy.sprite_number = 132
 		end
 	else
-		enemy.sprite_number = 142
+		enemy.sprite_number = 136
 	end
    
-	for i=1,20 do
+	for i=1,40 do
 		local xs = rnd(3 - 0) + 0
-		local ys = rnd(1 - -1) + -1
-		add(particles, particle(enemy.x+4, enemy.y, xs, ys, 3, 10))
+		local ys = rnd(4 - -4) + -4
+		local color = rnd({3, 11})
+		add(particles, particle(enemy.x+4, enemy.y, xs, ys, color, 10))
 	end
 end
 

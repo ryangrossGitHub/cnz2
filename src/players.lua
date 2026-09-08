@@ -2,25 +2,25 @@ player_move = false
 
 init_jenn_x = 45
 init_chad_x = 67
-init_player_y = 80
+init_player_y = 64
 
 camera_shake_offset = 0
-camera_shake_offset_amount = 2
+camera_shake_offset_amount = 1
 
 j = {
 	name = "jenn",
 	sprites = {
-		stand_pistol = 32,
-		move_pistol = 34,
-		stand_shoot_pistol = 36,
-		move_shoot_pistol = 38,
-		stand_shotgun = 40,
-		move_shotgun = 42,
-		stand_shoot_shotgun = 44,
-		move_shoot_shotgun = 46,
+		-- stand_pistol = 32,
+		-- move_pistol = 34,
+		-- stand_shoot_pistol = 36,
+		-- move_shoot_pistol = 38,
+		stand_shotgun = 8,
+		move_shotgun = 10,
+		stand_shoot_shotgun = 12,
+		move_shoot_shotgun = 14,
 		yeet = 96
 	},
-	sprite = 34, -- intial value
+	sprite = 10, -- intial value
 	yeet_frame_count = 0, 
 	yeet_frame_delay = 5,
 	flip_sprite = true, 
@@ -29,7 +29,7 @@ j = {
 	last_animation_frame_x = init_jenn_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 0, -- weapon: 0 pistol, 1 shotgun
+	weapon = 1, -- weapon: 0 pistol, 1 shotgun
 	weapon_delay = 2,
 	trigger = false -- trigger pressed,
 }
@@ -41,10 +41,10 @@ c = {
 		move_pistol = 2,
 		stand_shoot_pistol = 4,
 		move_shoot_pistol = 6,
-		stand_shotgun = 8,
-		move_shotgun = 10,
-		stand_shoot_shotgun = 12,
-		move_shoot_shotgun = 14,
+		-- stand_shotgun = 8,
+		-- move_shotgun = 10,
+		-- stand_shoot_shotgun = 12,
+		-- move_shoot_shotgun = 14,
 		yeet = 64
 	},
 	sprite = 2, -- intial value
@@ -71,7 +71,7 @@ p2 = c
 coop = false
 
 shotgun = {
-	delay = 20
+	delay = 8
 }
 
 pistol = {
@@ -274,9 +274,9 @@ function update_player_move(p, ctrl)
 		p.flip_sprite = false
 	end
  
-	if btn(2, ctrl) and p.y > flr(stage/9) * screen_size + 42 then
+	if btn(2, ctrl) and p.y > flr(stage/9) * screen_size + 26 then
 		p.y -= 1
-	elseif btn(3, ctrl) and p.y < flr(stage/9) * screen_size + 110 then
+	elseif btn(3, ctrl) and p.y < flr(stage/9) * screen_size + 96 then
 		p.y += 1
 	end
  

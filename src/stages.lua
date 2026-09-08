@@ -33,9 +33,9 @@ end
 
 stages = {
   { -- 1 COFFEE
-    enemy_spawn_count = 5,
-    enemy_speed = 0.3,
-    enemy_spawn_delay = 10
+    enemy_spawn_count = 50,
+    enemy_speed = 0.6,
+    enemy_spawn_delay = 20
   },
   { -- 2 COFFEE
     enemy_spawn_count = 50,
@@ -203,14 +203,14 @@ function update_start()
 end
 
 function draw_start()
-  rect(p1.x - 3, p1.y - 1, p1.x + 16, p1.y + 16, 8)
+  rect(p1.x - 3, p1.y - 1, p1.x + 16, p1.y + 32, 8)
   
   if coop then
-	  rect(p2.x - 3, p2.y - 1, p2.x + 16, p2.y + 16, 12)
+	  rect(p2.x - 3, p2.y - 1, p2.x + 16, p2.y + 32, 12)
   end
   
-  say(58,63, "⬆️    ONE PLAYER", 0, true)
-  say(58,73, "⬇️    TWO PLAYERS", 0, true)  
+  say(58,43, "⬆️    ONE PLAYER", 0, true)
+  say(58,53, "⬇️    TWO PLAYERS", 0, true)  
   say(58,110, "⬅️   JENN CHAD    ➡️", 0, true)
   say(58,120, "PRESS ❎/🅾️ TO START", 0, true)
 end

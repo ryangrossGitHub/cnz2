@@ -92,10 +92,6 @@ function say(x, y, msg, border, wide, bounded, color, background)
   end
 end
 
-function say2(name, message)
-  rectfill(camera_x, 0, camera_x + screen_size, 20, 0)
-end
-
 function ending_dialog()
   if end_dt_cnt < 16 then
     draw_boss(true)
