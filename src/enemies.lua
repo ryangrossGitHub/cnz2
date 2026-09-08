@@ -6,7 +6,7 @@ enemy_spawn_delay_count = 0
 
 function spawn_enemy(speed)
 	enemy = {
-		hide = false,
+		sprite_rotate = false,
 		sprite_number = 128,
 		speed = speed, -- movement speed
 		sprite_flip = true,
@@ -18,9 +18,9 @@ function spawn_enemy(speed)
 		animation_frame_delay = 7, -- animation frame delay
 		animation_frame_count = 0,
 		yeeted = false,
-		yeet_sprite = 174,
+		yeet_sprite = 136,
 		yeet_sprite_flip = false, --flip of yeeting player
-		yeet_animation_frame_delay = 10,
+		yeet_animation_frame_delay = 15,
 		yeet_animation_frame_count = 0
 	}
 	
@@ -46,7 +46,7 @@ function update_enemies()
 				enemy.death_animation_frame_count = 0
 			
 				if enemy.sprite_number == 134 then
-					enemy.sprite_number = 136
+					enemy.sprite_number = 168
 				end
 			end
 		elseif enemy.yeeted then
@@ -87,7 +87,10 @@ end
 
 function draw_enemies()
 	for enemy in all(enemies) do
-		if not enemy.hide then
+		if enemy.sprite_number == 136 or enemy.sprite_number == 168 then
+			-- wide instead of tall sprite
+			spr(enemy.sprite_number, enemy.x, enemy.y, 4, 2, enemy.sprite_flip, false)
+		else
 			spr(enemy.sprite_number, enemy.x, enemy.y, 2, 4, enemy.sprite_flip, false)
 		end
 	end
@@ -121,7 +124,7 @@ function enemy_die(enemy, fall, weapon)
 			enemy.sprite_number = 132
 		end
 	else
-		enemy.sprite_number = 136
+		enemy.sprite_number = 168
 	end
    
 	for i=1,40 do
@@ -133,24 +136,23 @@ function enemy_die(enemy, fall, weapon)
 end
 
 function yeet(enemy)
-	if enemy.x < camera_x or enemy.x > camera_x + screen_size - 16 then
+	if enemy.x < camera_x or enemy.x > camera_x + screen_size - 32 then
 		enemy_die(enemy, false, 0)
 		sfx(0)
 	else
 		if enemy.yeet_animation_frame_count < enemy.yeet_animation_frame_delay * 0.5 then
 			-- pickup animation
-			enemy.hide = true
-		else
-			-- throw animation
-			enemy.hide = false
 			enemy.sprite_number = enemy.yeet_sprite
-
 			if enemy.yeet_sprite_flip then
 				enemy.sprite_flip = true
-				enemy.x -= 5
 			else
 				enemy.sprite_flip = false
-				enemy.x += 5
+			end
+		else
+			if enemy.yeet_sprite_flip then
+				enemy.x -= 10
+			else
+				enemy.x += 10
 			end
 		end
 
