@@ -18,11 +18,12 @@ j = {
 		move_shotgun = 10,
 		stand_shoot_shotgun = 12,
 		move_shoot_shotgun = 14,
-		yeet = 96
+		yeet_pickup = 68,
+		yeet_throw = 70
 	},
 	sprite = 10, -- intial value
 	yeet_frame_count = 0, 
-	yeet_frame_delay = 5,
+	yeet_frame_delay = 10,
 	flip_sprite = true, 
 	x = init_jenn_x, 
 	y = init_player_y, 
@@ -30,7 +31,7 @@ j = {
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
 	weapon = 1, -- weapon: 0 pistol, 1 shotgun
-	weapon_delay = 2,
+	weapon_delay = 10,
 	trigger = false -- trigger pressed,
 }
 
@@ -45,11 +46,12 @@ c = {
 		-- move_shotgun = 10,
 		-- stand_shoot_shotgun = 12,
 		-- move_shoot_shotgun = 14,
-		yeet = 64
+		yeet_pickup = 64,
+		yeet_throw = 66
 	},
 	sprite = 2, -- intial value
 	yeet_frame_count = 0, 
-	yeet_frame_delay = 5, 
+	yeet_frame_delay = 10, 
 	flip_sprite = false, 
 	x = init_chad_x,
 	y = init_player_y, 
@@ -71,7 +73,7 @@ p2 = c
 coop = false
 
 shotgun = {
-	delay = 8
+	delay = 10
 }
 
 pistol = {
@@ -120,24 +122,25 @@ function closest_enemy()
 	-- neg = up, pos = down
 	local e_ydir = 0
 
-	local hbox = 4 -- hit box
+	local player_weapon_offset = 12
 
+	local hbox = 4 -- hit box
 	if p2.weapon == 1 then
-		hbox = 12
+		hbox = 8
 	end
  
 	for e in all(enemies) do
 		if not e.dead and e.x > camera_x + 5 and e.x < camera_x + screen_size - 5 then
 			-- if left or right then fire at closest enemy
 			-- else calculate whether there are more enemies above or below to dictate y movement
-			if (e.y > p2.y - hbox and e.y < p2.y + hbox) then
+			if (e.y > p2.y + player_weapon_offset - hbox and e.y < p2.y + player_weapon_offset + hbox) then
 				local dir = e.x - p2.x
 				local dif = abs(dir)
 				if dif < closest then
 					closest = dif
 					c_xdir = dir
 				end
-			elseif e.y < p2.y then
+			elseif e.y < p2.y + player_weapon_offset then
 				e_ydir -= 1
 			else
 				e_ydir += 1
@@ -212,17 +215,22 @@ function update_player_anims(p)
  	enemy_collision(p)
 
 	-- yeet
-	if p.sprite == p.sprites.yeet then
+	if p.sprite == p.sprites.yeet_pickup or p.sprite == p.sprites.yeet_throw then
  		p.yeet_frame_count += 1
  	
  		say(p.x,p.y, "YEEEEEET!")
  	
 		if p.yeet_frame_count >= p.yeet_frame_delay then
 			p.yeet_frame_count = 0
-			if p.weapon == 0 then
-				p.sprite = p.sprites.stand_pistol
-			elseif p.weapon == 1 then
-				p.sprite = p.sprites.stand_shotgun
+
+			if p.sprite == p.sprites.yeet_pickup then
+				p.sprite = p.sprites.yeet_throw
+			else
+				if p.weapon == 0 then
+					p.sprite = p.sprites.stand_pistol
+				elseif p.weapon == 1 then
+					p.sprite = p.sprites.stand_shotgun
+				end
 			end
 		end
 
@@ -253,7 +261,7 @@ function enemy_collision(p)
 	
 	for e in all(enemies) do
 		if not e.dead and not e.yeeted and e.x > p.x-8 and  e.x < p.x+8 and e.y > p.y-8 and e.y < p.y+8 then
-			p.sprite = p.sprites.yeet
+			p.sprite = p.sprites.yeet_pickup
 			e.yeeted = true
 			e.yeet_sprite_flip = p.flip_sprite
 		end
@@ -261,7 +269,7 @@ function enemy_collision(p)
 end
 
 function update_player_move(p, ctrl)
-	if p.sprite == p.sprites.yeet then
+	if p.sprite == p.sprites.yeet_pickup or p.sprite == p.sprites.yeet_throw then
 		return -- early exit
 	end
 

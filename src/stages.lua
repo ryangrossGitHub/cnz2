@@ -158,6 +158,7 @@ function update_stage_trans()
   else
     stage_trans = false
     enemies = {} -- clear
+    particles = {} -- clear
     if stage < 16 then
       stage_transfer_count = 0
       e_spawn = true

@@ -6,7 +6,6 @@ enemy_spawn_delay_count = 0
 
 function spawn_enemy(speed)
 	enemy = {
-		sprite_rotate = false,
 		sprite_number = 128,
 		speed = speed, -- movement speed
 		sprite_flip = true,
@@ -87,9 +86,14 @@ end
 
 function draw_enemies()
 	for enemy in all(enemies) do
-		if enemy.sprite_number == 136 or enemy.sprite_number == 168 then
+		if enemy.sprite_number == -1 then
+			-- shotgun death, don't draw
+		elseif enemy.sprite_number == 136 then
 			-- wide instead of tall sprite
 			spr(enemy.sprite_number, enemy.x, enemy.y, 4, 2, enemy.sprite_flip, false)
+		elseif enemy.sprite_number == 168 then
+			-- wide instead of tall sprite and need to lower it
+			spr(enemy.sprite_number, enemy.x, enemy.y + 16, 4, 2, enemy.sprite_flip, false)
 		else
 			spr(enemy.sprite_number, enemy.x, enemy.y, 2, 4, enemy.sprite_flip, false)
 		end
@@ -107,37 +111,47 @@ function enemy_coll_detect(player)
 		if not enemy.dead and not enemy.yeeted
 		and ((enemy.x - 2 < player.x and player.flip_sprite) or (enemy.x + 2 > player.x and not player.flip_sprite)) 
 		and (enemy.y > player.y - hbox + 12 and enemy.y < player.y + hbox + 8) then
-			enemy_die(enemy, true, player.weapon)
+			enemy_die(enemy, player.weapon, player.flip_sprite, false)
 			return -- 1 at a time
 		end
 	end
 end
 
-function enemy_die(enemy, fall, weapon)
+function enemy_die(enemy, weapon, flip, rotate)
  	enemy.dead = true
 	enemy.yeet = false
 
-	if fall then
-		if weapon == 0 then
-			enemy.sprite_number = 134
-		elseif weapon == 1 then
-			enemy.sprite_number = 132
-		end
-	else
-		enemy.sprite_number = 168
+	if weapon == 0 then
+		enemy.sprite_number = 134
+	elseif weapon == 1 then
+		enemy.sprite_number = -1
 	end
    
-	for i=1,40 do
-		local xs = rnd(3 - 0) + 0
+	local particle_count = 10
+
+	if weapon == 1 then
+		particle_count = 50
+	end
+
+	for i=1,particle_count do
+		local xs = rnd(6)
+		if flip then
+			xs = -xs
+		end
 		local ys = rnd(4 - -4) + -4
 		local color = rnd({3, 11})
-		add(particles, particle(enemy.x+4, enemy.y, xs, ys, color, 10))
+
+		if rotate and flip then
+			add(particles, particle(enemy.x+20, enemy.y, xs, ys, color, 7))
+		else
+			add(particles, particle(enemy.x+4, enemy.y, xs, ys, color, 7))
+		end
 	end
 end
 
 function yeet(enemy)
 	if enemy.x < camera_x or enemy.x > camera_x + screen_size - 32 then
-		enemy_die(enemy, false, 0)
+		enemy_die(enemy, 1, not enemy.sprite_flip, true)
 		sfx(0)
 	else
 		if enemy.yeet_animation_frame_count < enemy.yeet_animation_frame_delay * 0.5 then

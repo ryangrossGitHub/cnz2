@@ -83,9 +83,8 @@ function _draw()
 		camera_x -= 1
 	end
 
-	draw_enemies()
 	draw_particles(particles)
-
+	draw_enemies()
 	
 	say(screen_size * 1 + 58, 22, "@ da club", 0, false, false, 14, 0)
   

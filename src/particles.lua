@@ -15,14 +15,12 @@ end
 
 function draw_particles(particles)
 	for particle in all(particles) do
-		particle.y += particle.y_speed
-		particle.x += particle.x_speed
-		particle.life -= 1
-
 		if particle.life > 0 then
-		 pset(particle.x, particle.y, particle.color)
-		else
-	  del(particles, particle)
+			particle.y += particle.y_speed
+			particle.x += particle.x_speed
+			particle.life -= 1
 		end
+
+		pset(particle.x, particle.y, particle.color)
 	end
 end
