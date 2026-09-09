@@ -19,7 +19,7 @@ function spawn_enemy(speed)
 		yeeted = false,
 		yeet_sprite = 136,
 		yeet_sprite_flip = false, --flip of yeeting player
-		yeet_animation_frame_delay = 15,
+		yeet_animation_frame_delay = 7,
 		yeet_animation_frame_count = 0
 	}
 	
@@ -158,8 +158,10 @@ function yeet(enemy)
 			-- pickup animation
 			enemy.sprite_number = enemy.yeet_sprite
 			if enemy.yeet_sprite_flip then
+				enemy.x += 2
 				enemy.sprite_flip = true
 			else
+				enemy.x -= 2
 				enemy.sprite_flip = false
 			end
 		else
