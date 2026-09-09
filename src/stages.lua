@@ -4,6 +4,9 @@ stage_transfer_count = 0
 stage_transfer_total = 128 -- stage trans total 
 camera_x = 0
 camera_y = 0
+intro_count = 0
+intro_time = 60 * 5 -- 7 seconds
+intro = false
 
 function switch_to_level(lvl)
   if lvl == 2 then
@@ -32,15 +35,17 @@ end
 
 
 stages = {
-  { -- 1 COFFEE
-    enemy_spawn_count = 50,
-    enemy_speed = 0.6,
-    enemy_spawn_delay = 20
+  { -- 1 START
+    enemy_spawn_count = 0,
+    enemy_speed = 0.5,
+    enemy_spawn_delay = 20,
   },
-  { -- 2 COFFEE
+  { -- 2 CLUB
     enemy_spawn_count = 50,
-    enemy_speed = 0.3,
-    enemy_spawn_delay = 9
+    enemy_speed = 0.5,
+    enemy_spawn_delay = 20,
+    enemy_spawn_initial_delay = 5 * 60,
+    enemy_spawn_initial_delay_count = 0
   },
   { -- 3 PARKING
     enemy_spawn_count = 50,
@@ -123,10 +128,12 @@ function load_stage(n)
   if n == 0 then
     load_start()
   elseif n == 1 then
-    -- load("cnz2s3.p8")
     e_spawn = true
     player_move = true
   else
+    if n == 2 then
+      music(0)
+    end
     enemey_spawn_stage_count = 0
     
     -- 8 to 9 is transition inside
@@ -198,7 +205,9 @@ function update_start()
  end
  
   if btnp(4) or btnp(5) then
-    load_stage(1)
+    intro = true
+    run_intro()
+    music(-1)
     printh("GAME START", log_file)
   end
 end
@@ -214,4 +223,13 @@ function draw_start()
   say(58,53, "⬇️    TWO PLAYERS", 0, true)  
   say(58,110, "⬅️   JENN CHAD    ➡️", 0, true)
   say(58,120, "PRESS ❎/🅾️ TO START", 0, true)
+end
+
+function run_intro()
+  if intro_count < intro_time then
+    intro_count += 1
+  else
+    intro = false
+    load_stage(1)
+  end
 end
