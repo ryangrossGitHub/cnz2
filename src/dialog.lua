@@ -123,7 +123,7 @@ end
 
 function draw_trans_dialog()
   if stage == 2 then --CLUB
-    say(j.x, j.y, "I HATE HOLLOWEEN, IT'S A HOLIDAY FOR FREAKS", 1, false, true)
+    say(j.x, j.y, "I HATE HOLLOWEEN, BUNCH OF FREAKS", 1, false, true)
   elseif stage == 3 then --COFFEE
     say(j.x, j.y, "THE VIRUS SPREADS THROUGH WATER, GOOD THING I ONLY DRINK COFFEE", 1, false, true)
   elseif stage == 4 then --PARKING

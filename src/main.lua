@@ -23,8 +23,7 @@ function _update()
 		if stages[stage].enemy_spawn_initial_delay and 
 			stages[stage].enemy_spawn_initial_delay_count <  stages[stage].enemy_spawn_initial_delay then
 			
-				stages[stage].enemy_spawn_initial_delay_count += 1
-			return -- early exit
+			stages[stage].enemy_spawn_initial_delay_count += 1
 		elseif stages[stage].enemy_spawn_count > enemey_spawn_stage_count then
 			enemy_spawn_delay_count += 1
 				
@@ -88,11 +87,11 @@ function _draw()
 		
 		run_intro()
 	else
+		map(0,0)
 		if stage == 0 then
 			draw_start()
 			say(58,22,"cOPS yEET zOMBIES ii ", 0, true)
 		else
-			map(0,0)
 			say(102, 22, "da club", 0, false, false, 14, 0)
 			if stage == 16 and stage_trans == false then
 				ending_dialog()
