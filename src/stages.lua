@@ -44,7 +44,7 @@ stages = {
     enemy_spawn_count = 50,
     enemy_speed = 0.5,
     enemy_spawn_delay = 20,
-    enemy_spawn_initial_delay = 5 * 60,
+    enemy_spawn_initial_delay = 3 * 60,
     enemy_spawn_initial_delay_count = 0
   },
   { -- 3 PARKING

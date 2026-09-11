@@ -120,6 +120,8 @@ function _draw()
 		spr(p1.sprite, p1.x, p1.y, 2, 4, p1.flip_sprite, false)
 		print("p1", p1.x - 3, p1.y - 7, 8)
 		spr(p2.sprite, p2.x, p2.y, 2, 4, p2.flip_sprite, false)
+
+		draw_extras()
 	
 		local p2_disp = "cp"
 		if coop then
