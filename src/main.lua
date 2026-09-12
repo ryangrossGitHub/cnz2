@@ -92,10 +92,11 @@ function _draw()
 			draw_start()
 			say(58,22,"cOPS yEET zOMBIES ii ", 0, true)
 		else
-			say(102, 22, "da club", 0, false, false, 14, 0)
+			say(98, 22, "da club", 0, false, false, 14, 0)
 			if stage == 16 and stage_trans == false then
 				ending_dialog()
 			end
+			draw_kill_count()
 		end
 
 		local s = stages[stage]
@@ -113,6 +114,9 @@ function _draw()
 		end
 
 		draw_particles(particles)
+
+		draw_extras("back")
+
 		draw_enemies()
 		
 		-- say(screen_size * 1 + 58, 22, "@ da club", 0, false, false, 14, 0)
@@ -121,7 +125,7 @@ function _draw()
 		print("p1", p1.x - 3, p1.y - 7, 8)
 		spr(p2.sprite, p2.x, p2.y, 2, 4, p2.flip_sprite, false)
 
-		draw_extras()
+		draw_extras("front")
 	
 		local p2_disp = "cp"
 		if coop then

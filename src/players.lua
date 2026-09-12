@@ -7,6 +7,8 @@ init_player_y = 64
 camera_shake_offset = 0
 camera_shake_offset_amount = 1
 
+bot_nerf_multiplier = 1.5 
+
 j = {
 	name = "jenn",
 	sprites = {
@@ -32,7 +34,8 @@ j = {
 	animation_frame_delay = 5, 
 	weapon = 1, -- weapon: 0 pistol, 1 shotgun
 	weapon_delay = 10,
-	trigger = false -- trigger pressed,
+	trigger = false, -- trigger pressed,
+	kill_count = 0
 }
 
 c = {
@@ -60,7 +63,8 @@ c = {
 	animation_frame_delay = 5, 
 	weapon = 0, -- weapon: 0 pistol, 1 shotgun
 	weapon_delay = 2,
-	trigger = false -- trigger pressed
+	trigger = false, -- trigger pressed
+	kill_count = 0
 }
 
 boss = {
@@ -73,21 +77,50 @@ p2 = c
 coop = false
 
 shotgun = {
-	delay = 10
+	delay = 10,
+	player_response_rate = 7 -- used to nerf bot reaction time
 }
 
 pistol = {
-	delay = 2
+	delay = 2,
+	player_response_rate = 14 -- used to nerf bot reaction time
 }
 
 function update_p2()
 	enemy_collision(p2)
 
-	-- Bot gets better as the game goes on
-	if rnd(16) > stage + 1 then
+	-- Ensure player gets first shots
+	if p1.kill_count < 5 then
 		return -- early exit
 	end
+
+	-- Adjust bot reaction time based on player kill count in comparison to bot kill count
+	local player_bot_kill_ratio = flr(p1.kill_count / (p2.kill_count + 1)) -- +1 to avoid division by zero
+	local new_mult = 0
 	
+	if p2.weapon == 1 then
+		new_mult = shotgun.player_response_rate * player_bot_kill_ratio
+		if new_mult > 16 then
+			new_mult = 16
+		elseif new_mult < 1 then
+			new_mult = 1
+		end
+	elseif p2.weapon == 0 then
+		new_mult = pistol.player_response_rate * player_bot_kill_ratio
+		if new_mult > 16 then
+			new_mult = 16
+		elseif new_mult < 3 then
+			new_mult = 3
+		end
+	end
+
+	-- Determines if bot reacts this frame 
+	if p2.weapon == 1 and rnd(16) > new_mult then
+		return -- early exit
+	elseif p2.weapon == 0 and rnd(16) > new_mult then
+		return -- early exit
+	end
+
 	local c,y = closest_enemy()
  	if c then
 		if c < 0 then
@@ -264,6 +297,7 @@ function enemy_collision(p)
 			p.sprite = p.sprites.yeet_pickup
 			e.yeeted = true
 			e.yeet_sprite_flip = p.flip_sprite
+			p.kill_count += 1
 		end
 	end 
 end
@@ -331,4 +365,11 @@ function update_player_move(p, ctrl)
  	else
   		p.trigger = false
  	end
+end
+
+function draw_kill_count()
+	spr(j.sprites.stand_shotgun, camera_x + 5, camera_y + 3, 2, 2, false, false)
+	print(j.kill_count, camera_x + 16, camera_y + 8, 11)
+	spr(c.sprites.yeet_throw, camera_x + screen_size - 20, camera_y + 3, 2, 2, true, false)
+	print(c.kill_count, camera_x + screen_size - 27, camera_y + 8, 11)
 end

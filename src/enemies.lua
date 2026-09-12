@@ -112,6 +112,7 @@ function enemy_coll_detect(player)
 		and ((enemy.x - 2 < player.x and player.flip_sprite) or (enemy.x + 2 > player.x and not player.flip_sprite)) 
 		and (enemy.y > player.y - hbox + 12 and enemy.y < player.y + hbox + 8) then
 			enemy_die(enemy, player.weapon, player.flip_sprite, false)
+			player.kill_count += 1
 			return -- 1 at a time
 		end
 	end
