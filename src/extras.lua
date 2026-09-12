@@ -23,14 +23,12 @@ function draw_extras(side)
 
     -- 2. Draw your sprite normally
     if side == "front" then
-        spr(extras_sprites[3], screen_size * 1 + 1, 39, 2, 4, extras_flip, false)
+        spr(extras_sprites[2], screen_size * 1 + 1, 39, 2, 4, extras_flip, false)
         spr(extras_sprites[3], screen_size * 1 + 25, 48, 2, 4, extras_flip, false)
-        spr(extras_sprites[2], screen_size * 1 + 37, 70, 2, 4, extras_flip, false)
-        spr(extras_sprites[3], screen_size * 1 + 5, 84, 2, 4, extras_flip, false)
-        spr(extras_sprites[1], screen_size * 1 + 43, 92, 2, 4, extras_flip, false)
+        spr(extras_sprites[1], screen_size * 1 + 5, 84, 2, 4, extras_flip, false)
+        spr(extras_sprites[3], screen_size * 1 + 43, 92, 2, 4, extras_flip, false)
 
         spr(extras_sprites[2], screen_size * 1 + 18, 48, 2, 4, extras_flip, false)
-        spr(extras_sprites[3], screen_size * 1 + 17, 92, 2, 4, extras_flip, false)
         spr(extras_sprites[1], screen_size * 1 + 27, 95, 2, 4, extras_flip, false)
 
         spr(extras_sprites[3], screen_size * 1 + 110, 39, 2, 4, extras_flip, false)
@@ -45,7 +43,6 @@ function draw_extras(side)
         spr(extras_sprites[2], screen_size * 1 + 94, 48, 2, 4, extras_flip, false)
         spr(extras_sprites[3], screen_size * 1 + 87, 95, 2, 4, extras_flip, false)
     elseif side == "back" then
-        spr(extras_sprites[1], screen_size * 1 + 10, 32, 2, 4, extras_flip, false)
         spr(extras_sprites[3], screen_size * 1 + 25, 30, 2, 4, extras_flip, false)
         spr(extras_sprites[1], screen_size * 1 + 45, 30, 2, 4, extras_flip, false)
         spr(extras_sprites[3], screen_size * 1 + 65, 31, 2, 4, extras_flip, false)
