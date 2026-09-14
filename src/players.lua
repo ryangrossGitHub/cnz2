@@ -14,8 +14,7 @@ j = {
 	sprites = {
 		stand = 8,
 		move = 10,
-		yeet_pickup = 68,
-		yeet_throw = 70
+		yeet_pickup = 12
 	},
 	sprite = 10, -- intial value
 	yeet_frame_count = 0, 
@@ -26,7 +25,7 @@ j = {
 	last_animation_frame_x = init_jenn_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 2, -- weapon: 0 pistol, 1 shotgun, 2 oozie
+	weapon = 1, -- weapon: 0 pistol, 1 shotgun, 2 oozie
 	weapon_delay = 0,
 	trigger = false, -- trigger pressed,
 	kill_count = 0
@@ -37,8 +36,7 @@ c = {
 	sprites = {
 		stand = 0,
 		move = 2,
-		yeet_pickup = 64,
-		yeet_throw = 66
+		yeet_pickup = 14
 	},
 	sprite = 2, -- intial value
 	yeet_frame_count = 0, 
@@ -49,7 +47,7 @@ c = {
 	last_animation_frame_x = init_chad_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 2, -- weapon: 0 pistol, 1 shotgun, 2 oozie
+	weapon = 1, -- weapon: 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle
 	weapon_delay = 0,
 	trigger = false, -- trigger pressed
 	kill_count = 0
@@ -65,15 +63,19 @@ p2 = c
 coop = false
 
 shotgun = {
-	delay = 10
+	delay = 15
 }
 
 pistol = {
-	delay = 2
+	delay = 5
 }
 
 oozie = {
 	delay = 0
+}
+
+burst_rifle = {
+	delay = 3
 }
 
 function update_p2()
@@ -168,7 +170,7 @@ function update_player_anims(p)
  	enemy_collision(p)
 
 	-- yeet
-	if p.sprite == p.sprites.yeet_pickup or p.sprite == p.sprites.yeet_throw then
+	if p.sprite == p.sprites.yeet_pickup then
  		p.yeet_frame_count += 1
  	
  		say(p.x,p.y, "YEEEEEET!")
@@ -177,9 +179,7 @@ function update_player_anims(p)
 			p.yeet_frame_count = 0
 
 			if p.sprite == p.sprites.yeet_pickup then
-				p.sprite = p.sprites.yeet_throw
-			else
-				p.sprite = p.sprites.stand
+				p.sprite = p.sprites.move
 			end
 		end
  	end
@@ -209,7 +209,7 @@ function enemy_collision(p)
 end
 
 function update_player_move(p, ctrl)
-	if p.sprite == p.sprites.yeet_pickup or p.sprite == p.sprites.yeet_throw then
+	if p.sprite == p.sprites.yeet_pickup then
 		return -- early exit
 	end
 
@@ -234,17 +234,21 @@ function update_player_move(p, ctrl)
  	else
   		p.trigger = false
  	end
+
+	if p.weapon == 3 and p.weapon_delay > 0 then
+		handle_player_fire(p)
+	end
 end
 
 function draw_kill_count()
 	spr(j.sprites.stand, camera_x + 5, camera_y + 3, 2, 2, false, false)
 	print(j.kill_count, camera_x + 16, camera_y + 8, 11)
-	spr(c.sprites.yeet_throw, camera_x + screen_size - 20, camera_y + 3, 2, 2, true, false)
+	spr(c.sprites.move, camera_x + screen_size - 20, camera_y + 3, 2, 2, true, false)
 	print(c.kill_count, camera_x + screen_size - 27, camera_y + 8, 11)
 end
 
 function handle_player_fire(p)
-	if p.weapon == 0 then
+	if p.weapon == 0 or p.weapon == 3 then
 		sfx(0)
 		enemy_coll_detect(p)
 
@@ -305,6 +309,10 @@ function handle_player_fire(p)
 end
 
 function draw_player_weapon(p)
+	if p.sprite == p.sprites.yeet_pickup then
+		return -- early exit
+	end
+
 	if p.weapon == 0 then
 		if p.flip_sprite then
 			spr(4, p.x - 1, p.y + 12, 1, 1, true, false)
@@ -323,6 +331,12 @@ function draw_player_weapon(p)
 		else
 			spr(5, p.x + 9, p.y + 12, 1, 1, false, false)
 		end
+	elseif p.weapon == 3 then
+		if p.flip_sprite then
+			spr(36, p.x - 8, p.y + 12, 2, 1, true, false)
+		else
+			spr(36, p.x + 8, p.y + 12, 2, 1, false, false)
+		end
 	end
 end
 
@@ -334,6 +348,9 @@ function handle_player_trigger(p)
 				handle_player_fire(p)
 			elseif p.weapon == 1 and p.weapon_delay == 0 then
 				p.weapon_delay = shotgun.delay
+				handle_player_fire(p)
+			elseif p.weapon == 3 and p.weapon_delay == 0 then
+				p.weapon_delay = burst_rifle.delay
 				handle_player_fire(p)
 			end
 		end
