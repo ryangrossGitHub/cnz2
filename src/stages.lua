@@ -132,7 +132,7 @@ function load_stage(n)
     player_move = true
   else
     if n == 2 then
-      music(0)
+      music(24)
     end
     enemey_spawn_stage_count = 0
     

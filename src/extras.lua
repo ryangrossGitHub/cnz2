@@ -1,7 +1,7 @@
 extras_sprites = {72, 74, 76, 78}
 extras_flip = false
 extras_flip_count = 0
-extras_flip_delay = 13
+extras_flip_delay = 19
 
 function draw_extras(side)
     if extras_flip_count < extras_flip_delay then

@@ -12,14 +12,8 @@ bot_nerf_multiplier = 1.5
 j = {
 	name = "jenn",
 	sprites = {
-		-- stand_pistol = 32,
-		-- move_pistol = 34,
-		-- stand_shoot_pistol = 36,
-		-- move_shoot_pistol = 38,
-		stand_shotgun = 8,
-		move_shotgun = 10,
-		stand_shoot_shotgun = 12,
-		move_shoot_shotgun = 14,
+		stand = 8,
+		move = 10,
 		yeet_pickup = 68,
 		yeet_throw = 70
 	},
@@ -32,8 +26,8 @@ j = {
 	last_animation_frame_x = init_jenn_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 1, -- weapon: 0 pistol, 1 shotgun
-	weapon_delay = 10,
+	weapon = 2, -- weapon: 0 pistol, 1 shotgun, 2 oozie
+	weapon_delay = 0,
 	trigger = false, -- trigger pressed,
 	kill_count = 0
 }
@@ -41,14 +35,8 @@ j = {
 c = {
 	name = "chad",
 	sprites = {
-		stand_pistol = 0,
-		move_pistol = 2,
-		stand_shoot_pistol = 4,
-		move_shoot_pistol = 6,
-		-- stand_shotgun = 8,
-		-- move_shotgun = 10,
-		-- stand_shoot_shotgun = 12,
-		-- move_shoot_shotgun = 14,
+		stand = 0,
+		move = 2,
 		yeet_pickup = 64,
 		yeet_throw = 66
 	},
@@ -61,8 +49,8 @@ c = {
 	last_animation_frame_x = init_chad_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 0, -- weapon: 0 pistol, 1 shotgun
-	weapon_delay = 2,
+	weapon = 2, -- weapon: 0 pistol, 1 shotgun, 2 oozie
+	weapon_delay = 0,
 	trigger = false, -- trigger pressed
 	kill_count = 0
 }
@@ -77,13 +65,15 @@ p2 = c
 coop = false
 
 shotgun = {
-	delay = 10,
-	player_response_rate = 7 -- used to nerf bot reaction time
+	delay = 10
 }
 
 pistol = {
-	delay = 2,
-	player_response_rate = 14 -- used to nerf bot reaction time
+	delay = 2
+}
+
+oozie = {
+	delay = 0
 }
 
 function update_p2()
@@ -91,33 +81,6 @@ function update_p2()
 
 	-- Ensure player gets first shots
 	if p1.kill_count < 5 then
-		return -- early exit
-	end
-
-	-- Adjust bot reaction time based on player kill count in comparison to bot kill count
-	local player_bot_kill_ratio = flr(p1.kill_count / (p2.kill_count + 1)) -- +1 to avoid division by zero
-	local new_mult = 0
-	
-	if p2.weapon == 1 then
-		new_mult = shotgun.player_response_rate * player_bot_kill_ratio
-		if new_mult > 16 then
-			new_mult = 16
-		elseif new_mult < 1 then
-			new_mult = 1
-		end
-	elseif p2.weapon == 0 then
-		new_mult = pistol.player_response_rate * player_bot_kill_ratio
-		if new_mult > 16 then
-			new_mult = 16
-		elseif new_mult < 3 then
-			new_mult = 3
-		end
-	end
-
-	-- Determines if bot reacts this frame 
-	if p2.weapon == 1 and rnd(16) > new_mult then
-		return -- early exit
-	elseif p2.weapon == 0 and rnd(16) > new_mult then
 		return -- early exit
 	end
 
@@ -135,7 +98,7 @@ function update_p2()
 	  		end
 		end
 
-		p2_fire()
+		handle_player_trigger(p2)
 	end
 	
 	if y < 0 then
@@ -158,7 +121,7 @@ function closest_enemy()
 	local player_weapon_offset = 12
 
 	local hbox = 4 -- hit box
-	if p2.weapon == 1 then
+	if p2.weapon == 1 or p2.weapon == 2 then
 		hbox = 8
 	end
  
@@ -188,45 +151,6 @@ function closest_enemy()
 	end
 end
 
-function p2_fire()
-	if p2.weapon == 0 then
-		if p2.weapon_delay == 0 then
-			p2.weapon_delay = pistol.delay
-
-			if p2.sprite == p2.sprites.stand_pistol then
-				p2.sprite = p2.sprites.stand_shoot_pistol
-			elseif p2.sprite == p2.sprites.move_pistol then
-				p2.sprite = p2.sprites.move_shoot_pistol
-			end
-
-			sfx(0)
-			enemy_coll_detect(p2)
-		end
-	elseif p2.weapon == 1 then
-		if p2.weapon_delay == 0 then
-			p2.weapon_delay = shotgun.delay
-
-			if p2.sprite == p2.sprites.stand_shotgun then
-				p2.sprite = p2.sprites.stand_shoot_shotgun
-			elseif p2.sprite == p2.sprites.move_shotgun then
-				p2.sprite = p2.sprites.move_shoot_shotgun
-			end
-
-			sfx(1)
-
-			if p2.flip_sprite then
-				camera_x -= camera_shake_offset_amount
-				camera_shake_offset -= camera_shake_offset_amount
-			else
-				camera_x += camera_shake_offset_amount
-				camera_shake_offset += camera_shake_offset_amount
-			end
-
-			enemy_coll_detect(p2)
-		end
-	end
-end
-
 function update_player_anims(p)
 	-- leg movement
  	if abs(p.x - p.last_animation_frame_x) > p.animation_frame_delay or abs(p.y - p.last_animation_frame_y) > p.animation_frame_delay then
@@ -234,14 +158,10 @@ function update_player_anims(p)
   		p.last_animation_frame_y = p.y
   
   		-- get next animation frame
-  		if p.sprite == p.sprites.move_pistol then
-  			p.sprite = p.sprites.stand_pistol
-  		elseif p.sprite == p.sprites.stand_pistol then
-			p.sprite = p.sprites.move_pistol
-		elseif p.sprite == p.sprites.move_shotgun then
-  			p.sprite = p.sprites.stand_shotgun
-  		elseif p.sprite == p.sprites.stand_shotgun then
-			p.sprite = p.sprites.move_shotgun
+  		if p.sprite == p.sprites.move then
+  			p.sprite = p.sprites.stand
+  		elseif p.sprite == p.sprites.stand then
+			p.sprite = p.sprites.move
 		end
  	end
  
@@ -259,23 +179,9 @@ function update_player_anims(p)
 			if p.sprite == p.sprites.yeet_pickup then
 				p.sprite = p.sprites.yeet_throw
 			else
-				if p.weapon == 0 then
-					p.sprite = p.sprites.stand_pistol
-				elseif p.weapon == 1 then
-					p.sprite = p.sprites.stand_shotgun
-				end
+				p.sprite = p.sprites.stand
 			end
 		end
-
-	-- weapon recoil
- 	elseif p.sprite == p.sprites.stand_shoot_pistol and p.weapon_delay == 0 then
-		p.sprite = p.sprites.stand_pistol
-	elseif p.sprite == p.sprites.move_shoot_pistol and p.weapon_delay == 0 then
-		p.sprite = p.sprites.move_pistol
-	elseif p.sprite == p.sprites.stand_shoot_shotgun and p.weapon_delay == 0 then
-		p.sprite = p.sprites.stand_shotgun
-	elseif p.sprite == p.sprites.move_shoot_shotgun and p.weapon_delay == 0 then
-		p.sprite = p.sprites.move_shotgun
  	end
 end
 
@@ -323,44 +229,7 @@ function update_player_move(p, ctrl)
 	end
  
 	if btn(❎, ctrl) or btn(🅾️, ctrl) then
-		if not p.trigger and p.sprite != p.sprites.yeet then
-			if p.weapon == 0 then
-				if p.weapon_delay == 0 then
-					p.weapon_delay = pistol.delay
-
-					if p.sprite == p.sprites.stand_pistol then
-						p.sprite = p.sprites.stand_shoot_pistol
-					elseif p.sprite == p.sprites.move_pistol then
-						p.sprite = p.sprites.move_shoot_pistol
-					end
-
-					sfx(0)
-					enemy_coll_detect(p)
-				end
-			elseif p.weapon == 1 then
-				if p.weapon_delay == 0 then
-					p.weapon_delay = shotgun.delay
-
-					if p.sprite == p.sprites.stand_shotgun then
-						p.sprite = p.sprites.stand_shoot_shotgun
-					elseif p.sprite == p.sprites.move_shotgun then
-						p.sprite = p.sprites.move_shoot_shotgun
-					end
-
-					sfx(1)
-					enemy_coll_detect(p)
-
-					if p.flip_sprite then
-						camera_x -= camera_shake_offset_amount
-						camera_shake_offset -= camera_shake_offset_amount
-					else
-						camera_x += camera_shake_offset_amount
-						camera_shake_offset += camera_shake_offset_amount
-					end
-				end
-			end
-		end
-  		
+		handle_player_trigger(p)
 		p.trigger = true
  	else
   		p.trigger = false
@@ -368,8 +237,110 @@ function update_player_move(p, ctrl)
 end
 
 function draw_kill_count()
-	spr(j.sprites.stand_shotgun, camera_x + 5, camera_y + 3, 2, 2, false, false)
+	spr(j.sprites.stand, camera_x + 5, camera_y + 3, 2, 2, false, false)
 	print(j.kill_count, camera_x + 16, camera_y + 8, 11)
 	spr(c.sprites.yeet_throw, camera_x + screen_size - 20, camera_y + 3, 2, 2, true, false)
 	print(c.kill_count, camera_x + screen_size - 27, camera_y + 8, 11)
+end
+
+function handle_player_fire(p)
+	if p.weapon == 0 then
+		sfx(0)
+		enemy_coll_detect(p)
+
+		if p.flip_sprite then
+			p.x += 1
+		else
+			p.x -= 1
+		end
+
+		local xs = 15
+		if p.flip_sprite then
+			xs = -xs
+		end
+		add(particles, particle(p.x+4, p.y + 15, xs, 0, 0, 7))
+	elseif p.weapon == 1 then
+		if p.flip_sprite then
+			p.x += 3
+		else
+			p.x -= 3
+		end
+
+		sfx(1)
+		enemy_coll_detect(p)
+
+		for i=1,10 do
+			local ys = rnd(1 - -1) + -1
+			local xs = 12 + rnd(3)
+			if p.flip_sprite then
+				xs = -xs
+			end
+			add(particles, particle(p.x+4, p.y + 15, xs, ys, 0, 14))
+		end
+
+		if p.flip_sprite then
+			camera_x -= camera_shake_offset_amount
+			camera_shake_offset -= camera_shake_offset_amount
+		else
+			camera_x += camera_shake_offset_amount
+			camera_shake_offset += camera_shake_offset_amount
+		end
+	elseif p.weapon == 2 then
+		if p.flip_sprite then
+			p.x += 1
+		else
+			p.x -= 1
+		end
+
+		sfx(0)
+		enemy_coll_detect(p)
+
+		local ys = rnd(0.5 - -0.5) + -0.5
+		local xs = 14 + rnd(1)
+		if p.flip_sprite then
+			xs = -xs
+		end
+		add(particles, particle(p.x+4, p.y + 15, xs, ys, 0, 14))
+	end
+end
+
+function draw_player_weapon(p)
+	if p.weapon == 0 then
+		if p.flip_sprite then
+			spr(4, p.x - 1, p.y + 12, 1, 1, true, false)
+		else
+			spr(4, p.x + 9, p.y + 12, 1, 1, false, false)
+		end
+	elseif p.weapon == 1 then
+		if p.flip_sprite then
+			spr(20, p.x - 2, p.y + 11, 1, 1, true, false)
+		else
+			spr(20, p.x + 10, p.y + 11, 1, 1, false, false)
+		end
+	elseif p.weapon == 2 then
+		if p.flip_sprite then
+			spr(5, p.x - 1, p.y + 12, 1, 1, true, false)
+		else
+			spr(5, p.x + 9, p.y + 12, 1, 1, false, false)
+		end
+	end
+end
+
+function handle_player_trigger(p)
+	if p.sprite != p.sprites.yeet then
+		if not p.trigger then
+			if p.weapon == 0 and p.weapon_delay == 0 then
+				p.weapon_delay = pistol.delay
+				handle_player_fire(p)
+			elseif p.weapon == 1 and p.weapon_delay == 0 then
+				p.weapon_delay = shotgun.delay
+				handle_player_fire(p)
+			end
+		end
+
+		if p.weapon == 2 then
+			p.weapon_delay = 0
+			handle_player_fire(p)
+		end
+	end
 end

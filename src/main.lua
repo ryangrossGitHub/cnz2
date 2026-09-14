@@ -10,7 +10,7 @@ function _init()
 	palt(13, true) -- Transparent Color Is Purple (13)
 	palt(0, false)
 	load_stage(0)
-	music(0)
+	music(24)
 end
 
 function _update()
@@ -122,18 +122,21 @@ function _draw()
 		draw_enemies()
 		
 		-- say(screen_size * 1 + 58, 22, "@ da club", 0, false, false, 14, 0)
-	
-		spr(p1.sprite, p1.x, p1.y, 2, 4, p1.flip_sprite, false)
-		print("p1", p1.x - 3, p1.y - 7, 8)
-		spr(p2.sprite, p2.x, p2.y, 2, 4, p2.flip_sprite, false)
 
-		draw_extras("front")
-	
+		draw_player_weapon(p2)
+		spr(p2.sprite, p2.x, p2.y, 2, 4, p2.flip_sprite, false)
 		local p2_disp = "cp"
 		if coop then
 			p2_disp = "p2"
 		end
 		print(p2_disp, p2.x - 3, p2.y - 7, 12)
+
+		-- Draw player 1 after player 2 so that player 1 is in front of player 2
+		draw_player_weapon(p1)
+		spr(p1.sprite, p1.x, p1.y, 2, 4, p1.flip_sprite, false)
+		print("p1", p1.x - 3, p1.y - 7, 8)
+
+		draw_extras("front")
 
 		if stage_trans then
 			draw_trans_dialog() 

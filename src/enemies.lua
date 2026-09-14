@@ -122,7 +122,7 @@ function enemy_die(enemy, weapon, flip, rotate)
  	enemy.dead = true
 	enemy.yeet = false
 
-	if weapon == 0 then
+	if weapon == 0 or weapon == 2 then
 		enemy.sprite_number = 134
 	elseif weapon == 1 then
 		enemy.sprite_number = -1
