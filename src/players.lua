@@ -9,6 +9,8 @@ camera_shake_offset_amount = 1
 
 bot_nerf_multiplier = 1.5 
 
+weapon_count = 3 
+
 j = {
 	name = "jenn",
 	sprites = {
@@ -25,7 +27,7 @@ j = {
 	last_animation_frame_x = init_jenn_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 1, -- weapon: 0 pistol, 1 shotgun, 2 oozie
+	weapon = 0, -- weapon: 0 pistol, 1 shotgun, 2 oozie
 	weapon_delay = 0,
 	trigger = false, -- trigger pressed,
 	kill_count = 0
@@ -47,7 +49,7 @@ c = {
 	last_animation_frame_x = init_chad_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 1, -- weapon: 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle
+	weapon = 0, -- weapon: 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle
 	weapon_delay = 0,
 	trigger = false, -- trigger pressed
 	kill_count = 0
@@ -228,12 +230,19 @@ function update_player_move(p, ctrl)
 		p.y += 1
 	end
  
-	if btn(❎, ctrl) or btn(🅾️, ctrl) then
+	if btn(🅾️, ctrl) then
 		handle_player_trigger(p)
 		p.trigger = true
  	else
   		p.trigger = false
  	end
+	
+	if btnp(❎, ctrl) then
+		p.weapon += 1
+		if p.weapon > weapon_count then
+			p.weapon = 0
+		end
+	end
 
 	if p.weapon == 3 and p.weapon_delay > 0 then
 		handle_player_fire(p)
@@ -249,7 +258,11 @@ end
 
 function handle_player_fire(p)
 	if p.weapon == 0 or p.weapon == 3 then
-		sfx(0)
+		if p.weapon == 0 then
+			sfx(0)
+		else
+			sfx(4)
+		end
 		enemy_coll_detect(p)
 
 		if p.flip_sprite then
@@ -271,7 +284,6 @@ function handle_player_fire(p)
 		end
 
 		sfx(1)
-		enemy_coll_detect(p)
 
 		for i=1,10 do
 			local ys = rnd(1 - -1) + -1
@@ -297,8 +309,7 @@ function handle_player_fire(p)
 		end
 
 		sfx(0)
-		enemy_coll_detect(p)
-
+		
 		local ys = rnd(0.5 - -0.5) + -0.5
 		local xs = 14 + rnd(1)
 		if p.flip_sprite then
@@ -306,6 +317,7 @@ function handle_player_fire(p)
 		end
 		add(particles, particle(p.x+4, p.y + 15, xs, ys, 0, 14))
 	end
+	enemy_coll_detect(p)
 end
 
 function draw_player_weapon(p)

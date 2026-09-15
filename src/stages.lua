@@ -226,6 +226,11 @@ function draw_start()
 end
 
 function run_intro()
+  if intro_count > 10 and (btnp(🅾️) or btnp(❎)) then
+    intro = false
+    load_stage(1)
+  end
+
   if intro_count < intro_time then
     intro_count += 1
   else

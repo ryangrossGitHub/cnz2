@@ -20,8 +20,13 @@ function spawn_enemy(speed)
 		yeet_sprite = 136,
 		yeet_sprite_flip = false, --flip of yeeting player
 		yeet_animation_frame_delay = 5,
-		yeet_animation_frame_count = 0
+		yeet_animation_frame_count = 0,
+		destination = flr(rnd(4)) -- 0,4 = opposite side, 1 = player 1, 2 = player 2
 	}
+
+	if enemy.x > camera_x + screen_size/2 then
+		enemy.sprite_flip = false
+	end
 	
 	-- if wall spawn support then 25% chance of wall spawn
 	if stages[stage].enemy_wall_spawn_range and rnd() < 0.25 then
@@ -51,23 +56,29 @@ function update_enemies()
 		elseif enemy.yeeted then
 			yeet(enemy)
 		else
-			if p1.x < enemy.x - enemy.speed then
-				enemy.x -= enemy.speed
-				enemy.sprite_flip = false
-			elseif p1.x > enemy.x + enemy.speed then
-				enemy.x += enemy.speed
-				enemy.sprite_flip = true
-			end
-		
-			-- walk to middle before down
-			if abs(p1.x-enemy.x) < 2 then
-				if p1.y < enemy.y - enemy.speed then
-					enemy.y -= enemy.speed
-				elseif p1.y > enemy.y + enemy.speed then
-					enemy.y += enemy.speed
+
+			if enemy.destination == 1 then
+				seek_player(enemy, p1)
+			elseif enemy.destination == 2 then
+				seek_player(enemy, p2)
+			else
+				if enemy.sprite_flip then
+					enemy.x += enemy.speed
+
+					-- Die when walk off screen
+					if enemy.x > camera_x + screen_size + 16 then
+						enemy_die(enemy, nil, false, false)
+					end
+				else
+					enemy.x -= enemy.speed
+
+					-- Die when walk off screen
+					if enemy.x < camera_x - 16 then
+						enemy_die(enemy, nil, false, false)
+					end
 				end
 			end
-		
+
 			enemy.animation_frame_count += 1
 		
 			if enemy.animation_frame_count >= enemy.animation_frame_delay then
@@ -80,6 +91,25 @@ function update_enemies()
 					enemy.sprite_number = 128
 				end
 			end 
+		end
+	end
+end
+
+function seek_player(enemy, p)
+	if p.x < enemy.x - enemy.speed then
+		enemy.x -= enemy.speed
+		enemy.sprite_flip = false
+	elseif p.x > enemy.x + enemy.speed then
+		enemy.x += enemy.speed
+		enemy.sprite_flip = true
+	end
+
+	-- walk to middle before down
+	if abs(p.x-enemy.x) < 2 then
+		if p.y < enemy.y - enemy.speed then
+			enemy.y -= enemy.speed
+		elseif p.y > enemy.y + enemy.speed then
+			enemy.y += enemy.speed
 		end
 	end
 end
@@ -122,10 +152,14 @@ function enemy_die(enemy, weapon, flip, rotate)
  	enemy.dead = true
 	enemy.yeet = false
 
-	if weapon == 1 then
+	if weapon == 1 or weapon == nil then
 		enemy.sprite_number = -1
 	else
 		enemy.sprite_number = 134
+	end
+
+	if weapon == nil then
+		return -- early exit, no particles
 	end
    
 	local particle_count = 10
