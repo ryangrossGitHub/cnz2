@@ -135,7 +135,7 @@ end
 function enemy_coll_detect(player) 
 	local hbox = 8 -- hit box
  
-	if player.weapon == 1 then
+	if player.weapon == 1 or player.weapon == 7 then
 		hbox = 16
 	end
  
@@ -156,6 +156,10 @@ function enemy_coll_detect(player)
 				enemy.damage += auto_rifle.damage
 			elseif player.weapon == 5 then
 				enemy.damage += hunting_rifle.damage
+			elseif player.weapon == 6 then
+				enemy.damage += revolver.damage
+			elseif player.weapon == 7 then
+				enemy.damage += long_shotgun.damage
 			end
 			
 			if enemy.damage >= enemy_health then
@@ -165,7 +169,7 @@ function enemy_coll_detect(player)
 				generate_enemy_hit_particles(enemy, player.flip_sprite, 10)
 			end
 
-			if player.weapon != 5 and player.weapon != 1 then -- hunting rifle and shotgun hits multiple
+			if player.weapon != 5 then -- hunting rifle hits multiple
 				return -- 1 at a time
 			end
 		end
@@ -176,7 +180,7 @@ function enemy_die(enemy, weapon, flip, rotate)
  	enemy.dead = true
 	enemy.yeet = false
 
-	if weapon == 1 or weapon == nil then
+	if weapon == 1 or weapon == 7 or weapon == nil then
 		enemy.sprite_number = -1
 	else
 		enemy.sprite_number = 134
@@ -188,7 +192,7 @@ function enemy_die(enemy, weapon, flip, rotate)
    
 	local particle_count = 10
 
-	if weapon == 1 then
+	if weapon == 1 or weapon == 7 then
 		particle_count = 50
 	end
 
@@ -204,7 +208,7 @@ function generate_enemy_hit_particles(enemy, flip, particle_count)
 		local ys = rnd(4 - -4) + -4
 		local color = rnd({3, 11})
 
-		if rotate and flip then
+		if flip then
 			add(particles, particle(enemy.x+20, enemy.y, xs, ys, color, 7))
 		else
 			add(particles, particle(enemy.x+4, enemy.y, xs, ys, color, 7))
