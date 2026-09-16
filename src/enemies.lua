@@ -3,6 +3,7 @@ enemies = {}
 e_spawn = false
 enemey_spawn_stage_count = 0 -- stage cnt
 enemy_spawn_delay_count = 0 
+enemy_health = 20
 
 function spawn_enemy(speed)
 	enemy = {
@@ -21,7 +22,8 @@ function spawn_enemy(speed)
 		yeet_sprite_flip = false, --flip of yeeting player
 		yeet_animation_frame_delay = 5,
 		yeet_animation_frame_count = 0,
-		destination = flr(rnd(4)) -- 0,4 = opposite side, 1 = player 1, 2 = player 2
+		destination = flr(rnd(4)), -- 0,4 = opposite side, 1 = player 1, 2 = player 2
+		damage = 0
 	}
 
 	if enemy.x > camera_x + screen_size/2 then
@@ -141,9 +143,31 @@ function enemy_coll_detect(player)
 		if not enemy.dead and not enemy.yeeted
 		and ((enemy.x - 2 < player.x and player.flip_sprite) or (enemy.x + 2 > player.x and not player.flip_sprite)) 
 		and (enemy.y > player.y - hbox + 12 and enemy.y < player.y + hbox + 8) then
-			enemy_die(enemy, player.weapon, player.flip_sprite, false)
-			player.kill_count += 1
-			return -- 1 at a time
+			
+			if player.weapon == 0 then
+				enemy.damage += pistol.damage
+			elseif player.weapon == 1 then
+				enemy.damage += shotgun.damage
+			elseif player.weapon == 2 then
+				enemy.damage += oozie.damage
+			elseif player.weapon == 3 then
+				enemy.damage += burst_rifle.damage
+			elseif player.weapon == 4 then
+				enemy.damage += auto_rifle.damage
+			elseif player.weapon == 5 then
+				enemy.damage += hunting_rifle.damage
+			end
+			
+			if enemy.damage >= enemy_health then
+				enemy_die(enemy, player.weapon, player.flip_sprite, false)
+				player.kill_count += 1
+			else
+				generate_enemy_hit_particles(enemy, player.flip_sprite, 10)
+			end
+
+			if player.weapon != 5 and player.weapon != 1 then -- hunting rifle and shotgun hits multiple
+				return -- 1 at a time
+			end
 		end
 	end
 end
@@ -168,6 +192,10 @@ function enemy_die(enemy, weapon, flip, rotate)
 		particle_count = 50
 	end
 
+	generate_enemy_hit_particles(enemy, flip, particle_count)
+end
+
+function generate_enemy_hit_particles(enemy, flip, particle_count) 
 	for i=1,particle_count do
 		local xs = rnd(6)
 		if flip then

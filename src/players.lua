@@ -9,7 +9,7 @@ camera_shake_offset_amount = 1
 
 bot_nerf_multiplier = 1.5 
 
-weapon_count = 3 
+weapon_count = 5 
 
 j = {
 	name = "jenn",
@@ -49,7 +49,7 @@ c = {
 	last_animation_frame_x = init_chad_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 0, -- weapon: 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle
+	weapon = 0, -- weapon: 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle, 4 auto rifle, 5 hunting rifle
 	weapon_delay = 0,
 	trigger = false, -- trigger pressed
 	kill_count = 0
@@ -65,19 +65,33 @@ p2 = c
 coop = false
 
 shotgun = {
-	delay = 15
+	delay = 15,
+	damage = 10
 }
 
 pistol = {
-	delay = 5
+	delay = 5,
+	damage = 2
 }
 
 oozie = {
-	delay = 0
+	delay = 0,
+	damage = 2
 }
 
 burst_rifle = {
-	delay = 3
+	delay = 3,
+	damage = 2
+}
+
+auto_rifle = {
+	delay = 0,
+	damage = 3
+}
+
+hunting_rifle = {
+	delay = 15,
+	damage = 10
 }
 
 function update_p2()
@@ -257,12 +271,15 @@ function draw_kill_count()
 end
 
 function handle_player_fire(p)
-	if p.weapon == 0 or p.weapon == 3 then
+	if p.weapon == 0 or p.weapon == 3 or p.weapon == 5 then
 		if p.weapon == 0 then
 			sfx(0)
-		else
+		elseif p.weapon == 3 then
 			sfx(4)
+		elseif p.weapon == 5 then
+			sfx(5)
 		end
+
 		enemy_coll_detect(p)
 
 		if p.flip_sprite then
@@ -301,14 +318,18 @@ function handle_player_fire(p)
 			camera_x += camera_shake_offset_amount
 			camera_shake_offset += camera_shake_offset_amount
 		end
-	elseif p.weapon == 2 then
+	elseif p.weapon == 2 or p.weapon == 4 then
 		if p.flip_sprite then
 			p.x += 1
 		else
 			p.x -= 1
 		end
 
-		sfx(0)
+		if p.weapon == 2 then
+			sfx(0)
+		elseif p.weapon == 4 then
+			sfx(4)
+		end
 		
 		local ys = rnd(0.5 - -0.5) + -0.5
 		local xs = 14 + rnd(1)
@@ -345,9 +366,21 @@ function draw_player_weapon(p)
 		end
 	elseif p.weapon == 3 then
 		if p.flip_sprite then
-			spr(36, p.x - 8, p.y + 12, 2, 1, true, false)
+			spr(36, p.x - 8, p.y + 11, 2, 1, true, false)
 		else
-			spr(36, p.x + 8, p.y + 12, 2, 1, false, false)
+			spr(36, p.x + 8, p.y + 11, 2, 1, false, false)
+		end
+	elseif p.weapon == 4 then
+		if p.flip_sprite then
+			spr(21, p.x, p.y + 11, 1, 1, true, false)
+		else
+			spr(21, p.x + 8, p.y + 11, 1, 1, false, false)
+		end
+	elseif p.weapon == 5 then
+		if p.flip_sprite then
+			spr(52, p.x - 8, p.y + 12, 2, 1, true, false)
+		else
+			spr(52, p.x + 8, p.y + 12, 2, 1, false, false)
 		end
 	end
 end
@@ -364,10 +397,13 @@ function handle_player_trigger(p)
 			elseif p.weapon == 3 and p.weapon_delay == 0 then
 				p.weapon_delay = burst_rifle.delay
 				handle_player_fire(p)
+			elseif p.weapon == 5 and p.weapon_delay == 0 then
+				p.weapon_delay = hunting_rifle.delay
+				handle_player_fire(p)
 			end
 		end
 
-		if p.weapon == 2 then
+		if p.weapon == 2 or p.weapon == 4 then
 			p.weapon_delay = 0
 			handle_player_fire(p)
 		end
