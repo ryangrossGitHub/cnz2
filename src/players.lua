@@ -278,15 +278,23 @@ function handle_player_fire(p)
 			sfx(4)
 		elseif p.weapon == 5 then
 			sfx(5)
+
+			if p.flip_sprite then
+				p.x += 3
+			else
+				p.x -= 3
+			end
+
+			if p.flip_sprite then
+				camera_x -= camera_shake_offset_amount
+				camera_shake_offset -= camera_shake_offset_amount
+			else
+				camera_x += camera_shake_offset_amount
+				camera_shake_offset += camera_shake_offset_amount
+			end
 		end
 
 		enemy_coll_detect(p)
-
-		if p.flip_sprite then
-			p.x += 1
-		else
-			p.x -= 1
-		end
 
 		local xs = 15
 		if p.flip_sprite then
@@ -319,12 +327,6 @@ function handle_player_fire(p)
 			camera_shake_offset += camera_shake_offset_amount
 		end
 	elseif p.weapon == 2 or p.weapon == 4 then
-		if p.flip_sprite then
-			p.x += 1
-		else
-			p.x -= 1
-		end
-
 		if p.weapon == 2 then
 			sfx(0)
 		elseif p.weapon == 4 then
