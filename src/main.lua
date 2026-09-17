@@ -124,7 +124,7 @@ function _draw()
 		-- say(screen_size * 1 + 58, 22, "@ da club", 0, false, false, 14, 0)
 
 		draw_player_weapon(p2)
-		spr(p2.sprite, p2.x, p2.y, 2, 4, p2.flip_sprite, false)
+		draw_player(p2)
 		local p2_disp = "cp"
 		if coop then
 			p2_disp = "p2"
@@ -133,7 +133,7 @@ function _draw()
 
 		-- Draw player 1 after player 2 so that player 1 is in front of player 2
 		draw_player_weapon(p1)
-		spr(p1.sprite, p1.x, p1.y, 2, 4, p1.flip_sprite, false)
+		draw_player(p1)
 		print("p1", p1.x - 3, p1.y - 7, 8)
 
 		draw_extras("front")

@@ -14,11 +14,13 @@ weapon_count = 7
 j = {
 	name = "jenn",
 	sprites = {
-		stand = 8,
-		move = 10,
-		yeet_pickup = 12
+		head = 2,
+		torso = 34,
+		legs_standing = 48,
+		legs_moving = 50,
+		arm_out = 38,
+		arm_up = 3
 	},
-	sprite = 10, -- intial value
 	yeet_frame_count = 0, 
 	yeet_frame_delay = 10,
 	flip_sprite = true, 
@@ -30,17 +32,21 @@ j = {
 	weapon = 0, -- weapon: 0 pistol, 1 shotgun, 2 oozie
 	weapon_delay = 0,
 	trigger = false, -- trigger pressed,
-	kill_count = 0
+	kill_count = 0,
+	stepping = true, -- movement sprite
+	yeeting = false
 }
 
 c = {
 	name = "chad",
 	sprites = {
-		stand = 0,
-		move = 2,
-		yeet_pickup = 14
+		head = 0,
+		torso = 32,
+		legs_standing = 48,
+		legs_moving = 50,
+		arm_out = 22,
+		arm_up = 33
 	},
-	sprite = 2, -- intial value
 	yeet_frame_count = 0, 
 	yeet_frame_delay = 10, 
 	flip_sprite = false, 
@@ -52,7 +58,9 @@ c = {
 	weapon = 0, -- weapon: 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle, 4 auto rifle, 5 hunting rifle, 6 revolver, 7 long shotgun
 	weapon_delay = 0,
 	trigger = false, -- trigger pressed
-	kill_count = 0
+	kill_count = 0,
+	stepping = true, -- movement sprite
+	yeeting = false
 }
 
 boss = {
@@ -70,7 +78,7 @@ shotgun = {
 }
 
 long_shotgun = {
-	delay = 15,
+	delay = 20,
 	damage = 20
 }
 
@@ -95,12 +103,12 @@ auto_rifle = {
 }
 
 hunting_rifle = {
-	delay = 15,
+	delay = 20,
 	damage = 10
 }
 
 revolver = {
-	delay = 12,
+	delay = 10,
 	damage = 10
 }
 
@@ -186,27 +194,24 @@ function update_player_anims(p)
   		p.last_animation_frame_y = p.y
   
   		-- get next animation frame
-  		if p.sprite == p.sprites.move then
-  			p.sprite = p.sprites.stand
-  		elseif p.sprite == p.sprites.stand then
-			p.sprite = p.sprites.move
+  		if p.stepping then
+  			p.stepping = false
+  		else
+			p.stepping = true
 		end
  	end
  
  	enemy_collision(p)
 
 	-- yeet
-	if p.sprite == p.sprites.yeet_pickup then
+	if p.yeeting then
  		p.yeet_frame_count += 1
  	
  		say(p.x,p.y, "YEEEEEET!")
  	
 		if p.yeet_frame_count >= p.yeet_frame_delay then
 			p.yeet_frame_count = 0
-
-			if p.sprite == p.sprites.yeet_pickup then
-				p.sprite = p.sprites.move
-			end
+			p.yeeting = false
 		end
  	end
 end
@@ -220,13 +225,13 @@ function draw_boss(armed)
 end
 
 function enemy_collision(p)
-	if p.sprite == p.sprites.yeet then
+	if p.yeeting then
 		return -- early exit
 	end
 	
 	for e in all(enemies) do
 		if not e.dead and not e.yeeted and e.x > p.x-8 and  e.x < p.x+8 and e.y > p.y-8 and e.y < p.y+8 then
-			p.sprite = p.sprites.yeet_pickup
+			p.yeeting = true
 			e.yeeted = true
 			e.yeet_sprite_flip = p.flip_sprite
 			p.kill_count += 1
@@ -235,7 +240,7 @@ function enemy_collision(p)
 end
 
 function update_player_move(p, ctrl)
-	if p.sprite == p.sprites.yeet_pickup then
+	if p.yeeting then
 		return -- early exit
 	end
 
@@ -274,9 +279,9 @@ function update_player_move(p, ctrl)
 end
 
 function draw_kill_count()
-	spr(j.sprites.stand, camera_x + 5, camera_y + 3, 2, 2, false, false)
+	spr(j.sprites.head, camera_x + 5, camera_y + 3, 1, 2, false, false)
 	print(j.kill_count, camera_x + 16, camera_y + 8, 11)
-	spr(c.sprites.move, camera_x + screen_size - 20, camera_y + 3, 2, 2, true, false)
+	spr(c.sprites.head, camera_x + screen_size - 20, camera_y + 3, 2, 2, true, false)
 	print(c.kill_count, camera_x + screen_size - 27, camera_y + 8, 11)
 end
 
@@ -354,7 +359,7 @@ function handle_player_fire(p)
 end
 
 function draw_player_weapon(p)
-	if p.sprite == p.sprites.yeet_pickup then
+	if p.yeeting then
 		return -- early exit
 	end
 
@@ -410,7 +415,7 @@ function draw_player_weapon(p)
 end
 
 function handle_player_trigger(p)
-	if p.sprite != p.sprites.yeet then
+	if not p.yeeting then
 		if not p.trigger then
 			if p.weapon == 0 and p.weapon_delay == 0 then
 				p.weapon_delay = pistol.delay
@@ -438,4 +443,47 @@ function handle_player_trigger(p)
 			handle_player_fire(p)
 		end
 	end
+end
+
+function draw_player(p)
+	if p.name == "chad" then
+		spr(p.sprites.head, p.x, p.y, 2, 2, p.flip_sprite, false)
+	else
+		if p.flip_sprite then
+			spr(p.sprites.head, p.x + 8, p.y, 1, 2, p.flip_sprite, false)
+		else
+			spr(p.sprites.head, p.x, p.y, 1, 2, p.flip_sprite, false)
+		end
+	end
+
+	if p.flip_sprite then
+		spr(p.sprites.torso, p.x + 7, p.y + 16, 1, 1, p.flip_sprite, false)
+	else
+		spr(p.sprites.torso, p.x + 1, p.y + 16, 1, 1, p.flip_sprite, false)
+	end
+
+	if p.flip_sprite then
+		if p.yeeting then
+			spr(p.sprites.arm_up, p.x + 5, p.y + 5, 1, 2, p.flip_sprite, false)
+		else
+			spr(p.sprites.arm_out, p.x - 3, p.y + 16, 2, 1, p.flip_sprite, false)
+		end
+	else
+		if p.yeeting then
+			spr(p.sprites.arm_up, p.x + 3, p.y + 5, 1, 2, p.flip_sprite, false)
+		else
+			spr(p.sprites.arm_out, p.x + 3, p.y + 16, 2, 1, p.flip_sprite, false)
+		end
+	end
+
+	if p.stepping then
+		spr(p.sprites.legs_moving, p.x, p.y + 24, 2, 1, p.flip_sprite, false)
+	else
+		if p.flip_sprite then
+			spr(p.sprites.legs_standing, p.x + 7, p.y + 24, 1, 1, p.flip_sprite, false)
+		else
+			spr(p.sprites.legs_standing, p.x + 1, p.y + 24, 1, 1, p.flip_sprite, false)
+		end
+	end
+	
 end
