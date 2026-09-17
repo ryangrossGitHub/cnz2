@@ -34,7 +34,8 @@ j = {
 	trigger = false, -- trigger pressed,
 	kill_count = 0,
 	stepping = true, -- movement sprite
-	yeeting = false
+	yeeting = false,
+	recoil = false -- arm movement when firing
 }
 
 c = {
@@ -60,7 +61,8 @@ c = {
 	trigger = false, -- trigger pressed
 	kill_count = 0,
 	stepping = true, -- movement sprite
-	yeeting = false
+	yeeting = false,
+	recoil = false -- arm movement when firing
 }
 
 boss = {
@@ -286,6 +288,7 @@ function draw_kill_count()
 end
 
 function handle_player_fire(p)
+	p.recoil = true
 	if p.weapon == 0 or p.weapon == 3 or p.weapon == 5 or p.weapon == 6 then
 		if p.weapon == 0 then
 			sfx(0)
@@ -363,53 +366,59 @@ function draw_player_weapon(p)
 		return -- early exit
 	end
 
+	local recoil_mult = 0
+
+	if p.recoil then
+		recoil_mult = 2
+	end
+
 	if p.weapon == 0 then
 		if p.flip_sprite then
-			spr(4, p.x - 1, p.y + 12, 1, 1, true, false)
+			spr(4, p.x - 1 + recoil_mult, p.y + 12, 1, 1, true, false)
 		else
-			spr(4, p.x + 9, p.y + 12, 1, 1, false, false)
+			spr(4, p.x + 9 - recoil_mult, p.y + 12, 1, 1, false, false)
 		end
 	elseif p.weapon == 1 then
 		if p.flip_sprite then
-			spr(20, p.x - 2, p.y + 11, 1, 1, true, false)
+			spr(20, p.x - 2 + recoil_mult, p.y + 11, 1, 1, true, false)
 		else
-			spr(20, p.x + 10, p.y + 11, 1, 1, false, false)
+			spr(20, p.x + 10 - recoil_mult, p.y + 11, 1, 1, false, false)
 		end
 	elseif p.weapon == 2 then
 		if p.flip_sprite then
-			spr(5, p.x - 1, p.y + 12, 1, 1, true, false)
+			spr(5, p.x - 1 + recoil_mult, p.y + 12, 1, 1, true, false)
 		else
-			spr(5, p.x + 9, p.y + 12, 1, 1, false, false)
+			spr(5, p.x + 9 - recoil_mult, p.y + 12, 1, 1, false, false)
 		end
 	elseif p.weapon == 3 then
 		if p.flip_sprite then
-			spr(36, p.x - 8, p.y + 11, 2, 1, true, false)
+			spr(36, p.x - 8 + recoil_mult, p.y + 11, 2, 1, true, false)
 		else
-			spr(36, p.x + 8, p.y + 11, 2, 1, false, false)
+			spr(36, p.x + 8 - recoil_mult, p.y + 11, 2, 1, false, false)
 		end
 	elseif p.weapon == 4 then
 		if p.flip_sprite then
-			spr(7, p.x, p.y + 11, 1, 1, true, false)
+			spr(7, p.x + recoil_mult, p.y + 11, 1, 1, true, false)
 		else
-			spr(7, p.x + 8, p.y + 11, 1, 1, false, false)
+			spr(7, p.x + 8 - recoil_mult, p.y + 11, 1, 1, false, false)
 		end
 	elseif p.weapon == 5 then
 		if p.flip_sprite then
-			spr(52, p.x - 8, p.y + 12, 2, 1, true, false)
+			spr(52, p.x - 8 + recoil_mult, p.y + 12, 2, 1, true, false)
 		else
-			spr(52, p.x + 8, p.y + 12, 2, 1, false, false)
+			spr(52, p.x + 8 - recoil_mult, p.y + 12, 2, 1, false, false)
 		end
 	elseif p.weapon == 6 then
 		if p.flip_sprite then
-			spr(6, p.x - 3, p.y + 11, 1, 1, true, false)
+			spr(6, p.x - 3 + recoil_mult, p.y + 11, 1, 1, true, false)
 		else
-			spr(6, p.x + 11, p.y + 11, 1, 1, false, false)
+			spr(6, p.x + 11 - recoil_mult, p.y + 11, 1, 1, false, false)
 		end
 	elseif p.weapon == 7 then
 		if p.flip_sprite then
-			spr(20, p.x - 8, p.y + 11, 2, 1, true, false)
+			spr(20, p.x - 8 + recoil_mult, p.y + 11, 2, 1, true, false)
 		else
-			spr(20, p.x + 10, p.y + 11, 2, 1, false, false)
+			spr(20, p.x + 10 - recoil_mult, p.y + 11, 2, 1, false, false)
 		end
 	end
 end
@@ -446,6 +455,7 @@ function handle_player_trigger(p)
 end
 
 function draw_player(p)
+	-- head
 	if p.name == "chad" then
 		spr(p.sprites.head, p.x, p.y, 2, 2, p.flip_sprite, false)
 	else
@@ -456,23 +466,32 @@ function draw_player(p)
 		end
 	end
 
+	local recoil_mult = 0
+
+	if p.recoil then
+		recoil_mult = 2
+		p.recoil = false
+	end
+
+	--torso
 	if p.flip_sprite then
 		spr(p.sprites.torso, p.x + 7, p.y + 16, 1, 1, p.flip_sprite, false)
 	else
 		spr(p.sprites.torso, p.x + 1, p.y + 16, 1, 1, p.flip_sprite, false)
 	end
 
+	-- arm
 	if p.flip_sprite then
 		if p.yeeting then
 			spr(p.sprites.arm_up, p.x + 5, p.y + 5, 1, 2, p.flip_sprite, false)
 		else
-			spr(p.sprites.arm_out, p.x - 3, p.y + 16, 2, 1, p.flip_sprite, false)
+			spr(p.sprites.arm_out, p.x - 3 + recoil_mult, p.y + 16, 2, 1, p.flip_sprite, false)
 		end
 	else
 		if p.yeeting then
 			spr(p.sprites.arm_up, p.x + 3, p.y + 5, 1, 2, p.flip_sprite, false)
 		else
-			spr(p.sprites.arm_out, p.x + 3, p.y + 16, 2, 1, p.flip_sprite, false)
+			spr(p.sprites.arm_out, p.x + 3 - recoil_mult, p.y + 16, 2, 1, p.flip_sprite, false)
 		end
 	end
 
