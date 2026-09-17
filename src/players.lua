@@ -466,18 +466,18 @@ function draw_player(p)
 		end
 	end
 
-	local recoil_mult = 0
-
-	if p.recoil then
-		recoil_mult = 2
-		p.recoil = false
-	end
-
 	--torso
 	if p.flip_sprite then
 		spr(p.sprites.torso, p.x + 7, p.y + 16, 1, 1, p.flip_sprite, false)
 	else
 		spr(p.sprites.torso, p.x + 1, p.y + 16, 1, 1, p.flip_sprite, false)
+	end
+
+	local recoil_mult = 0
+
+	if p.recoil then
+		recoil_mult = 2
+		p.recoil = false
 	end
 
 	-- arm
