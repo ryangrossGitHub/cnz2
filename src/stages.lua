@@ -131,9 +131,9 @@ function load_stage(n)
     e_spawn = true
     player_move = true
   else
-    if n == 2 then
-      music(24)
-    end
+    music(rnd(music_tracks))
+    j.weapon = flr(rnd(weapon_count+1))
+    c.weapon = flr(rnd(weapon_count+1))
     enemey_spawn_stage_count = 0
     
     -- 8 to 9 is transition inside

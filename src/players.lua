@@ -29,13 +29,15 @@ j = {
 	last_animation_frame_x = init_jenn_x, 
 	last_animation_frame_y = init_player_y, 
 	animation_frame_delay = 5, 
-	weapon = 0, -- weapon: 0 pistol, 1 shotgun, 2 oozie
+	weapon = 0, -- weapon: 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle, 4 auto rifle, 5 hunting rifle, 6 revolver, 7 long shotgun
 	weapon_delay = 0,
 	trigger = false, -- trigger pressed,
 	kill_count = 0,
 	stepping = true, -- movement sprite
 	yeeting = false,
-	recoil = false -- arm movement when firing
+	recoil = false, -- arm movement when firing
+	recoil_delay = 1,
+	recoil_count = 0
 }
 
 c = {
@@ -62,7 +64,9 @@ c = {
 	kill_count = 0,
 	stepping = true, -- movement sprite
 	yeeting = false,
-	recoil = false -- arm movement when firing
+	recoil = false, -- arm movement when firing
+	recoil_delay = 1,
+	recoil_count = 0
 }
 
 boss = {
@@ -85,7 +89,7 @@ long_shotgun = {
 }
 
 pistol = {
-	delay = 5,
+	delay = 2,
 	damage = 2
 }
 
@@ -288,7 +292,13 @@ function draw_kill_count()
 end
 
 function handle_player_fire(p)
-	p.recoil = true
+	if p.recoil_count < p.recoil_delay then
+		p.recoil = true
+		p.recoil_count += 1
+	else
+		p.recoil = false
+		p.recoil_count = 0
+	end
 	if p.weapon == 0 or p.weapon == 3 or p.weapon == 5 or p.weapon == 6 then
 		if p.weapon == 0 then
 			sfx(0)
