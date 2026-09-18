@@ -131,7 +131,11 @@ function load_stage(n)
     e_spawn = true
     player_move = true
   else
-    music(rnd(music_tracks))
+    if music_track_index < #music_tracks + 1 then
+      music(music_tracks[music_track_index])
+      music_track_index += 1
+    end
+
     j.weapon = flr(rnd(weapon_count+1))
     c.weapon = flr(rnd(weapon_count+1))
     enemey_spawn_stage_count = 0
