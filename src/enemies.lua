@@ -4,10 +4,12 @@ e_spawn = false
 enemey_spawn_stage_count = 0 -- stage cnt
 enemy_spawn_delay_count = 0 
 enemy_health = 20
+enemy_head_sprite_list = {132, 133, 148, 149, 164, 165, 180, 181}
 
 function spawn_enemy(speed)
 	enemy = {
-		sprite_number = 128,
+		sprite_number = 144,
+		sprite_number_face = rnd(enemy_head_sprite_list),
 		speed = speed, -- movement speed
 		sprite_flip = true,
 		x = rnd({ camera_x-16, camera_x + screen_size + 16 }),
@@ -51,8 +53,8 @@ function update_enemies()
 			if enemy.death_animation_frame_count >= enemy.death_animation_frame_delay then
 				enemy.death_animation_frame_count = 0
 			
-				if enemy.sprite_number == 134 then
-					enemy.sprite_number = 168
+				if enemy.sprite_number == 150 then
+					enemy.sprite_number = 128
 				end
 			end
 		elseif enemy.yeeted then
@@ -87,10 +89,10 @@ function update_enemies()
 				enemy.animation_frame_count = 0
 				
 				-- enemy animation
-				if enemy.sprite_number == 128 then
-					enemy.sprite_number = 130
-				elseif enemy.sprite_number == 130 then
-					enemy.sprite_number = 128
+				if enemy.sprite_number == 144 then
+					enemy.sprite_number = 146
+				elseif enemy.sprite_number == 146 then
+					enemy.sprite_number = 144
 				end
 			end 
 		end
@@ -108,7 +110,7 @@ function seek_player(enemy, p)
 
 	-- walk to middle before down
 	if abs(p.x-enemy.x) < 2 then
-		if p.y < enemy.y - enemy.speed then
+		if p.y < enemy.y - 4 - enemy.speed then
 			enemy.y -= enemy.speed
 		elseif p.y > enemy.y + enemy.speed then
 			enemy.y += enemy.speed
@@ -123,11 +125,20 @@ function draw_enemies()
 		elseif enemy.sprite_number == 136 then
 			-- wide instead of tall sprite
 			spr(enemy.sprite_number, enemy.x, enemy.y, 4, 2, enemy.sprite_flip, false)
-		elseif enemy.sprite_number == 168 then
+		elseif enemy.sprite_number == 128 then
 			-- wide instead of tall sprite and need to lower it
-			spr(enemy.sprite_number, enemy.x, enemy.y + 16, 4, 2, enemy.sprite_flip, false)
+			spr(enemy.sprite_number, enemy.x, enemy.y + 16, 3, 1, enemy.sprite_flip, false)
+		elseif enemy.sprite_number == 150 then
+			spr(enemy.sprite_number, enemy.x, enemy.y, 2, 3, enemy.sprite_flip, false)
 		else
-			spr(enemy.sprite_number, enemy.x, enemy.y, 2, 4, enemy.sprite_flip, false)
+			-- body
+			spr(enemy.sprite_number, enemy.x, enemy.y, 2, 3, enemy.sprite_flip, false)
+			-- head
+			if enemy.sprite_flip then
+				spr(enemy.sprite_number_face, enemy.x, enemy.y - 4, 1, 1, enemy.sprite_flip, false)
+			else
+				spr(enemy.sprite_number_face, enemy.x + 8, enemy.y - 4, 1, 1, enemy.sprite_flip, false)
+			end
 		end
 	end
 end
@@ -142,7 +153,7 @@ function enemy_coll_detect(player)
 	for enemy in all(enemies) do
 		if not enemy.dead and not enemy.yeeted
 		and ((enemy.x - 2 < player.x and player.flip_sprite) or (enemy.x + 2 > player.x and not player.flip_sprite)) 
-		and (enemy.y > player.y - hbox + 12 and enemy.y < player.y + hbox + 8) then
+		and (enemy.y - 4 > player.y - hbox + 12 and enemy.y - 4 < player.y + hbox + 8) then
 			
 			if player.weapon == 0 then
 				enemy.damage += pistol.damage
@@ -183,7 +194,7 @@ function enemy_die(enemy, weapon, flip, rotate)
 	if weapon == 1 or weapon == 7 or weapon == nil then
 		enemy.sprite_number = -1
 	else
-		enemy.sprite_number = 134
+		enemy.sprite_number = 150
 	end
 
 	if weapon == nil then
@@ -209,9 +220,9 @@ function generate_enemy_hit_particles(enemy, flip, particle_count)
 		local color = rnd({3, 11})
 
 		if flip then
-			add(particles, particle(enemy.x+20, enemy.y, xs, ys, color, 7))
+			add(particles, particle(enemy.x+20, enemy.y - 4, xs, ys, color, 7))
 		else
-			add(particles, particle(enemy.x+4, enemy.y, xs, ys, color, 7))
+			add(particles, particle(enemy.x+4, enemy.y - 4, xs, ys, color, 7))
 		end
 	end
 end

@@ -175,14 +175,14 @@ function closest_enemy()
 		if not e.dead and e.x > camera_x + 5 and e.x < camera_x + screen_size - 5 then
 			-- if left or right then fire at closest enemy
 			-- else calculate whether there are more enemies above or below to dictate y movement
-			if (e.y > p2.y + player_weapon_offset - hbox and e.y < p2.y + player_weapon_offset + hbox) then
+			if (e.y-4 > p2.y + player_weapon_offset - hbox and e.y-4 < p2.y + player_weapon_offset + hbox) then
 				local dir = e.x - p2.x
 				local dif = abs(dir)
 				if dif < closest then
 					closest = dif
 					c_xdir = dir
 				end
-			elseif e.y < p2.y + player_weapon_offset then
+			elseif e.y-4 < p2.y + player_weapon_offset then
 				e_ydir -= 1
 			else
 				e_ydir += 1
@@ -240,7 +240,7 @@ function enemy_collision(p)
 	end
 	
 	for e in all(enemies) do
-		if not e.dead and not e.yeeted and e.x > p.x-8 and  e.x < p.x+8 and e.y > p.y-8 and e.y < p.y+8 then
+		if not e.dead and not e.yeeted and e.x > p.x-8 and  e.x < p.x+8 and e.y-4 > p.y-8 and e.y-4 < p.y+8 then
 			p.yeeting = true
 			e.yeeted = true
 			e.yeet_sprite_flip = p.flip_sprite
