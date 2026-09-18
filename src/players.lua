@@ -80,7 +80,7 @@ coop = false
 
 shotgun = {
 	delay = 10,
-	damage = 10
+	damage = 20
 }
 
 long_shotgun = {
@@ -89,8 +89,8 @@ long_shotgun = {
 }
 
 pistol = {
-	delay = 2,
-	damage = 2
+	delay = 4,
+	damage = 4
 }
 
 oozie = {
