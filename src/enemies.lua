@@ -177,7 +177,7 @@ function enemy_coll_detect(player)
 				enemy_die(enemy, player.weapon, player.flip_sprite, false)
 				player.kill_count += 1
 			else
-				generate_enemy_hit_particles(enemy, player.flip_sprite, 10)
+				generate_enemy_hit_particles(enemy, player.flip_sprite, 1)
 			end
 
 			if player.weapon != 5 then -- hunting rifle hits multiple
@@ -201,10 +201,10 @@ function enemy_die(enemy, weapon, flip, rotate)
 		return -- early exit, no particles
 	end
    
-	local particle_count = 10
+	local particle_count = 3
 
 	if weapon == 1 or weapon == 7 then
-		particle_count = 50
+		particle_count = 10
 	end
 
 	generate_enemy_hit_particles(enemy, flip, particle_count)

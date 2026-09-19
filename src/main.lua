@@ -5,7 +5,7 @@ intro_text_full = "dispatch to all units, respond immediately to a public distur
 intro_text = ""
 intro_count = 0
 
-music_tracks = {24, 16, 8, 50, 0, 32}
+music_tracks = {24, 16, 8, 8, 0, 32}
 music_track_index = 1
 
 function _init()

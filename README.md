@@ -5,7 +5,13 @@
 https://www.lexaloffle.com/bbs/?pid=189533#p
 
 TODO:
-- Add pickup weapons (mem swapping of sprites)
-- Add swap weapon button
-- Update map
-- Update dialog
+- Timed dialoug mechanic / story
+- weapon upgrade with kill count mechanic
+- cart 1 
+    - lower map (train station)
+    - cover art
+- cart 2 (train / bridge)
+    - load
+    - start screen
+    - map
+- cart 0 load

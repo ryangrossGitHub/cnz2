@@ -11,7 +11,7 @@ bot_nerf_multiplier = 1.5
 
 weapon_count = 7
 -- 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle, 4 auto rifle, 5 hunting rifle, 6 revolver, 7 long shotgun
-weapon_list = {0, 7, 5, 1, 6, 3, 2}
+weapon_list = {0, 5, 7, 6, 3, 1, 2}
 weapon_index = 1
 
 bounce_delay = 18
@@ -99,7 +99,7 @@ long_shotgun = {
 
 pistol = {
 	delay = 4,
-	damage = 4
+	damage = 5
 }
 
 oozie = {
