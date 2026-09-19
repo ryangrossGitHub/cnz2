@@ -19,6 +19,7 @@ j = {
 	name = "jenn",
 	sprites = {
 		head = 2,
+		head2 = 8,
 		torso = 34,
 		legs_standing = 48,
 		legs_moving = 50,
@@ -491,9 +492,18 @@ function draw_player(p)
 		spr(p.sprites.head, p.x, p.y + bounce_height, 2, 2, p.flip_sprite, false)
 	else
 		if p.flip_sprite then
-			spr(p.sprites.head, p.x + 8, p.y + bounce_height, 1, 2, p.flip_sprite, false)
+			if p.recoil then
+				spr(p.sprites.head2, p.x + 8, p.y + bounce_height, 1, 2, p.flip_sprite, false)
+			else
+				spr(p.sprites.head, p.x + 8, p.y + bounce_height, 1, 2, p.flip_sprite, false)
+			end
 		else
-			spr(p.sprites.head, p.x, p.y + bounce_height, 1, 2, p.flip_sprite, false)
+			if p.recoil then
+				spr(p.sprites.head2, p.x, p.y + bounce_height, 1, 2, p.flip_sprite, false)
+			else
+				spr(p.sprites.head, p.x, p.y + bounce_height, 1, 2, p.flip_sprite, false)
+			end
+			
 		end
 	end
 

@@ -217,7 +217,13 @@ function generate_enemy_hit_particles(enemy, flip, particle_count)
 			xs = -xs
 		end
 		local ys = rnd(4 - -4) + -4
-		local color = rnd({3, 11})
+		local color = 0
+
+		if enemy.sprite_number_face == 132 then
+			color = rnd({3, 9, 11})
+		else
+			color = rnd({3, 11})
+		end
 
 		if flip then
 			add(particles, particle(enemy.x+20, enemy.y - 4, xs, ys, color, 7))
