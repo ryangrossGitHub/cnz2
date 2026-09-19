@@ -10,6 +10,9 @@ camera_shake_offset_amount = 1
 bot_nerf_multiplier = 1.5 
 
 weapon_count = 7
+-- 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle, 4 auto rifle, 5 hunting rifle, 6 revolver, 7 long shotgun
+weapon_list = {0, 7, 5, 1, 6, 3, 2}
+weapon_index = 1
 
 bounce_delay = 18
 bounce_count = 0
@@ -49,6 +52,7 @@ c = {
 	name = "chad",
 	sprites = {
 		head = 0,
+		head2 = 9,
 		torso = 32,
 		legs_standing = 48,
 		legs_moving = 50,
@@ -489,7 +493,11 @@ function draw_player(p)
 	end
 
 	if p.name == "chad" then
-		spr(p.sprites.head, p.x, p.y + bounce_height, 2, 2, p.flip_sprite, false)
+		if p.trigger then
+			spr(p.sprites.head2, p.x, p.y + bounce_height, 2, 2, p.flip_sprite, false)
+		else
+			spr(p.sprites.head, p.x, p.y + bounce_height, 2, 2, p.flip_sprite, false)
+		end
 	else
 		if p.flip_sprite then
 			if p.recoil then

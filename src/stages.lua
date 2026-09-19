@@ -7,6 +7,10 @@ camera_y = 0
 intro_count = 0
 intro_time = 60 * 5 -- 7 seconds
 intro = false
+floor_color_transition = 20
+floor_color_delay = 300
+floor_color_count = 0
+floor_color = 9
 
 function switch_to_level(lvl)
   if lvl == 2 then
@@ -136,9 +140,13 @@ function load_stage(n)
       music_track_index += 1
     end
 
-    j.weapon = flr(rnd(weapon_count+1))
-    c.weapon = flr(rnd(weapon_count+1))
+    if weapon_index < #weapon_list + 1 then
+      j.weapon = weapon_list[weapon_index]
+      c.weapon = weapon_list[weapon_index]
+      weapon_index += 1
+    end
     enemey_spawn_stage_count = 0
+    floor_color_count = 0
     
     -- 8 to 9 is transition inside
     if n == 9 then
@@ -240,5 +248,25 @@ function run_intro()
   else
     intro = false
     load_stage(1)
+  end
+end
+
+function draw_floor()
+  if floor_color_count >= floor_color_delay then
+    floor_color_count = 0
+    if floor_color == 9 then
+      floor_color = 2
+    elseif floor_color == 2 then
+      floor_color = 9
+    end
+  else
+    floor_color_count += 1
+
+    local color = 0
+    if floor_color_count < floor_color_delay - floor_color_transition then
+      color = floor_color
+    end
+
+    rectfill(camera_x, flr(stage/9) * screen_size + 56, camera_x + screen_size, flr(stage/9) * screen_size + screen_size, color)
   end
 end

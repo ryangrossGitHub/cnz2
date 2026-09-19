@@ -99,6 +99,10 @@ function _draw()
 			if stage == 16 and stage_trans == false then
 				ending_dialog()
 			end
+
+			if not stage_trans and stage > 1 then
+				draw_floor()
+			end
 			draw_kill_count()
 		end
 
