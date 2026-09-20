@@ -100,7 +100,7 @@ long_shotgun = {
 
 pistol = {
 	delay = 4,
-	damage = 5
+	damage = 3
 }
 
 oozie = {
@@ -131,12 +131,22 @@ revolver = {
 function update_p2()
 	enemy_collision(p2)
 
+	local c,y = nil
+	if p2.x > p1.x + 32 then
+		p2.flip_sprite = true
+		p2.x -= p2.speed
+	elseif p2.x < p1.x - 32 then
+		p2.x += p2.speed
+		p2.flip_sprite = false
+	else
+		c,y = closest_enemy()
+	end
+
 	-- Ensure player gets first shots
 	if p1.kill_count < 5 then
 		return -- early exit
 	end
 
-	local c,y = closest_enemy()
  	if c then
 		if c < 0 then
 	  		p2.flip_sprite = true	  
@@ -153,9 +163,9 @@ function update_p2()
 		handle_player_trigger(p2)
 	end
 	
-	if y < 0 then
+	if y and y < 0 then
 		p2.y -= 1
-	elseif y > 0 then
+	elseif y and y > 0 then
 	 	p2.y += 1
 	end
 end
@@ -261,22 +271,27 @@ function update_player_move(p, ctrl)
 	end
 
 	-- ctrl is the controller maping
-	if btn(0, ctrl) and p.x > screen_size then
-		p.x -= p.speed
-		camera_x -= p.speed
+	if btn(0, ctrl) and p.x > camera_x and p.x > screen_size then
 		p.flip_sprite = true 
-	elseif btn(1, ctrl) and p.x < screen_size * map_width - 16 then
-		p.x += p.speed
-		camera_x += p.speed
+		p.x -= p.speed
+
+		if p2.x < camera_x + screen_size then
+			camera_x -= p.speed
+		end
+	elseif btn(1, ctrl) and p.x < screen_size * map_width - 16 -- not past the end of the map
+		and (p.x < camera_x + screen_size - 16) then -- not past the camera
 		p.flip_sprite = false
+		p.x += p.speed
+		
+		if p2.x > camera_x then
+			camera_x += p.speed
+		end
 	end
  
 	if btn(2, ctrl) and p.y > 24 then
 		p.y -= p.speed
-		camera_y -= p.speed
 	elseif btn(3, ctrl) and p.y < screen_size - 32 then
 		p.y += p.speed
-		camera_y += p.speed
 	end
  
 	if btn(🅾️, ctrl) then
@@ -306,13 +321,28 @@ function update_player_move(p, ctrl)
 
 	if btn(❎, ctrl) and not switching_weapons then
 		p.speed = 2
+
+		if not coop then
+			p2.speed = 2
+		end
 	else
 		p.speed = 1
+
+		if not coop then
+			p2.speed = 1
+		end
 	end
 
 	if p.weapon == 3 and p.weapon_delay > 0 then
 		handle_player_fire(p)
 	end
+end
+
+function center_camera_on_players()
+	-- local camera_center = flr(camera_x + screen_size/2)
+	local players_center = flr((p1.x + p2.x) / 2)
+
+	camera_x = players_center - screen_size/2
 end
 
 function draw_kill_count()

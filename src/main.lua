@@ -61,6 +61,15 @@ function _update()
 		end
 	end
  
+	if not coop then
+		update_p2()
+	end
+
+	center_camera_on_players()
+	update_enemies()
+	update_player_anims(p1)
+	update_player_anims(p2)
+
 	if p1.weapon_delay > 0 then
 		p1.weapon_delay -= 1
 	end
@@ -68,14 +77,6 @@ function _update()
 	if p2.weapon_delay > 0 then
 		p2.weapon_delay -= 1
 	end
- 
-	if not coop then
-		update_p2()
-	end
- 
-	update_enemies()
-	update_player_anims(p1)
-	update_player_anims(p2)
 end
 
 function _draw()

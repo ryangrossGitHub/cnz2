@@ -18,17 +18,17 @@ rain_front = {}
 rain_back = {}
 
 stages = {
-  { -- 1 Club entrance
+  { 
     enemy_spawn_count = 0,
     enemy_speed = 0.5,
     enemy_spawn_delay = 20,
     music_track = 24,
     weapon_unlock = 1
   },
-  { -- 2 Bar floor 1
-    enemy_spawn_count = 500,
-    enemy_speed = 0.4,
-    enemy_spawn_delay = 20,
+  { 
+    enemy_spawn_count = 1000,
+    enemy_speed = 0.5,
+    enemy_spawn_delay = 10,
     enemy_spawn_initial_delay = 30,
     enemy_spawn_initial_delay_count = 0,
     music_track = 24,
