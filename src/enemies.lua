@@ -5,6 +5,7 @@ enemey_spawn_stage_count = 0 -- stage cnt
 enemy_spawn_delay_count = 0 
 enemy_health = 20
 enemy_head_sprite_list = {132, 133, 148, 149, 164, 165, 180, 181}
+enemy_dead_frame = 1000 -- how long before removing from table to avoid out of mem error
 
 function spawn_enemy(speed)
 	enemy = {
@@ -13,7 +14,7 @@ function spawn_enemy(speed)
 		speed = speed, -- movement speed
 		sprite_flip = true,
 		x = rnd({ camera_x-16, camera_x + screen_size + 16 }),
-		y = rnd(48) + flr(stage/9) * screen_size + 48,
+		y = rnd(48) + 48,
 		death_animation_frame_delay = 20,
 		death_animation_frame_count = 0, -- death animation frame count
 		dead = false,
@@ -25,7 +26,8 @@ function spawn_enemy(speed)
 		yeet_animation_frame_delay = 5,
 		yeet_animation_frame_count = 0,
 		destination = flr(rnd(4)), -- 0,4 = opposite side, 1 = player 1, 2 = player 2
-		damage = 0
+		damage = 0,
+		dead_frames = 0
 	}
 
 	if enemy.x > camera_x + screen_size/2 then
@@ -39,7 +41,7 @@ function spawn_enemy(speed)
 	 	local xs = xr[1] + rnd(xr[2] - xr[1]) -- choose spawn point in range
 
   		enemy.x = xs * 8 + camera_x
-  		enemy.y = flr(stage/9) * screen_size + 42
+  		enemy.y = 42
 	end
 	
 	add(enemies, enemy)
@@ -48,13 +50,18 @@ end
 function update_enemies()
 	for enemy in all(enemies) do
 		if enemy.dead then
-			enemy.death_animation_frame_count += 1
-		
-			if enemy.death_animation_frame_count >= enemy.death_animation_frame_delay then
-				enemy.death_animation_frame_count = 0
+			if enemy.dead_frames >= enemy_dead_frame then
+				del(enemies, enemy)
+			else
+				enemy.dead_frames += 1
+				enemy.death_animation_frame_count += 1
 			
-				if enemy.sprite_number == 150 then
-					enemy.sprite_number = 128
+				if enemy.death_animation_frame_count >= enemy.death_animation_frame_delay then
+					enemy.death_animation_frame_count = 0
+				
+					if enemy.sprite_number == 150 then
+						enemy.sprite_number = 128
+					end
 				end
 			end
 		elseif enemy.yeeted then
@@ -179,10 +186,6 @@ function enemy_coll_detect(player)
 			else
 				generate_enemy_hit_particles(enemy, player.flip_sprite, 1)
 			end
-
-			if player.weapon != 5 then -- hunting rifle hits multiple
-				return -- 1 at a time
-			end
 		end
 	end
 end
@@ -201,10 +204,10 @@ function enemy_die(enemy, weapon, flip, rotate)
 		return -- early exit, no particles
 	end
    
-	local particle_count = 3
+	local particle_count = 10
 
 	if weapon == 1 or weapon == 7 then
-		particle_count = 10
+		particle_count = 30
 	end
 
 	generate_enemy_hit_particles(enemy, flip, particle_count)
@@ -226,9 +229,9 @@ function generate_enemy_hit_particles(enemy, flip, particle_count)
 		end
 
 		if flip then
-			add(particles, particle(enemy.x+20, enemy.y - 4, xs, ys, color, 7, 50))
+			add(particles, particle(enemy.x+20, enemy.y - 4, xs, ys, color, 7, 200))
 		else
-			add(particles, particle(enemy.x+4, enemy.y - 4, xs, ys, color, 7, 50))
+			add(particles, particle(enemy.x+4, enemy.y - 4, xs, ys, color, 7, 200))
 		end
 	end
 end
