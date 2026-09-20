@@ -98,6 +98,7 @@ function _draw()
 			say(58,22,"cOPS yEET zOMBIES ii ", 0, true)
 		else
 			say(88, 22, "da club", 0, false, false, 9, 2)
+			say(113 * 8, 6 * 8, "police", 0, false, false, 0, 7)
 			if stage == 16 and stage_trans == false then
 				ending_dialog()
 			end

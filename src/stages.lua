@@ -13,11 +13,9 @@ floor_color_count = 0
 floor_color = 9
 wall_height = 56
 map_width = 8
-map_height = 2
 
-rain = {}
-rain_indoor = {}
-
+rain_front = {}
+rain_back = {}
 
 stages = {
   { -- 1 Club entrance
@@ -268,7 +266,7 @@ function draw_floor()
       color = floor_color
     end
 
-    rectfill(screen_size, wall_height, screen_size * map_width, screen_size * map_height, color)
+    rectfill(screen_size, wall_height, 104 * 8, screen_size, color)
   end
 end
 
@@ -286,51 +284,42 @@ end
 
 function init_rain()
   for i = 1, 100 do
-    add(rain, {
-      x = flr(rnd(128)),
-      y = flr(rnd(128)),
+    add(rain_front, {
+      x = flr(rnd(screen_size)),
+      y = flr(rnd(screen_size)),
       spd = 2 + rnd(3)
     })
   end
-  for i = 1, 50 do
-    add(rain_indoor, {
-      x = 0,
-      y = 0,
-      spd = 3 + rnd(3)
+
+  local back_x_start = 104 * 8
+  for i = 1, 200 do
+    add(rain_back, {
+      x = flr(rnd(back_x_start) + screen_size * 2 + back_x_start),
+      y = flr(rnd(screen_size)),
+      spd = 2 + rnd(3)
     })
   end
 end
 
 function draw_rain()
-  -- move each drop down
-  for drop in all(rain) do
+  for drop in all(rain_front) do
     drop.y += drop.spd
     drop.x -= 1 -- slight wind angle
     
-      if (drop.y > 127) drop.y = -4
-      if (drop.x < 0) drop.x = 127
-  end
+    if (drop.y > screen_size - 1) drop.y = -4
+    if (drop.x < 0) drop.x = screen_size - 1
 
-  for drop in all(rain) do
     line(drop.x, drop.y, drop.x - 1, drop.y + 3, 1)
   end
-end
 
-function draw_rain_indoor()
-  -- move each drop down
-  for drop in all(rain_indoor) do
+  local back_x_start = 104 * 8
+  for drop in all(rain_back) do
     drop.y += drop.spd
-    drop.x -= 1
+    drop.x -= 1 -- slight wind angle
     
-    -- reset at the top/sides
-    if (drop.y > camera_y + screen_size) or (drop.x < 0) then
-      drop.x = flr(rnd(screen_size + camera_x))
-      drop.y = flr(rnd(screen_size + camera_y))
-    end
-  end
+    if (drop.y > screen_size - 1) drop.y = -4
+    if (drop.x < back_x_start) drop.x = back_x_start + screen_size * 2 - 1
 
-
-  for drop in all(rain_indoor) do
     line(drop.x, drop.y, drop.x - 1, drop.y + 3, 1)
   end
 end

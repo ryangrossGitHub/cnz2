@@ -274,7 +274,7 @@ function update_player_move(p, ctrl)
 	if btn(2, ctrl) and p.y > 24 then
 		p.y -= p.speed
 		camera_y -= p.speed
-	elseif btn(3, ctrl) and p.y < screen_size * map_height - wall_height - 8 then
+	elseif btn(3, ctrl) and p.y < screen_size - 32 then
 		p.y += p.speed
 		camera_y += p.speed
 	end
