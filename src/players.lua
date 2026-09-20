@@ -18,9 +18,13 @@ bounce_delay = 18
 bounce_count = 0
 bounce = false
 
-switching_weapons = false
-switching_weapons_delay = 45
-switching_weapons_count = 0
+displaying_weapons = false
+displaying_weapons_delay = 10
+displaying_weapons_count = 0
+
+switching_music = false
+switching_music_delay = 10
+switching_music_count = 0
 
 j = {
 	name = "jenn",
@@ -306,23 +310,22 @@ function update_player_move(p, ctrl)
 	
 	if btnp(❎, ctrl) then
 		if p.x < 30 * 8 and p.y < 30 then -- bar
-			switching_weapons = true
-			switching_weapons_count = 0
 			p.weapon += 1
 			if p.weapon > weapon_count then
 				p.weapon = 0
 			end
-		elseif p.x < 53 * 8 and p.x > 46 * 8 and p.y < 30 then -- dj
+		elseif not switching_music and p.x < 53 * 8 and p.x > 46 * 8 and p.y < 30 then -- dj
 			if music_index < #music_tracks + 1 then
 				music_index += 1
 			else
 				music_index = 1
 			end
 			music(music_tracks[music_index])
+			switching_music = true
 		end
 	end
 
-	if btn(❎, ctrl) and not switching_weapons then
+	if btn(❎, ctrl) and not displaying_weapons then
 		p.speed = 2
 
 		if not coop then
@@ -338,6 +341,12 @@ function update_player_move(p, ctrl)
 
 	if p.weapon == 3 and p.weapon_delay > 0 then
 		handle_player_fire(p)
+	end
+
+	-- bar proxy detection
+	if p.x < 30 * 8 and p.y < 30 then
+		displaying_weapons = true
+		displaying_weapons_count = 0
 	end
 end
 

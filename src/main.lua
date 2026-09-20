@@ -105,14 +105,23 @@ function _draw()
 			end
 
 			if not stage_trans and stage > 1 then
-				if switching_weapons then
+				if displaying_weapons then
 					draw_gun_shelf()
 
-					if switching_weapons_delay > switching_weapons_count then
-						switching_weapons_count += 1
+					if displaying_weapons_delay > displaying_weapons_count then
+						displaying_weapons_count += 1
 					else
-						switching_weapons = false
-						switching_weapons_count = 0
+						displaying_weapons = false
+						displaying_weapons_count = 0
+					end
+				end
+
+				if switching_music then
+					if switching_music_delay > switching_music_count then
+						switching_music_count += 1
+					else
+						switching_music_count = 0
+						switching_music = false
 					end
 				end
 				draw_floor()
