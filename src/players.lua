@@ -271,19 +271,22 @@ function update_player_move(p, ctrl)
 	end
 
 	-- ctrl is the controller maping
-	if btn(0, ctrl) and p.x > camera_x and p.x > screen_size then
+	if btn(0, ctrl) 
+		and p.x > screen_size -- not out of bounds
+		and p.x > camera_x + 16 then -- in camera frame
 		p.flip_sprite = true 
 		p.x -= p.speed
 
-		if p2.x < camera_x + screen_size then
+		if p2.x < camera_x + screen_size and p1.x < camera_x + screen_size then
 			camera_x -= p.speed
 		end
-	elseif btn(1, ctrl) and p.x < screen_size * map_width - 16 -- not past the end of the map
-		and (p.x < camera_x + screen_size - 16) then -- not past the camera
+	elseif btn(1, ctrl) 
+		and p.x < screen_size * map_width - 16 -- not past the end of the map
+		and p.x < camera_x + screen_size - 16 then -- both players in camera frame
 		p.flip_sprite = false
 		p.x += p.speed
 		
-		if p2.x > camera_x then
+		if p2.x > camera_x and p1.x > camera_x then
 			camera_x += p.speed
 		end
 	end
