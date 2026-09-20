@@ -287,13 +287,20 @@ function update_player_move(p, ctrl)
  	end
 	
 	if btnp(❎, ctrl) then
-		if p.x < 30 * 8 and p.y < 30 then
+		if p.x < 30 * 8 and p.y < 30 then -- bar
 			switching_weapons = true
 			switching_weapons_count = 0
 			p.weapon += 1
 			if p.weapon > weapon_count then
 				p.weapon = 0
 			end
+		elseif p.x < 53 * 8 and p.x > 46 * 8 and p.y < 30 then -- dj
+			if music_index < #music_tracks + 1 then
+				music_index += 1
+			else
+				music_index = 1
+			end
+			music(music_tracks[music_index])
 		end
 	end
 

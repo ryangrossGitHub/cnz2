@@ -5,16 +5,16 @@ intro_text_full = "dispatch to all units, respond immediately to a public distur
 intro_text = ""
 intro_count = 0
 
-music_tracks = {24, 16, 8, 8, 0, 32}
-music_track_index = 1
-current_music = 24
+music_tracks = {24, 0, 16, 8, 50, 32}
+music_tack_colors = {9, 14, 12, 14, 3, 0}
+music_index = 1
 
 function _init()
 	printh("GAME INIT", log_file, true)
 	palt(13, true) -- Transparent Color Is Purple (13)
 	palt(0, false)
 	load_stage(0)
-	music(current_music)
+	music(music_tracks[music_index])
 	init_rain()
 end
 
@@ -132,6 +132,7 @@ function _draw()
 			camera_x -= 1
 		end
 
+		draw_dj_booth_song_color()
 		draw_extras(true)
 		draw_particles(particles)
 

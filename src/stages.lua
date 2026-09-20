@@ -142,19 +142,10 @@ function load_stage(n)
   if n == 0 then
     load_start()
   elseif n == 1 then
+    music(music_tracks[music_index])
     e_spawn = true
     player_move = true
   else
-    if music_track_index < #music_tracks + 1 then
-      music(music_tracks[music_track_index])
-      music_track_index += 1
-    end
-
-    if weapon_index < #weapon_list + 1 then
-      j.weapon = weapon_list[weapon_index]
-      c.weapon = weapon_list[weapon_index]
-      weapon_index += 1
-    end
     enemey_spawn_stage_count = 0
     floor_color_count = 0
     
@@ -228,8 +219,8 @@ function update_start()
  
   if btnp(4) or btnp(5) then
     intro = true
-    run_intro()
     music(-1)
+    run_intro()
     printh("GAME START", log_file)
   end
 end
@@ -342,4 +333,8 @@ function draw_rain_indoor()
   for drop in all(rain_indoor) do
     line(drop.x, drop.y, drop.x - 1, drop.y + 3, 1)
   end
+end
+
+function draw_dj_booth_song_color()
+  rectfill(47 * 8, 4 * 8, 53 * 8, 6 * 8, music_tack_colors[music_index])
 end
