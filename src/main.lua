@@ -7,13 +7,14 @@ intro_count = 0
 
 music_tracks = {24, 16, 8, 8, 0, 32}
 music_track_index = 1
+current_music = 24
 
 function _init()
 	printh("GAME INIT", log_file, true)
 	palt(13, true) -- Transparent Color Is Purple (13)
 	palt(0, false)
 	load_stage(0)
-	music(24)
+	music(current_music)
 end
 
 function _update()
@@ -102,8 +103,8 @@ function _draw()
 
 			if not stage_trans and stage > 1 then
 				draw_floor()
+				draw_kill_count()
 			end
-			draw_kill_count()
 		end
 
 		local s = stages[stage]
@@ -128,8 +129,6 @@ function _draw()
 
 		draw_enemies()
 		
-		-- say(screen_size * 1 + 58, 22, "@ da club", 0, false, false, 14, 0)
-
 		draw_player_weapon(p2)
 		draw_player(p2)
 		local p2_disp = "cp"

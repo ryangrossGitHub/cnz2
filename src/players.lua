@@ -260,18 +260,22 @@ function update_player_move(p, ctrl)
 	end
 
 	-- ctrl is the controller maping
-	if btn(0, ctrl) and p.x>camera_x then
+	if btn(0, ctrl) and p.x > screen_size then
 		p.x -= 1
+		camera_x -= 1
 		p.flip_sprite = true 
-	elseif btn(1, ctrl) and p.x<camera_x + screen_size - 16 then
+	elseif btn(1, ctrl) and p.x < screen_size * map_width - 16 then
 		p.x += 1
+		camera_x += 1
 		p.flip_sprite = false
 	end
  
-	if btn(2, ctrl) and p.y > flr(stage/9) * screen_size + 26 then
+	if btn(2, ctrl) and p.y > 26 then
 		p.y -= 1
-	elseif btn(3, ctrl) and p.y < flr(stage/9) * screen_size + 96 then
+		camera_y -= 1
+	elseif btn(3, ctrl) and p.y < screen_size * map_height - wall_height - 8 then
 		p.y += 1
+		camera_y += 1
 	end
  
 	if btn(🅾️, ctrl) then

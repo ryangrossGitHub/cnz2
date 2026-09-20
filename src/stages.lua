@@ -1,7 +1,7 @@
 stage = 0
 stage_trans = false
 stage_transfer_count = 0
-stage_transfer_total = 128 -- stage trans total 
+stage_transfer_total = 161 -- stage trans total 
 camera_x = 0
 camera_y = 0
 intro_count = 0
@@ -11,114 +11,121 @@ floor_color_transition = 20
 floor_color_delay = 300
 floor_color_count = 0
 floor_color = 9
-
-function switch_to_level(lvl)
-  if lvl == 2 then
-    memcpy(0x1800, 0x8800, 0x0800) -- Sprites
-    memcpy(0x2000, 0x9000, 0x1000) -- Map
-    memcpy(0x3448, 0xA000, 0x02A0) -- SFX
-    memcpy(0x3100, 0xA2A0, 0x0084) -- Music
-  elseif lvl == 3 then
-    memcpy(0x1800, 0xA324, 0x0800) -- Sprites
-    memcpy(0x2000, 0xAB24, 0x1000) -- Map
-    memcpy(0x3448, 0xBB24, 0x02A0) -- SFX
-    memcpy(0x3100, 0xBDC4, 0x0084) -- Music
-  elseif lvl == 4 then
-    memcpy(0x1800, 0xBE48, 0x0800) -- Sprites
-    memcpy(0x2000, 0xC648, 0x1000) -- Map
-    memcpy(0x3448, 0xD648, 0x02A0) -- SFX
-    memcpy(0x3100, 0xD8E8, 0x0084) -- Music
-  elseif lvl == 5 then
-    memcpy(0x1800, 0xD96C, 0x0800) -- Sprites
-    memcpy(0x2000, 0xE16C, 0x1000) -- Map
-    memcpy(0x3448, 0xF16C, 0x02A0) -- SFX
-    memcpy(0x3100, 0xF40C, 0x0084) -- Music
-  end
-end
-
+wall_height = 56
+map_width = 8
+map_height = 2
 
 
 stages = {
-  { -- 1 START
+  { -- 1 Club entrance
     enemy_spawn_count = 0,
     enemy_speed = 0.5,
     enemy_spawn_delay = 20,
+    music_track = 24,
+    weapon_unlock = 1
   },
-  { -- 2 CLUB
-    enemy_spawn_count = 50,
+  { -- 2 Bar floor 1
+    enemy_spawn_count = 500,
     enemy_speed = 0.4,
     enemy_spawn_delay = 20,
-    enemy_spawn_initial_delay = 3 * 60,
-    enemy_spawn_initial_delay_count = 0
+    enemy_spawn_initial_delay = 30,
+    enemy_spawn_initial_delay_count = 0,
+    music_track = 24,
+    weapon_unlock = 1
   },
-  { -- 3 PARKING
+  { -- 3 Bar floor 2
     enemy_spawn_count = 50,
     enemy_speed = 0.4,
     enemy_spawn_delay = 8,
-    enemy_wall_spawn_range = {{ 5, 10 }} 
+    music_track = 16,
+    weapon_unlock = 7
   },
-  { -- 4 ICE CREAM TRUCK
+  { -- 4 Bar floor 3
     enemy_spawn_count = 50,
     enemy_speed = 0.4,
-    enemy_spawn_delay = 7
+    enemy_spawn_delay = 7,
+    music_track = 16,
+    weapon_unlock = 7
   },
-  { -- 5 PARK
+  { -- 5 Bar roof (floor 4)
     enemy_spawn_count = 50,
     enemy_speed = 0.4,
-    enemy_spawn_delay = 6
+    enemy_spawn_delay = 6,
+    music_track = 0,
+    weapon_unlock = 3
   },
-  { -- 6 WATER PLANT SIGN
+  { -- 6 elevator
     enemy_spawn_count = 50,
     enemy_speed = 0.4,
-    enemy_spawn_delay = 6
+    enemy_spawn_delay = 6,
+    music_track = 0,
+    weapon_unlock = 3
   },
-  { -- 7 WATER PLANT FENCE
+  { -- 7 street
     enemy_spawn_count = 50,
     enemy_speed = 0.4,
-    enemy_spawn_delay = 5
+    enemy_spawn_delay = 5,
+    music_track = 0,
+    weapon_unlock = 3
   },
-  { -- 8 WATER PLANT BUILDING
+  { -- 8 train station
     enemy_spawn_count = 50,
     enemy_speed = 0.4,
-    enemy_spawn_delay = 5
+    enemy_spawn_delay = 5,
+    music_track = -1,
+    weapon_unlock = 6
   },
-  { -- 9 INSIDE
+  { -- 9 train
     enemy_spawn_count = 60,
     enemy_speed = 0.5,
-    enemy_spawn_delay = 5
+    enemy_spawn_delay = 5,
+    music_track = 32,
+    weapon_unlock = 1
   },
-  { -- 10 PIPES
+  { -- 10 train top
     enemy_spawn_count = 60,
     enemy_speed = 0.5,
-    enemy_spawn_delay = 5
+    enemy_spawn_delay = 5,
+    music_track = 32,
+    weapon_unlock = 1
   },
-  { -- 11 LEAKING PIPES
+  { -- 11 street
     enemy_spawn_count = 60,
     enemy_speed = 0.5,
-    enemy_spawn_delay = 4
+    enemy_spawn_delay = 4,
+    music_track = 32,
+    weapon_unlock = 2
   },
-  { -- 12 CONTAINERS
+  { -- 12 bridge
     enemy_spawn_count = 70,
     enemy_speed = 0.5,
-    enemy_spawn_delay = 4
+    enemy_spawn_delay = 4,
+    music_track = 32,
+    weapon_unlock = 5
   },
-  { -- 13 CONTAINERS WITH DOOR
+  { -- 13 bridge
     enemy_spawn_count = 90,
     enemy_speed = 0.5,
     enemy_spawn_delay = 4,
-    enemy_wall_spawn_range = {{ 11, 12}} 
+    enemy_wall_spawn_range = {{ 11, 12}} ,
+    music_track = 32,
+    weapon_unlock = 5
   },
-  { -- 14 DOUBLE WALL OPENINGS
+  { -- 14 bridge
     enemy_spawn_count = 150,
     enemy_speed = 0.5,
     enemy_spawn_delay = 4,
-    enemy_wall_spawn_range = {{ 1, 5 }, { 10, 14 }} 
+    enemy_wall_spawn_range = {{ 1, 5 }, { 10, 14 }},
+    music_track = 32,
+    weapon_unlock = 4
   },
-  { -- 15 FINAL STAGE
+  { -- 15 train
     enemy_spawn_count = 300,
     enemy_speed = 0.5,
     enemy_spawn_delay = 4,
-    enemy_wall_spawn_range = {{ 0, 1 }, { 13, 14 }} 
+    enemy_wall_spawn_range = {{ 0, 1 }, { 13, 14 }},
+    music_track = 32,
+    weapon_unlock = 4
   },
   { -- 16 BOSS
     enemy_spawn_count = 2,
@@ -171,9 +178,9 @@ end
 function update_stage_trans()
   if stage_transfer_count < stage_transfer_total then
     stage_transfer_count += 1
-    j.x += 1
-    c.x += 1
-    camera_x += 1
+    j.x += 0.8
+    c.x += 0.8
+    camera_x += 0.8
   else
     stage_trans = false
     enemies = {} -- clear
@@ -267,6 +274,6 @@ function draw_floor()
       color = floor_color
     end
 
-    rectfill(camera_x, flr(stage/9) * screen_size + 56, camera_x + screen_size, flr(stage/9) * screen_size + screen_size, color)
+    rectfill(screen_size, wall_height, screen_size * map_width, screen_size * map_height, color)
   end
 end

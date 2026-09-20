@@ -226,9 +226,9 @@ function generate_enemy_hit_particles(enemy, flip, particle_count)
 		end
 
 		if flip then
-			add(particles, particle(enemy.x+20, enemy.y - 4, xs, ys, color, 7))
+			add(particles, particle(enemy.x+20, enemy.y - 4, xs, ys, color, 7, 50))
 		else
-			add(particles, particle(enemy.x+4, enemy.y - 4, xs, ys, color, 7))
+			add(particles, particle(enemy.x+4, enemy.y - 4, xs, ys, color, 7, 50))
 		end
 	end
 end
