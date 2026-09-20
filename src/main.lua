@@ -15,6 +15,7 @@ function _init()
 	palt(0, false)
 	load_stage(0)
 	music(current_music)
+	init_rain()
 end
 
 function _update()
@@ -96,12 +97,22 @@ function _draw()
 			draw_start()
 			say(58,22,"cOPS yEET zOMBIES ii ", 0, true)
 		else
-			say(88, 22, "da club", 0, false, false, 10, 1)
+			say(88, 22, "da club", 0, false, false, 9, 2)
 			if stage == 16 and stage_trans == false then
 				ending_dialog()
 			end
 
 			if not stage_trans and stage > 1 then
+				if switching_weapons then
+					draw_gun_shelf()
+
+					if switching_weapons_delay > switching_weapons_count then
+						switching_weapons_count += 1
+					else
+						switching_weapons = false
+						switching_weapons_count = 0
+					end
+				end
 				draw_floor()
 				draw_kill_count()
 			end
@@ -121,11 +132,8 @@ function _draw()
 			camera_x -= 1
 		end
 
-		-- TODO: draw_floor()
-
+		draw_extras(true)
 		draw_particles(particles)
-
-		draw_extras("back")
 
 		draw_enemies()
 		
@@ -142,7 +150,10 @@ function _draw()
 		draw_player(p1)
 		print("p1", p1.x - 3, p1.y - 7, 8)
 
-		draw_extras("front")
+		draw_extras()
+
+		draw_rain()
+		-- draw_rain_indoor()
 
 		if stage_trans then
 			draw_trans_dialog() 

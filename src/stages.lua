@@ -15,6 +15,9 @@ wall_height = 56
 map_width = 8
 map_height = 2
 
+rain = {}
+rain_indoor = {}
+
 
 stages = {
   { -- 1 Club entrance
@@ -275,5 +278,68 @@ function draw_floor()
     end
 
     rectfill(screen_size, wall_height, screen_size * map_width, screen_size * map_height, color)
+  end
+end
+
+function draw_gun_shelf()
+  local upper_left = 19 * 8
+  rectfill(upper_left, 0, 29 * 8, 5 * 8, 7)
+  spr(20, upper_left + 6, 3, 2, 1)
+  spr(36, upper_left + 34, 3, 2, 1)
+  spr(52, upper_left + 58, 3, 2, 1)
+  spr(4, upper_left + 3, 15)
+  spr(6, upper_left + 16, 15)
+  spr(5, upper_left + 50, 15)
+  spr(7, upper_left + 66, 15)
+end
+
+function init_rain()
+  for i = 1, 100 do
+    add(rain, {
+      x = flr(rnd(128)),
+      y = flr(rnd(128)),
+      spd = 2 + rnd(3)
+    })
+  end
+  for i = 1, 50 do
+    add(rain_indoor, {
+      x = 0,
+      y = 0,
+      spd = 3 + rnd(3)
+    })
+  end
+end
+
+function draw_rain()
+  -- move each drop down
+  for drop in all(rain) do
+    drop.y += drop.spd
+    drop.x -= 1 -- slight wind angle
+    
+      if (drop.y > 127) drop.y = -4
+      if (drop.x < 0) drop.x = 127
+  end
+
+  for drop in all(rain) do
+    line(drop.x, drop.y, drop.x - 1, drop.y + 3, 1)
+  end
+end
+
+function draw_rain_indoor()
+  -- move each drop down
+  for drop in all(rain_indoor) do
+    drop.y += drop.spd
+    drop.x -= 1
+    
+    -- reset at the top/sides
+    if (drop.y > camera_y + screen_size) or (drop.x < 0) then
+      drop.x = flr(rnd(screen_size + camera_x))
+      drop.y = flr(rnd(screen_size + camera_y))
+    end
+  end
+
+
+  for drop in all(rain_indoor) do
+    line(drop.x, drop.y, drop.x - 1, drop.y + 3, 1)
   end
 end

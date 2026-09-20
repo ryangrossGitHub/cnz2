@@ -18,6 +18,10 @@ bounce_delay = 18
 bounce_count = 0
 bounce = false
 
+switching_weapons = false
+switching_weapons_delay = 45
+switching_weapons_count = 0
+
 j = {
 	name = "jenn",
 	sprites = {
@@ -45,7 +49,8 @@ j = {
 	yeeting = false,
 	recoil = false, -- arm movement when firing
 	recoil_delay = 1,
-	recoil_count = 0
+	recoil_count = 0,
+	speed = 1
 }
 
 c = {
@@ -75,12 +80,8 @@ c = {
 	yeeting = false,
 	recoil = false, -- arm movement when firing
 	recoil_delay = 1,
-	recoil_count = 0
-}
-
-boss = {
-	x = 992,
-	y = 216
+	recoil_count = 0,
+	speed = 1
 }
 
 p1 = j
@@ -261,21 +262,21 @@ function update_player_move(p, ctrl)
 
 	-- ctrl is the controller maping
 	if btn(0, ctrl) and p.x > screen_size then
-		p.x -= 1
-		camera_x -= 1
+		p.x -= p.speed
+		camera_x -= p.speed
 		p.flip_sprite = true 
 	elseif btn(1, ctrl) and p.x < screen_size * map_width - 16 then
-		p.x += 1
-		camera_x += 1
+		p.x += p.speed
+		camera_x += p.speed
 		p.flip_sprite = false
 	end
  
-	if btn(2, ctrl) and p.y > 26 then
-		p.y -= 1
-		camera_y -= 1
+	if btn(2, ctrl) and p.y > 24 then
+		p.y -= p.speed
+		camera_y -= p.speed
 	elseif btn(3, ctrl) and p.y < screen_size * map_height - wall_height - 8 then
-		p.y += 1
-		camera_y += 1
+		p.y += p.speed
+		camera_y += p.speed
 	end
  
 	if btn(🅾️, ctrl) then
@@ -286,10 +287,20 @@ function update_player_move(p, ctrl)
  	end
 	
 	if btnp(❎, ctrl) then
-		p.weapon += 1
-		if p.weapon > weapon_count then
-			p.weapon = 0
+		if p.x < 30 * 8 and p.y < 30 then
+			switching_weapons = true
+			switching_weapons_count = 0
+			p.weapon += 1
+			if p.weapon > weapon_count then
+				p.weapon = 0
+			end
 		end
+	end
+
+	if btn(❎, ctrl) and not switching_weapons then
+		p.speed = 2
+	else
+		p.speed = 1
 	end
 
 	if p.weapon == 3 and p.weapon_delay > 0 then
@@ -322,8 +333,10 @@ function handle_player_fire(p)
 
 			if p.flip_sprite then
 				p.x += 3
+				camera_x += 3
 			else
 				p.x -= 3
+				camera_x -= 3
 			end
 
 			if p.flip_sprite then
@@ -344,10 +357,12 @@ function handle_player_fire(p)
 		add(particles, particle(p.x+4, p.y + 15, xs, 0, 0, 7))
 	elseif p.weapon == 1 or p.weapon == 7 then
 		if p.flip_sprite then
-			p.x += 3
-		else
-			p.x -= 3
-		end
+				p.x += 3
+				camera_x += 3
+			else
+				p.x -= 3
+				camera_x -= 3
+			end
 
 		sfx(1)
 
