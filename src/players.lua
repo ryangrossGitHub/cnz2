@@ -9,11 +9,6 @@ camera_shake_offset_amount = 1
 
 bot_nerf_multiplier = 1.5 
 
-weapon_count = 7
--- 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle, 4 auto rifle, 5 hunting rifle, 6 revolver, 7 long shotgun
-weapon_list = {0, 5, 7, 6, 3, 1, 2}
-weapon_index = 1
-
 bounce_delay = 18
 bounce_count = 0
 bounce = false
@@ -25,6 +20,8 @@ displaying_weapons_count = 0
 switching_music = false
 switching_music_delay = 10
 switching_music_count = 0
+
+gun_tier = 3
 
 j = {
 	name = "jenn",
@@ -54,7 +51,8 @@ j = {
 	recoil = false, -- arm movement when firing
 	recoil_delay = 1,
 	recoil_count = 0,
-	speed = 1
+	speed = 1,
+	weapon_list_index = 1
 }
 
 c = {
@@ -85,7 +83,8 @@ c = {
 	recoil = false, -- arm movement when firing
 	recoil_delay = 1,
 	recoil_count = 0,
-	speed = 1
+	speed = 1,
+	weapon_list_index = 1
 }
 
 p1 = j
@@ -93,44 +92,79 @@ p2 = c
 coop = false
 
 shotgun = {
+	id = 1,
 	delay = 10,
-	damage = 20
+	damage = 20,
+	tier = 3,
+	sprite = 20,
+	length = 1
 }
 
 long_shotgun = {
+	id = 7,
 	delay = 20,
-	damage = 20
+	damage = 20,
+	tier = 1,
+	sprite = 20,
+	length = 2
 }
 
 pistol = {
+	id = 0,
 	delay = 4,
-	damage = 3
+	damage = 3,
+	tier = 0,
+	sprite = 4,
+	length = 1
 }
 
 oozie = {
+	id = 2,
 	delay = 0,
-	damage = 2
+	damage = 2,
+	tier = 2,
+	sprite = 5,
+	length = 1
 }
 
 burst_rifle = {
+	id = 3,
 	delay = 3,
-	damage = 2
+	damage = 2,
+	tier = 2,
+	sprite = 36,
+	length = 2
 }
 
 auto_rifle = {
+	id = 4,
 	delay = 0,
-	damage = 3
+	damage = 3,
+	tier = 3,
+	sprite = 7,
+	length = 1
 }
 
 hunting_rifle = {
+	id = 5,
 	delay = 20,
-	damage = 10
+	damage = 10,
+	tier = 1,
+	sprite = 52,
+	length = 2
 }
 
 revolver = {
+	id = 6,
 	delay = 10,
-	damage = 10
+	damage = 10,
+	tier = 3,
+	sprite = 6,
+	length = 1
 }
+
+-- 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle, 4 auto rifle, 5 hunting rifle, 6 revolver, 7 long shotgun
+weapon_list = {pistol, shotgun, oozie, burst_rifle, auto_rifle, hunting_rifle, revolver, long_shotgun}
 
 function update_p2()
 	enemy_collision(p2)
@@ -309,10 +343,16 @@ function update_player_move(p, ctrl)
  	end
 	
 	if btnp(❎, ctrl) then
-		if p.x < 30 * 8 and p.y < 30 then -- bar
-			p.weapon += 1
-			if p.weapon > weapon_count then
-				p.weapon = 0
+		if gun_tier > 0 and p.x < 30 * 8 and p.y < 30 then -- bar
+			for i=1, #weapon_list do
+				p.weapon_list_index += 1
+				if p.weapon_list_index > #weapon_list then
+					p.weapon_list_index = 1
+				end
+				if gun_tier >= weapon_list[p.weapon_list_index].tier then
+					p.weapon = weapon_list[p.weapon_list_index].id
+					break
+				end
 			end
 		elseif not switching_music and p.x < 53 * 8 and p.x > 46 * 8 and p.y < 30 then -- dj
 			if music_index < #music_tracks + 1 then

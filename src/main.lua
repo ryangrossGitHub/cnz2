@@ -106,7 +106,7 @@ function _draw()
 
 			if not stage_trans and stage > 1 then
 				if displaying_weapons then
-					draw_gun_shelf()
+					draw_gun_shelf(gun_tier)
 
 					if displaying_weapons_delay > displaying_weapons_count then
 						displaying_weapons_count += 1

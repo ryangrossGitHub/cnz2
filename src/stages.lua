@@ -270,16 +270,25 @@ function draw_floor()
   end
 end
 
-function draw_gun_shelf()
+function draw_gun_shelf(tier)
   local upper_left = 19 * 8
   rectfill(upper_left, 0, 29 * 8, 5 * 8, 7)
-  spr(20, upper_left + 6, 3, 2, 1)
-  spr(36, upper_left + 34, 3, 2, 1)
-  spr(52, upper_left + 58, 3, 2, 1)
-  spr(4, upper_left + 3, 15)
-  spr(6, upper_left + 16, 15)
-  spr(5, upper_left + 50, 15)
-  spr(7, upper_left + 66, 15)
+
+  if tier > 0 then
+    spr(long_shotgun.sprite, upper_left + 6, 3, long_shotgun.length, 1)
+    spr(hunting_rifle.sprite, upper_left + 58, 3, hunting_rifle.length, 1)
+  end
+  
+  if tier > 1 then
+    spr(burst_rifle.sprite, upper_left + 34, 3, burst_rifle.length, 1)
+    spr(oozie.sprite, upper_left + 50, 15)
+    spr(revolver.sprite, upper_left + 16, 15)
+  end 
+  
+  if tier > 2 then
+    spr(auto_rifle.sprite, upper_left + 66, 15)
+    spr(shotgun.sprite, upper_left + 3, 15)
+  end
 end
 
 function init_rain()
