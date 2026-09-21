@@ -125,7 +125,6 @@ function _draw()
 					end
 				end
 				draw_floor()
-				draw_kill_count()
 			end
 		end
 
@@ -169,6 +168,30 @@ function _draw()
 
 		if stage_trans then
 			draw_trans_dialog() 
+		end
+
+		if not stage_trans and stage > 1 then
+			local count = c.kill_count + j.kill_count
+			if gun_tier < 4 and count >= 1000 then 
+				gun_tier = 4
+				music(50)
+			elseif gun_tier < 3 and count >= 500 then 
+				gun_tier = 3
+				music(32)
+				stages[2].enemy_spawn_delay -= 1
+				stages[2].enemy_speed = 1.2
+			elseif gun_tier < 2 and count >= 250 then 
+				gun_tier = 2
+				music(8)
+				stages[2].enemy_spawn_delay -= 1
+				stages[2].enemy_speed += 0.1
+			elseif gun_tier < 1 and count >= 100 then 
+				gun_tier = 1
+				music(0)
+				stages[2].enemy_spawn_delay -= 1
+				stages[2].enemy_speed += 0.1
+			end
+			draw_info_bar(count)
 		end
 	end
 end

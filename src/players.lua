@@ -21,7 +21,7 @@ switching_music = false
 switching_music_delay = 10
 switching_music_count = 0
 
-gun_tier = 3
+gun_tier = 0
 
 j = {
 	name = "jenn",
@@ -158,7 +158,7 @@ revolver = {
 	id = 6,
 	delay = 10,
 	damage = 10,
-	tier = 3,
+	tier = 2,
 	sprite = 6,
 	length = 1
 }
@@ -331,7 +331,7 @@ function update_player_move(p, ctrl)
  
 	if btn(2, ctrl) and p.y > 24 then
 		p.y -= p.speed
-	elseif btn(3, ctrl) and p.y < screen_size - 32 then
+	elseif btn(3, ctrl) and p.y < screen_size - 43 then
 		p.y += p.speed
 	end
  
@@ -397,11 +397,48 @@ function center_camera_on_players()
 	camera_x = players_center - screen_size/2
 end
 
-function draw_kill_count()
-	spr(j.sprites.head, camera_x + 5, camera_y + 3, 1, 2, false, false)
-	print(j.kill_count, camera_x + 16, camera_y + 8, 11)
-	spr(c.sprites.head, camera_x + screen_size - 20, camera_y + 3, 2, 2, true, false)
-	print(c.kill_count, camera_x + screen_size - 27, camera_y + 8, 11)
+function draw_info_bar(count)
+	rectfill(camera_x, screen_size - 12, camera_x + screen_size, screen_size, 0)
+	spr(enemy_head_sprite_list[2], camera_x + 5, screen_size - 10, 1, 1, true, false)
+	
+	local color = 6
+	if count >= 100 then color = 10 end
+	print(100, camera_x + 34, screen_size - 6, color)
+	rectfill(camera_x + 39, screen_size - 9, camera_x + 39.5, screen_size - 8, color)
+
+	color = 6
+	if count >= 250 then color = 9 end
+	print(250, camera_x + 48, screen_size - 6, color)
+	rectfill(camera_x + 53, screen_size - 9, camera_x + 53.5, screen_size - 8, color)
+
+	color = 6
+	if count >= 500 then color = 8 end
+	print(500, camera_x + 70, screen_size - 6, color)
+	rectfill(camera_x + 75, screen_size - 9, camera_x + 75.5, screen_size - 8, color)
+
+	color = 6
+	if count >= 1000 then color = 2 end
+	print(1000, camera_x + 113, screen_size - 6, color)
+	rectfill(camera_x + 120, screen_size - 9, camera_x + 120.5, screen_size - 8, color)
+	
+	-- bar starts at camera_x + 30 and ends at camera_x + 119.5, which is 89.5 in length
+	local bar_start = camera_x + 30
+	local percent_complete = count / 1000
+	local bar_length = flr(percent_complete * 89.5)
+
+	if count >= 1000 then 
+		color = 2
+	elseif count >= 500 then 
+		color = 8
+	elseif count >= 250 then 
+		color = 9
+	elseif count >= 100 then 
+		color = 10
+	else
+		color = 11
+	end
+	print(count, camera_x + 14, screen_size - 10, color)
+	rectfill(bar_start, screen_size - 10, bar_start + bar_length, screen_size - 9, color)
 end
 
 function handle_player_fire(p)

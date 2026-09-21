@@ -26,9 +26,9 @@ stages = {
     weapon_unlock = 1
   },
   { 
-    enemy_spawn_count = 1000,
+    enemy_spawn_count = 1500,
     enemy_speed = 0.5,
-    enemy_spawn_delay = 10,
+    enemy_spawn_delay = 12,
     enemy_spawn_initial_delay = 30,
     enemy_spawn_initial_delay_count = 0,
     music_track = 24,
