@@ -306,7 +306,7 @@ function update_player_move(p, ctrl)
 
 	-- ctrl is the controller maping
 	if btn(0, ctrl) 
-		and p.x > screen_size -- not out of bounds
+		and p.x > 0 -- not out of bounds
 		and p.x > camera_x + 16 then -- in camera frame
 		p.flip_sprite = true 
 		p.x -= p.speed

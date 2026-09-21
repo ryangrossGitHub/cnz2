@@ -27,8 +27,8 @@ stages = {
   },
   { 
     enemy_spawn_count = 1500,
-    enemy_speed = 0.5,
-    enemy_spawn_delay = 12,
+    enemy_speed = 0.4,
+    enemy_spawn_delay = 14,
     enemy_spawn_initial_delay = 30,
     enemy_spawn_initial_delay_count = 0,
     music_track = 24,
@@ -292,9 +292,9 @@ function draw_gun_shelf(tier)
 end
 
 function init_rain()
-  for i = 1, 100 do
+  for i = 1, 200 do
     add(rain_front, {
-      x = flr(rnd(screen_size)),
+      x = flr(rnd(screen_size*2)) - screen_size,
       y = flr(rnd(screen_size)),
       spd = 2 + rnd(3)
     })
@@ -316,7 +316,7 @@ function draw_rain()
     drop.x -= 1 -- slight wind angle
     
     if (drop.y > screen_size - 1) drop.y = -4
-    if (drop.x < 0) drop.x = screen_size - 1
+    if (drop.x < -screen_size) drop.x = screen_size - 1
 
     line(drop.x, drop.y, drop.x - 1, drop.y + 3, 1)
   end

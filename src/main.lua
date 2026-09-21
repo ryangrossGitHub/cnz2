@@ -163,18 +163,18 @@ function _draw()
 			elseif gun_tier < 3 and count >= 500 then 
 				gun_tier = 3
 				music(32)
-				stages[2].enemy_spawn_delay -= 1
-				stages[2].enemy_speed = 1.2
+				stages[2].enemy_spawn_delay = 10
+				stages[2].enemy_speed = 1
 			elseif gun_tier < 2 and count >= 250 then 
 				gun_tier = 2
 				music(8)
-				stages[2].enemy_spawn_delay -= 1
-				stages[2].enemy_speed += 0.1
+				stages[2].enemy_spawn_delay = 12
+				stages[2].enemy_speed = 0.7
 			elseif gun_tier < 1 and count >= 100 then 
 				gun_tier = 1
 				music(0)
-				stages[2].enemy_spawn_delay -= 1
-				stages[2].enemy_speed += 0.1
+				stages[2].enemy_spawn_delay = 13
+				stages[2].enemy_speed = 0.5
 			end
 			draw_info_bar(count)
 		end
