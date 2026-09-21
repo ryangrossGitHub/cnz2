@@ -108,7 +108,7 @@ stages = {
     enemy_spawn_count = 90,
     enemy_speed = 0.5,
     enemy_spawn_delay = 4,
-    enemy_wall_spawn_range = {{ 11, 12}} ,
+    enemy_wall_spawn_range = {{ 11, 12}},
     music_track = 32,
     weapon_unlock = 5
   },
@@ -140,7 +140,7 @@ function load_stage(n)
   if n == 0 then
     load_start()
   elseif n == 1 then
-    music(music_tracks[music_index])
+    music(24)
     e_spawn = true
     player_move = true
   else
@@ -271,8 +271,8 @@ function draw_floor()
 end
 
 function draw_gun_shelf(tier)
-  local upper_left = 19 * 8
-  rectfill(upper_left, 0, 29 * 8, 5 * 8, 7)
+  local upper_left = 45 * 8
+  rectfill(upper_left, 0, 55 * 8, 5 * 8, 7)
 
   if tier > 0 then
     spr(long_shotgun.sprite, upper_left + 6, 3, long_shotgun.length, 1)
@@ -331,8 +331,4 @@ function draw_rain()
 
     line(drop.x, drop.y, drop.x - 1, drop.y + 3, 1)
   end
-end
-
-function draw_dj_booth_song_color()
-  rectfill(47 * 8, 4 * 8, 53 * 8, 6 * 8, music_tack_colors[music_index])
 end

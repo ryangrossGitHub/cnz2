@@ -17,10 +17,6 @@ displaying_weapons = false
 displaying_weapons_delay = 10
 displaying_weapons_count = 0
 
-switching_music = false
-switching_music_delay = 10
-switching_music_count = 0
-
 gun_tier = 0
 
 j = {
@@ -343,7 +339,7 @@ function update_player_move(p, ctrl)
  	end
 	
 	if btnp(❎, ctrl) then
-		if gun_tier > 0 and p.x < 30 * 8 and p.y < 30 then -- bar
+		if gun_tier > 0 and at_bar1(p) then 
 			for i=1, #weapon_list do
 				p.weapon_list_index += 1
 				if p.weapon_list_index > #weapon_list then
@@ -354,14 +350,6 @@ function update_player_move(p, ctrl)
 					break
 				end
 			end
-		elseif not switching_music and p.x < 53 * 8 and p.x > 46 * 8 and p.y < 30 then -- dj
-			if music_index < #music_tracks + 1 then
-				music_index += 1
-			else
-				music_index = 1
-			end
-			music(music_tracks[music_index])
-			switching_music = true
 		end
 	end
 
@@ -384,7 +372,7 @@ function update_player_move(p, ctrl)
 	end
 
 	-- bar proxy detection
-	if p.x < 30 * 8 and p.y < 30 then
+	if at_bar1(p) then
 		displaying_weapons = true
 		displaying_weapons_count = 0
 	end
@@ -395,6 +383,14 @@ function center_camera_on_players()
 	local players_center = flr((p1.x + p2.x) / 2)
 
 	camera_x = players_center - screen_size/2
+end
+
+function at_bar1(p)
+	if p.x > 43 * 8 and p.x < 56 * 8 and p.y < 30 then 
+		return true
+	else
+		return false
+	end
 end
 
 function draw_info_bar(count)
@@ -438,7 +434,7 @@ function draw_info_bar(count)
 		color = 11
 	end
 	print(count, camera_x + 14, screen_size - 10, color)
-	rectfill(bar_start, screen_size - 10, bar_start + bar_length, screen_size - 9, color)
+	rectfill(bar_start, screen_size - 10, bar_start + bar_length, screen_size - 9.5, color)
 end
 
 function handle_player_fire(p)

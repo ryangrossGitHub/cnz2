@@ -12,11 +12,10 @@ function draw_extras(back)
     end
     
     if back then
-        -- Bartender
-        spr(extras_sprites[4], 23 * 8, 2 * 8 + 1, 2, 3, extras_flip, false)
-
         -- DJ
-        spr(extras_sprites[1], 49 * 8, 8, 2, 2, extras_flip, false)
+        spr(extras_sprites[1], 23 * 8, 8, 2, 2, extras_flip, false)
+        -- Bartender
+        spr(extras_sprites[4], 49 * 8, 2 * 8 + 1, 2, 3, extras_flip, false)
         return 
     end
 

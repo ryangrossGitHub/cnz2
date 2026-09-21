@@ -5,16 +5,12 @@ intro_text_full = "dispatch to all units, respond immediately to a public distur
 intro_text = ""
 intro_count = 0
 
-music_tracks = {24, 0, 16, 8, 50, 32}
-music_tack_colors = {9, 14, 12, 14, 3, 0}
-music_index = 1
-
 function _init()
 	printh("GAME INIT", log_file, true)
 	palt(13, true) -- Transparent Color Is Purple (13)
 	palt(0, false)
 	load_stage(0)
-	music(music_tracks[music_index])
+	music(24)
 	init_rain()
 end
 
@@ -115,15 +111,6 @@ function _draw()
 						displaying_weapons_count = 0
 					end
 				end
-
-				if switching_music then
-					if switching_music_delay > switching_music_count then
-						switching_music_count += 1
-					else
-						switching_music_count = 0
-						switching_music = false
-					end
-				end
 				draw_floor()
 			end
 		end
@@ -142,7 +129,6 @@ function _draw()
 			camera_x -= 1
 		end
 
-		draw_dj_booth_song_color()
 		draw_extras(true)
 		draw_particles(particles)
 
@@ -164,7 +150,6 @@ function _draw()
 		draw_extras()
 
 		draw_rain()
-		-- draw_rain_indoor()
 
 		if stage_trans then
 			draw_trans_dialog() 
