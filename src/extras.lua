@@ -2,6 +2,7 @@ extras_sprites = {72, 74, 76, 78}
 extras_flip = false
 extras_flip_count = 0
 extras_flip_delay = 19
+bounce_increment = 0
 
 function draw_extras(back)
     if extras_flip_count < extras_flip_delay then
@@ -15,7 +16,12 @@ function draw_extras(back)
         -- DJ
         spr(extras_sprites[1], 23 * 8, 8, 2, 2, extras_flip, false)
         -- Bartender
-        spr(extras_sprites[4], 49 * 8, 2 * 8 + 1, 2, 3, extras_flip, false)
+        local bartender_x = 49 * 8
+        local bounce = sin(bounce_increment / 30) * 2
+        bounce_increment += 1
+        local bartender_y = 2 * 8 + 1
+        print("❎", bartender_x + 4, bartender_y - 7 + bounce, 7)
+        spr(extras_sprites[4], bartender_x, bartender_y, 2, 3, extras_flip, false)
         return 
     end
 

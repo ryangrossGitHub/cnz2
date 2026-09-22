@@ -5,7 +5,6 @@
 https://www.lexaloffle.com/bbs/?pid=189533#p
 
 TODO:
-- indicator of weapon wall
 - ending
 - dialog
 - cover art
