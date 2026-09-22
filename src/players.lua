@@ -17,8 +17,6 @@ displaying_weapons = false
 displaying_weapons_delay = 10
 displaying_weapons_count = 0
 
-gun_tier = 0
-
 j = {
 	name = "jenn",
 	sprites = {
@@ -91,72 +89,86 @@ shotgun = {
 	id = 1,
 	delay = 10,
 	damage = 20,
-	tier = 3,
 	sprite = 20,
-	length = 1
+	length = 1,
+	found = false,
+	x = 99 * 8,
+	y = 12 * 8
 }
 
 long_shotgun = {
 	id = 7,
 	delay = 20,
 	damage = 20,
-	tier = 1,
 	sprite = 20,
-	length = 2
+	length = 2,
+	found = false,
+	x = 35 * 8,
+	y = 9 * 8
 }
 
 pistol = {
 	id = 0,
 	delay = 4,
 	damage = 3,
-	tier = 0,
 	sprite = 4,
-	length = 1
+	length = 1,
+	found = true
 }
 
 oozie = {
 	id = 2,
 	delay = 0,
 	damage = 2,
-	tier = 2,
 	sprite = 5,
-	length = 1
+	length = 1,
+	found = false,
+	x = 84 * 8,
+	y = 5 * 8
 }
 
 burst_rifle = {
 	id = 3,
 	delay = 3,
 	damage = 2,
-	tier = 2,
 	sprite = 36,
-	length = 2
+	length = 2,
+	found = false,
+	x = 92 * 8,
+	y = 12 * 8
 }
 
 auto_rifle = {
 	id = 4,
 	delay = 0,
 	damage = 3,
-	tier = 3,
 	sprite = 7,
-	length = 1
+	length = 1,
+	found = false,
+	x = 78 * 8,
+	y = 5 * 8
 }
 
 hunting_rifle = {
 	id = 5,
 	delay = 20,
 	damage = 10,
-	tier = 1,
 	sprite = 52,
-	length = 2
+	length = 2,
+	found = false,
+	x = 62 * 8,
+	y = 9 * 8
 }
 
 revolver = {
 	id = 6,
 	delay = 10,
 	damage = 10,
-	tier = 2,
 	sprite = 6,
-	length = 1
+	length = 1,
+	found = false,
+	x = 8,
+	y = 8 * 8
 }
 
 -- 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle, 4 auto rifle, 5 hunting rifle, 6 revolver, 7 long shotgun
@@ -299,6 +311,18 @@ function enemy_collision(p)
 	end 
 end
 
+function check_weapon_found()
+	for w in all(weapon_list) do
+		if not w.found and ((w.x > p1.x and w.x < p1.x + 16) and (w.y > p1.y and w.y < p1.y + 32)
+			or (w.x > p2.x and w.x < p2.x + 16) and (w.y > p2.y and w.y < p2.y + 32)) then
+			w.found = true
+			p1.weapon = w.id
+			p2.weapon = w.id
+			sfx(57)
+		end
+	end
+end
+
 function update_player_move(p, ctrl)
 	if p.yeeting then
 		return -- early exit
@@ -339,13 +363,13 @@ function update_player_move(p, ctrl)
  	end
 	
 	if btnp(❎, ctrl) then
-		if gun_tier > 0 and at_bar1(p) then 
+		if at_bar1(p) then 
 			for i=1, #weapon_list do
 				p.weapon_list_index += 1
 				if p.weapon_list_index > #weapon_list then
 					p.weapon_list_index = 1
 				end
-				if gun_tier >= weapon_list[p.weapon_list_index].tier then
+				if weapon_list[p.weapon_list_index].found then
 					p.weapon = weapon_list[p.weapon_list_index].id
 					break
 				end

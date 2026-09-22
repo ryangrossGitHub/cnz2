@@ -274,20 +274,62 @@ function draw_gun_shelf(tier)
   local upper_left = 45 * 8
   rectfill(upper_left, 0, 55 * 8, 5 * 8, 7)
 
-  if tier > 0 then
+  if long_shotgun.found then
     spr(long_shotgun.sprite, upper_left + 6, 3, long_shotgun.length, 1)
+  end
+
+  if hunting_rifle.found then
     spr(hunting_rifle.sprite, upper_left + 58, 3, hunting_rifle.length, 1)
   end
-  
-  if tier > 1 then
+
+  if burst_rifle.found then
     spr(burst_rifle.sprite, upper_left + 34, 3, burst_rifle.length, 1)
+  end
+
+  if oozie.found then
     spr(oozie.sprite, upper_left + 50, 15)
+  end
+
+  if revolver.found then
     spr(revolver.sprite, upper_left + 16, 15)
-  end 
-  
-  if tier > 2 then
+  end
+
+  if auto_rifle.found then
     spr(auto_rifle.sprite, upper_left + 66, 15)
+  end
+
+  if shotgun.found then
     spr(shotgun.sprite, upper_left + 3, 15)
+  end
+end
+
+function draw_weapons()
+  if not long_shotgun.found then
+    spr(long_shotgun.sprite, long_shotgun.x, long_shotgun.y, long_shotgun.length, 1)
+  end
+
+  if not hunting_rifle.found then
+    spr(hunting_rifle.sprite, hunting_rifle.x, hunting_rifle.y, hunting_rifle.length, 1)
+  end
+
+  if not burst_rifle.found then
+    spr(burst_rifle.sprite, burst_rifle.x, burst_rifle.y, burst_rifle.length, 1)
+  end
+
+  if not oozie.found then
+    spr(oozie.sprite, oozie.x, oozie.y)
+  end
+
+  if not revolver.found then
+    spr(revolver.sprite, revolver.x, revolver.y)
+  end
+
+  if not auto_rifle.found then
+    spr(auto_rifle.sprite, auto_rifle.x, auto_rifle.y)
+  end
+
+  if not shotgun.found then
+    spr(shotgun.sprite, shotgun.x, shotgun.y)
   end
 end
 

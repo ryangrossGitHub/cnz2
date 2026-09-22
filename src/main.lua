@@ -4,6 +4,7 @@ log_file = "log.txt"
 intro_text_full = "dispatch to all units, respond immediately to a public disturbance at da club."
 intro_text = ""
 intro_count = 0
+progress_stage = 0
 
 function _init()
 	printh("GAME INIT", log_file, true)
@@ -61,6 +62,7 @@ function _update()
 		update_p2()
 	end
 
+	check_weapon_found()
 	center_camera_on_players()
 	update_enemies()
 	update_player_anims(p1)
@@ -101,8 +103,9 @@ function _draw()
 			end
 
 			if not stage_trans and stage > 1 then
+				draw_floor()
 				if displaying_weapons then
-					draw_gun_shelf(gun_tier)
+					draw_gun_shelf()
 
 					if displaying_weapons_delay > displaying_weapons_count then
 						displaying_weapons_count += 1
@@ -111,7 +114,6 @@ function _draw()
 						displaying_weapons_count = 0
 					end
 				end
-				draw_floor()
 			end
 		end
 
@@ -128,6 +130,8 @@ function _draw()
 			camera_shake_offset -= 1
 			camera_x -= 1
 		end
+
+		draw_weapons()
 
 		draw_extras(true)
 		draw_particles(particles)
@@ -157,21 +161,21 @@ function _draw()
 
 		if not stage_trans and stage > 1 then
 			local count = c.kill_count + j.kill_count
-			if gun_tier < 4 and count >= 1000 then 
-				gun_tier = 4
+			if progress_stage < 4 and count >= 1000 then 
+				progress_stage = 4
 				music(50)
-			elseif gun_tier < 3 and count >= 500 then 
-				gun_tier = 3
+			elseif progress_stage < 3 and count >= 500 then 
+				progress_stage = 3
 				music(32)
-				stages[2].enemy_spawn_delay = 10
+				stages[2].enemy_spawn_delay = 7
 				stages[2].enemy_speed = 1
-			elseif gun_tier < 2 and count >= 250 then 
-				gun_tier = 2
+			elseif progress_stage < 2 and count >= 250 then 
+				progress_stage = 2
 				music(8)
 				stages[2].enemy_spawn_delay = 12
 				stages[2].enemy_speed = 0.7
-			elseif gun_tier < 1 and count >= 100 then 
-				gun_tier = 1
+			elseif progress_stage < 1 and count >= 100 then 
+				progress_stage = 1
 				music(0)
 				stages[2].enemy_spawn_delay = 13
 				stages[2].enemy_speed = 0.5
