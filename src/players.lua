@@ -29,7 +29,7 @@ j = {
 		arm_up = 3
 	},
 	yeet_frame_count = 0, 
-	yeet_frame_delay = 10,
+	yeet_frame_delay = 5,
 	flip_sprite = true, 
 	x = init_jenn_x, 
 	y = init_player_y, 
@@ -61,7 +61,7 @@ c = {
 		arm_up = 33
 	},
 	yeet_frame_count = 0, 
-	yeet_frame_delay = 10, 
+	yeet_frame_delay = 5, 
 	flip_sprite = false, 
 	x = init_chad_x,
 	y = init_player_y, 
@@ -92,8 +92,8 @@ shotgun = {
 	sprite = 20,
 	length = 1,
 	found = false,
-	x = 99 * 8,
-	y = 12 * 8
+	x = 94 * 8,
+	y = 4 * 8
 }
 
 long_shotgun = {
@@ -110,7 +110,7 @@ long_shotgun = {
 pistol = {
 	id = 0,
 	delay = 4,
-	damage = 3,
+	damage = 5,
 	sprite = 4,
 	length = 1,
 	found = true
@@ -123,8 +123,8 @@ oozie = {
 	sprite = 5,
 	length = 1,
 	found = false,
-	x = 84 * 8,
-	y = 5 * 8
+	x = 120 * 8,
+	y = 9 * 8
 }
 
 burst_rifle = {
@@ -134,8 +134,8 @@ burst_rifle = {
 	sprite = 36,
 	length = 2,
 	found = false,
-	x = 92 * 8,
-	y = 12 * 8
+	x = 78 * 8,
+	y = 4 * 8
 }
 
 auto_rifle = {
@@ -145,8 +145,8 @@ auto_rifle = {
 	sprite = 7,
 	length = 1,
 	found = false,
-	x = 78 * 8,
-	y = 5 * 8
+	x = 106 * 8,
+	y = 4 * 8
 }
 
 hunting_rifle = {
@@ -157,7 +157,7 @@ hunting_rifle = {
 	length = 2,
 	found = false,
 	x = 62 * 8,
-	y = 9 * 8
+	y = 13 * 8
 }
 
 revolver = {
@@ -167,8 +167,8 @@ revolver = {
 	sprite = 6,
 	length = 1,
 	found = false,
-	x = 8,
-	y = 8 * 8
+	x = 84 * 8,
+	y = 4 * 8
 }
 
 -- 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle, 4 auto rifle, 5 hunting rifle, 6 revolver, 7 long shotgun
