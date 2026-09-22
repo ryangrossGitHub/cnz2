@@ -103,7 +103,7 @@ long_shotgun = {
 	sprite = 20,
 	length = 2,
 	found = false,
-	x = 35 * 8,
+	x = 40 * 8,
 	y = 9 * 8
 }
 
