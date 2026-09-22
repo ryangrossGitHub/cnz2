@@ -207,6 +207,8 @@ function update_p2()
 		end
 
 		handle_player_trigger(p2)
+	else
+		p2.trigger = false
 	end
 	
 	if y and y < 0 then
@@ -357,7 +359,6 @@ function update_player_move(p, ctrl)
  
 	if btn(🅾️, ctrl) then
 		handle_player_trigger(p)
-		p.trigger = true
  	else
   		p.trigger = false
  	end
@@ -615,6 +616,8 @@ end
 function handle_player_trigger(p)
 	if not p.yeeting then
 		if not p.trigger then
+			p.trigger = true
+
 			if p.weapon == 0 and p.weapon_delay == 0 then
 				p.weapon_delay = pistol.delay
 				handle_player_fire(p)
@@ -659,7 +662,11 @@ function draw_player(p)
 
 	if p.name == "chad" then
 		if p.trigger then
-			spr(p.sprites.head2, p.x, p.y + bounce_height, 2, 2, p.flip_sprite, false)
+			if p.recoil then
+				spr(p.sprites.head2, p.x-1, p.y + bounce_height, 2, 2, p.flip_sprite, false)
+			else
+				spr(p.sprites.head2, p.x, p.y + bounce_height, 2, 2, p.flip_sprite, false)
+			end
 		else
 			spr(p.sprites.head, p.x, p.y + bounce_height, 2, 2, p.flip_sprite, false)
 		end
