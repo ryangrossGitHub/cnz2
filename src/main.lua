@@ -161,8 +161,10 @@ function _draw()
 		if not stage_trans and stage > 1 then
 			local count = c.kill_count + j.kill_count
 			if progress_stage < 4 and count >= 1000 then 
-				progress_stage = 4
-				music(50)
+				progress_stage = 0
+				stage = 0
+				reset()
+				-- music(50)
 			elseif progress_stage < 3 and count >= 500 then 
 				progress_stage = 3
 				music(32)

@@ -284,3 +284,21 @@ function draw_rain()
     line(drop.x, drop.y, drop.x - 1, drop.y + 3, 1)
   end
 end
+
+function reset()
+  stage_trans = false
+  enemies = {} -- clear
+  particles = {} -- clear
+  stage_transfer_count = 0
+  e_spawn = false
+  player_move = false
+  progress_stage = 0
+  stage = 0
+  j.x = init_jenn_x
+	j.y = init_player_y
+  j.kill_count = 0
+  c.x = init_chad_x 
+	c.y = init_player_y
+  c.kill_count = 0
+  music(24)  
+end
