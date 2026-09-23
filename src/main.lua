@@ -94,7 +94,6 @@ function _draw()
 		map(0,0)
 		if stage == 0 then
 			draw_start()
-			say(58,22,"cOPS yEET zOMBIES ii ", 0, true)
 		else
 			say(88, 22, "da club", 0, false, false, 9, 2)
 			say(113 * 8, 6 * 8, "police", 0, false, false, 0, 7)

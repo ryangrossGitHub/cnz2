@@ -26,7 +26,7 @@ stages = {
     weapon_unlock = 1
   },
   { 
-    enemy_spawn_count = 1500,
+    enemy_spawn_count = 9999, -- unlimited
     enemy_speed = 0.4,
     enemy_spawn_delay = 14,
     enemy_spawn_initial_delay = 30,
@@ -41,97 +41,6 @@ stages = {
     music_track = 16,
     weapon_unlock = 7
   },
-  { -- 4 Bar floor 3
-    enemy_spawn_count = 50,
-    enemy_speed = 0.4,
-    enemy_spawn_delay = 7,
-    music_track = 16,
-    weapon_unlock = 7
-  },
-  { -- 5 Bar roof (floor 4)
-    enemy_spawn_count = 50,
-    enemy_speed = 0.4,
-    enemy_spawn_delay = 6,
-    music_track = 0,
-    weapon_unlock = 3
-  },
-  { -- 6 elevator
-    enemy_spawn_count = 50,
-    enemy_speed = 0.4,
-    enemy_spawn_delay = 6,
-    music_track = 0,
-    weapon_unlock = 3
-  },
-  { -- 7 street
-    enemy_spawn_count = 50,
-    enemy_speed = 0.4,
-    enemy_spawn_delay = 5,
-    music_track = 0,
-    weapon_unlock = 3
-  },
-  { -- 8 train station
-    enemy_spawn_count = 50,
-    enemy_speed = 0.4,
-    enemy_spawn_delay = 5,
-    music_track = -1,
-    weapon_unlock = 6
-  },
-  { -- 9 train
-    enemy_spawn_count = 60,
-    enemy_speed = 0.5,
-    enemy_spawn_delay = 5,
-    music_track = 32,
-    weapon_unlock = 1
-  },
-  { -- 10 train top
-    enemy_spawn_count = 60,
-    enemy_speed = 0.5,
-    enemy_spawn_delay = 5,
-    music_track = 32,
-    weapon_unlock = 1
-  },
-  { -- 11 street
-    enemy_spawn_count = 60,
-    enemy_speed = 0.5,
-    enemy_spawn_delay = 4,
-    music_track = 32,
-    weapon_unlock = 2
-  },
-  { -- 12 bridge
-    enemy_spawn_count = 70,
-    enemy_speed = 0.5,
-    enemy_spawn_delay = 4,
-    music_track = 32,
-    weapon_unlock = 5
-  },
-  { -- 13 bridge
-    enemy_spawn_count = 90,
-    enemy_speed = 0.5,
-    enemy_spawn_delay = 4,
-    enemy_wall_spawn_range = {{ 11, 12}},
-    music_track = 32,
-    weapon_unlock = 5
-  },
-  { -- 14 bridge
-    enemy_spawn_count = 150,
-    enemy_speed = 0.5,
-    enemy_spawn_delay = 4,
-    enemy_wall_spawn_range = {{ 1, 5 }, { 10, 14 }},
-    music_track = 32,
-    weapon_unlock = 4
-  },
-  { -- 15 train
-    enemy_spawn_count = 300,
-    enemy_speed = 0.5,
-    enemy_spawn_delay = 4,
-    enemy_wall_spawn_range = {{ 0, 1 }, { 13, 14 }},
-    music_track = 32,
-    weapon_unlock = 4
-  },
-  { -- 16 BOSS
-    enemy_spawn_count = 2,
-    enemy_speed = 0.3
-  }
 }
 
 function load_stage(n)
@@ -230,10 +139,11 @@ function draw_start()
 	  rect(p2.x - 3, p2.y - 1, p2.x + 16, p2.y + 32, 12)
   end
   
-  say(58,43, "⬆️    ONE PLAYER", 0, true)
-  say(58,53, "⬇️    TWO PLAYERS", 0, true)  
-  say(58,110, "⬅️   JENN CHAD    ➡️", 0, true)
-  say(58,120, "PRESS ❎/🅾️ TO START", 0, true)
+  say(54,22,"cOPS yEET zOMBIES ii ", 1, true, false, 11, 3)
+  say(54,43, "⬆️    ONE PLAYER", 1, true, false, 12, 1)
+  say(54,53, "⬇️    TWO PLAYERS", 1, true, false, 12, 1)  
+  say(54,110, "⬅️   JENN CHAD    ➡️", 1, true, false, 12, 1)
+  say(54,128, "PRESS ❎/🅾️ TO START", 1, true, false, 8, 0)
 end
 
 function run_intro()
