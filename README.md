@@ -6,5 +6,4 @@ https://www.lexaloffle.com/bbs/?pid=189533#p
 
 TODO:
 - ending
-- dialog
 - cover art

@@ -135,7 +135,7 @@ function _draw()
 
 		draw_extras(true)
 		draw_particles(particles)
-
+		
 		draw_enemies()
 		
 		draw_player_weapon(p2)
@@ -168,7 +168,7 @@ function _draw()
 				progress_stage = 3
 				music(32)
 				stages[2].enemy_spawn_delay = 7
-				stages[2].enemy_speed = 1
+				stages[2].enemy_speed = 0.9
 			elseif progress_stage < 2 and count >= 250 then 
 				progress_stage = 2
 				music(8)

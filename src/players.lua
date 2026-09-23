@@ -281,8 +281,6 @@ function update_player_anims(p)
 	if p.yeeting then
  		p.yeet_frame_count += 1
  	
- 		say(p.x,p.y, "YEEEEEET!")
- 	
 		if p.yeet_frame_count >= p.yeet_frame_delay then
 			p.yeet_frame_count = 0
 			p.yeeting = false
@@ -661,7 +659,7 @@ function draw_player(p)
 	end
 
 	if p.name == "chad" then
-		if p.trigger then
+		if p.trigger or p.yeeting then
 			if p.recoil then
 				spr(p.sprites.head2, p.x-1, p.y + bounce_height, 2, 2, p.flip_sprite, false)
 			else
@@ -672,13 +670,13 @@ function draw_player(p)
 		end
 	else
 		if p.flip_sprite then
-			if p.recoil then
+			if p.recoil or p.yeeting then
 				spr(p.sprites.head2, p.x + 8, p.y + bounce_height, 1, 2, p.flip_sprite, false)
 			else
 				spr(p.sprites.head, p.x + 8, p.y + bounce_height, 1, 2, p.flip_sprite, false)
 			end
 		else
-			if p.recoil then
+			if p.recoil or p.yeeting then
 				spr(p.sprites.head2, p.x, p.y + bounce_height, 1, 2, p.flip_sprite, false)
 			else
 				spr(p.sprites.head, p.x, p.y + bounce_height, 1, 2, p.flip_sprite, false)
@@ -705,12 +703,14 @@ function draw_player(p)
 	if p.flip_sprite then
 		if p.yeeting then
 			spr(p.sprites.arm_up, p.x + 5, p.y + 5 + bounce_height, 1, 2, p.flip_sprite, false)
+			say(p.x, p.y, "YEEEEEET!", 1, false, false)
 		else
 			spr(p.sprites.arm_out, p.x - 3 + recoil_mult, p.y + 16 + bounce_height, 2, 1, p.flip_sprite, false)
 		end
 	else
 		if p.yeeting then
 			spr(p.sprites.arm_up, p.x + 3, p.y + 5 + bounce_height, 1, 2, p.flip_sprite, false)
+			say(p.x, p.y, "YEEEEEET!", false, false, false)
 		else
 			spr(p.sprites.arm_out, p.x + 3 - recoil_mult, p.y + 16 + bounce_height, 2, 1, p.flip_sprite, false)
 		end
