@@ -2,6 +2,7 @@ end_dialog_delay = 120
 end_dialog_cnt = 0
 end_dt_cnt = 1
 end_dt = {
+  {"jenn", "YEEEEEEHAW!"},	
   {"chad", "JUST ANOTHER DAY ON THE JOB"},
   {"jenn", "YEP, LIVING THE DREAM"},	
   {"jenn", "ONE CRIME SCENE AT A TIME"},	

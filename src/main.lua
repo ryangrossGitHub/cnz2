@@ -162,7 +162,7 @@ function _draw()
 			if progress_stage < 4 and count >= 1000 then 
 				progress_stage = 4
 				stage = 3
-				enemies = {} -- clear
+				-- enemies = {} -- clear
 				music(56)
 				c.flip_sprite = false
 				j.flip_sprite = false

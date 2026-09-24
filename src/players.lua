@@ -39,7 +39,7 @@ j = {
 	weapon = 0, -- weapon: 0 pistol, 1 shotgun, 2 oozie, 3 burst rifle, 4 auto rifle, 5 hunting rifle, 6 revolver, 7 long shotgun
 	weapon_delay = 0,
 	trigger = false, -- trigger pressed,
-	kill_count = 998,
+	kill_count = 0,
 	stepping = true, -- movement sprite
 	yeeting = false,
 	recoil = false, -- arm movement when firing
@@ -103,8 +103,8 @@ long_shotgun = {
 	sprite = 20,
 	length = 2,
 	found = false,
-	x = 40 * 8,
-	y = 9 * 8
+	x = 32 * 8,
+	y = 11 * 8
 }
 
 pistol = {
@@ -156,8 +156,8 @@ hunting_rifle = {
 	sprite = 52,
 	length = 2,
 	found = false,
-	x = 62 * 8,
-	y = 13 * 8
+	x = 46 * 8,
+	y = 10 * 8
 }
 
 revolver = {
