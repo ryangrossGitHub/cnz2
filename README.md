@@ -6,4 +6,3 @@ https://www.lexaloffle.com/bbs/?pid=189533#p
 
 TODO:
 - ending
-- cover art
