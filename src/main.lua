@@ -11,7 +11,7 @@ function _init()
 	palt(13, true) -- Transparent Color Is Purple (13)
 	palt(0, false)
 	load_stage(0)
-	music(24)
+	music(56)
 	init_rain()
 end
 
@@ -20,7 +20,9 @@ function _update()
   		update_start()
 	elseif stage_trans then
   		update_stage_trans()
- 	else
+ 	elseif stage == 3 then
+		-- do nothing
+	else
 		-- Initial delay before spawning enemies for this stage
 		if stages[stage].enemy_spawn_initial_delay and 
 			stages[stage].enemy_spawn_initial_delay_count <  stages[stage].enemy_spawn_initial_delay then
@@ -97,9 +99,6 @@ function _draw()
 		else
 			say(88, 22, "da club", 0, false, false, 9, 2)
 			say(113 * 8, 6 * 8, "police", 0, false, false, 0, 7)
-			if stage == 16 and stage_trans == false then
-				ending_dialog()
-			end
 
 			if not stage_trans and stage > 1 then
 				draw_floor()
@@ -161,10 +160,13 @@ function _draw()
 		if not stage_trans and stage > 1 then
 			local count = c.kill_count + j.kill_count
 			if progress_stage < 4 and count >= 1000 then 
-				progress_stage = 0
-				stage = 0
-				reset()
-				-- music(50)
+				progress_stage = 4
+				stage = 3
+				enemies = {} -- clear
+				music(56)
+				c.flip_sprite = false
+				j.flip_sprite = false
+				player_move = false
 			elseif progress_stage < 3 and count >= 500 then 
 				progress_stage = 3
 				music(32)
@@ -182,6 +184,10 @@ function _draw()
 				stages[2].enemy_speed = 0.5
 			end
 			draw_info_bar(count)
+		end
+
+		if stage == 3 then
+			run_ending()
 		end
 	end
 end

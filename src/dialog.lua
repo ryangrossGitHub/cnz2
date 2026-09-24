@@ -2,29 +2,20 @@ end_dialog_delay = 120
 end_dialog_cnt = 0
 end_dt_cnt = 1
 end_dt = {
-  {"chad", "HEY! PUT'EM UP"},
-  {"e", "I'M SORRY, MY WIFE AND DAUGHTER WERE TAKEN"},	
-  {"e", "I HAD NO WAY TO PAY THEIR RANSOM"},
-  {"e", "I.. I HAVE TO DO THIS TO BUY THEIR FREEDOM"},
-  {"chad", "I HAVE A WIFE AND DAUGHTER TOO"},
-  {"chad", "I WOULD DO ANYTHING FOR THEM"},
-  {"jenn", "AND I HAVE A SON"},
-  {"jenn", "HE SLEEPS UNDER HIS BED BECAUSE OF THE ZOMBIES"},
-  {"e", "AGAIN I'M SORRY.. AND I'M NOT THE ONLY ONE.."},
-  {"e", "THERE ARE OTHERS ACROSS THE COUNTRY"},
-  {"chad", "WHAT IF THERE WAS ANOTHER WAY"},
-  {"chad", "WHAT IF WE COULD BRING YOUR WIFE AND DAUGHTER HERE"},
-  {"chad", "HERE THEY WOULD BE SAFE, WE COULD PROTECT THEM"},
-  {"jenn", "YOU WON'T BE FORGIVEN AND YOU WILL DO TIME"},
-  {"jenn", "BUT YOUR FAMILY WILL BE SAFE AND THEY CAN VISIT YOU"},
-  {"chad", "IN RETURN YOU HELP US STOP THE OTHERS"},
-  {"e", "DEAL, BUT I WANT TO SEE MY WIFE AND DAUGHTER"},
-  {"jenn", "OKAY, COME WITH US, LET'S TAKE THESE GUYS DOWN"},
-  {"f", "TO BE CONTINUED"},
-  {"f", "TO BE CONTINUED"},
-  {"f", "TO BE CONTINUED"},
-  {"f", "TO BE CONTINUED"},
-  {"f", "TO BE CONTINUED"},
+  {"chad", "JUST ANOTHER DAY ON THE JOB"},
+  {"jenn", "YEP, LIVING THE DREAM"},	
+  {"jenn", "ONE CRIME SCENE AT A TIME"},	
+  {"chad", "WELL, GREAT JOB OUT THERE"},
+  {"chad", "I'LL PUT IN YOUR PROMOTION PACKAGE AGAIN"},
+  {"jenn", "WHY, SO BILL CAN REJECT IT AGAIN?"},
+  {"chad", "I'M A LOT OF THINGS"},
+  {"chad", "BUT A QUITTER AINT ONE OF THEM"},
+  {"chad", "I'LL GET IT THROUGH. I PROMISE."},
+  {"jenn", "THANKS CHAD."},
+  {"jenn", "ALRIGHT ENOUGH BLABBERING"},
+  {"jenn", "ON TO THE NEXT HELLSCAPE"},
+  {"jenn", "BATTLE BOSS BABE AND STRONG JAW LINE TO THE RESCUE!"},
+  {"chad", "HA HA. LET'S DO IT!"}
 }
 
 function say(x, y, msg, border, wide, bounded, color, background)    
@@ -93,27 +84,17 @@ function say(x, y, msg, border, wide, bounded, color, background)
 end
 
 function ending_dialog()
-  if end_dt_cnt < 16 then
-    draw_boss(true)
-  else
-    draw_boss(false)
-  end
-	
 	end_dialog_cnt += 1
 	
-	if end_dt_cnt >= #end_dt then
-	  load_stage(0)
-	end
-	
+  if end_dt_cnt > #end_dt then
+    return -- end of dialog
+  end
+
 	if end_dialog_cnt <  end_dialog_delay then
     if end_dt[end_dt_cnt][1] == "jenn" then
 	 	  say(j.x, j.y, end_dt[end_dt_cnt][2], 1, false, true)
 	  elseif end_dt[end_dt_cnt][1] == "chad" then
 	    say(c.x, c.y, end_dt[end_dt_cnt][2], 1, false, true)
-	  elseif end_dt[end_dt_cnt][1] == "e" then
-	    say(boss.x, boss.y, end_dt[end_dt_cnt][2], 1, false, true)
-	  elseif end_dt[end_dt_cnt][1] == "f" then
-	    say(950, 150, end_dt[end_dt_cnt][2], 0, false, true)
 	  end
 	else
 	  end_dialog_cnt = 0

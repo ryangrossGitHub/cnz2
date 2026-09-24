@@ -34,12 +34,12 @@ stages = {
     music_track = 24,
     weapon_unlock = 1
   },
-  { -- 3 Bar floor 2
-    enemy_spawn_count = 50,
+  { 
+    enemy_spawn_count = 0,
     enemy_speed = 0.4,
     enemy_spawn_delay = 8,
-    music_track = 16,
-    weapon_unlock = 7
+    music_track = 56,
+    weapon_unlock = 1
   },
 }
 
@@ -143,7 +143,7 @@ function draw_start()
   say(54,43, "⬆️    ONE PLAYER", 1, true, false, 12, 1)
   say(54,53, "⬇️    TWO PLAYERS", 1, true, false, 12, 1)  
   say(54,110, "⬅️   JENN CHAD    ➡️", 1, true, false, 12, 1)
-  say(54,128, "PRESS ❎/🅾️ TO START", 1, true, false, 8, 0)
+  say(54,128, "PRESS ❎/🅾️ TO START", 0, true, false, 8, 0)
 end
 
 function run_intro()
@@ -301,4 +301,18 @@ function reset()
 	c.y = init_player_y
   c.kill_count = 0
   music(24)  
+end
+
+
+function run_ending()
+  if j.x >= screen_size * map_width + 16 or c.x >= screen_size * map_width + 16 then
+    -- walk in place
+    c.last_animation_frame_x -= 1
+    j.last_animation_frame_x -= 1
+  else
+    j.x += 1
+    c.x += 1
+  end
+
+  ending_dialog()
 end

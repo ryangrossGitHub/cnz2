@@ -3,6 +3,3 @@
 
 [![](cnz.p8.png)](https://www.lexaloffle.com/bbs/?pid=189533#p)
 https://www.lexaloffle.com/bbs/?pid=189533#p
-
-TODO:
-- ending
