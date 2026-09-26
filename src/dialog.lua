@@ -14,8 +14,8 @@ end_dt = {
   {"chad", "I'LL GET IT THROUGH. I PROMISE."},
   {"jenn", "THANKS CHAD."},
   {"jenn", "ALRIGHT ENOUGH BLABBERING"},
-  {"jenn", "ON TO THE NEXT HELLSCAPE"},
-  {"jenn", "BATTLE BOSS BABE AND STRONG JAW LINE TO THE RESCUE!"},
+  {"jenn", "ON TO THE NEXT ONE"},
+  {"jenn", "BATTLE BOSS BABE AND GRANITE JAW LINE TO THE RESCUE!"},
   {"chad", "HA HA. LET'S DO IT!"}
 }
 
@@ -106,29 +106,5 @@ end
 function draw_trans_dialog()
   if stage == 2 then --CLUB
     say(j.x, j.y, "I HATE HOLLOWEEN, BUNCH OF FREAKS", 1, false, true)
-  elseif stage == 3 then --COFFEE
-    say(j.x, j.y, "THE VIRUS SPREADS THROUGH WATER, GOOD THING I ONLY DRINK COFFEE", 1, false, true)
-  elseif stage == 4 then --PARKING
-    say(c.x, c.y, "I DON'T GET PAID ENOUGH FOR THIS", 1, false, true)
-  elseif stage == 5 then --ICE CREAM TRUCK
-    say(j.x, j.y, "IF THEY HAD MINT CHOCOLATE CHIP I WOULD HAVE BOUGHT ONE", 1, false, true)
-  elseif stage == 6 then --PARK
-    say(c.x, c.y, "IF WE CAN FIND THE SOURCE OF THE VIRUS HERE WE CAN STOP THIS", 1, false, true)
-  elseif stage == 7 then --SIGN
-    say(j.x, j.y, "IT'S ONLY BEEN A WEEK, BUT I COULD GET USED TO ZOMBIE HUNTING.", 1, false, true)
-  elseif stage == 8 then --FENCE
-    say(c.x, c.y, "WE MADE IT, LET'S GET INSIDE AND TURN OFF THE WATER", 1, false, true)
-  elseif stage == 10 then --PLANT ENTRANCE
-    say(j.x, j.y, "WORST PART ABOUT THE APOCALYPSE NO WINE, NO PIZZA, NO DONUTS", 1, false, true)
-  elseif stage == 11 then --PIPE1
-    say(c.x, c.y, "AFTER THIS, FIRST ROUND IS ON ME, IF WE CAN FIND AN OPEN BAR..", 1, false, true)
-  elseif stage == 12 then --PIPE2
-    say(j.x, j.y, "I'M DEFINITELY GETTING MY STEPS IN", 1, false, true)
-  elseif stage == 13 then --VAT1
-    say(c.x, c.y, "I NEED TO MOVE MY FAMILY OUT TO THE COUNTRY SIDE", 1, false, true)
-  elseif stage == 14 then --VAT2
-    say(j.x, j.y, "IF YOU ALL LEAVE THE CITY, JAKE AND I ARE COMING WITH YOU", 1, false, true)
-  elseif stage == 15 then --VAT2
-    say(c.x, c.y, "WHATEVER HAPPENS HERE, I COULDN'T ASK FOR A BETTER PARTNER", 1, false, true)
   end
 end
