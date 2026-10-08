@@ -16,7 +16,22 @@ end_dt = {
   {"jenn", "ALRIGHT ENOUGH BLABBERING"},
   {"jenn", "ON TO THE NEXT ONE"},
   {"jenn", "BATTLE BOSS BABE AND GRANITE JAW LINE TO THE RESCUE!"},
-  {"chad", "HA HA. LET'S DO IT!"}
+  {"chad", "HA HA. LET'S DO IT!"},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "},
+  {"", "to be continued... "}
 }
 
 function say(x, y, msg, border, wide, bounded, color, background)    
@@ -92,11 +107,15 @@ function ending_dialog()
   end
 
 	if end_dialog_cnt <  end_dialog_delay then
-    if end_dt[end_dt_cnt][1] == "jenn" then
-	 	  say(j.x, j.y, end_dt[end_dt_cnt][2], 1, false, true)
-	  elseif end_dt[end_dt_cnt][1] == "chad" then
-	    say(c.x, c.y, end_dt[end_dt_cnt][2], 1, false, true)
-	  end
+    local speaker = end_dt[end_dt_cnt][1]
+    local msg = end_dt[end_dt_cnt][2]
+    if speaker == "jenn" then
+	 	  say(j.x, j.y, msg, 1, false, true)
+	  elseif speaker == "chad" then
+	    say(c.x, c.y, msg, 1, false, true)
+    else
+      say(camera_x + screen_size/2, camera_y + screen_size/4, msg, 0, true, false)
+    end
 	else
 	  end_dialog_cnt = 0
 	  end_dt_cnt += 1

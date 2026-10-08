@@ -33,7 +33,7 @@ function draw_extras(back)
         local bounce = sin(bounce_increment / 30) * 2
         bounce_increment += 1
         local bartender_y = 2 * 8 + 1
-        print("❎", bartender_x + 4, bartender_y - 7 + bounce, 7)
+        print("❎ CHANGE WEAPONS", bartender_x - 24, bartender_y - 7 + bounce, 7)
         spr(extras_sprites[4], bartender_x, bartender_y, 2, 3, extras_flip, false)
     end
 

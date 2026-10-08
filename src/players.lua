@@ -103,7 +103,7 @@ long_shotgun = {
 	sprite = 20,
 	length = 2,
 	found = false,
-	x = 32 * 8,
+	x = 30 * 8,
 	y = 11 * 8
 }
 
@@ -156,7 +156,7 @@ hunting_rifle = {
 	sprite = 52,
 	length = 2,
 	found = false,
-	x = 46 * 8,
+	x = 40 * 8,
 	y = 10 * 8
 }
 
